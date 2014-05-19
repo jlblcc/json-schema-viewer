@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <title>ADIwg JSON Tree</title>
+    <style type="text/css">
+        html, body {
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        #loading {
+            margin: 50px auto;
+            width: 50px;
+        }
+
+        .node {
+            cursor: pointer;
+        }
+
+        .overlay {
+            background-color: #EEE;
+        }
+
+        .node circle {
+            fill: #fff;
+            stroke: steelblue;
+            stroke-width: 1.5px;
+        }
+
+        .node text {
+            font-size: 10px;
+            font-family: sans-serif;
+        }
+
+        .link {
+            fill: none;
+            stroke: #ccc;
+            stroke-width: 1.5px;
+        }
+
+        .templink {
+            fill: none;
+            stroke: red;
+            stroke-width: 3px;
+        }
+
+        .ghostCircle.show {
+            display: block;
+        }
+
+        .ghostCircle, .activeDrag .ghostCircle {
+            display: none;
+        }
+
+        #buttons {
+            position: fixed;
+            padding: 10px;
+            display: none;
+        }
+
+        button {
+            padding: 5px 10px;
+            margin: 3px;
+            font-size: 18px;
+        }
+
+        div.info {
+            position: relative;
+            display: inline-block;
+            font-size: 24px;
+            font-family: sans-serif;
+            margin-left: 10px;
+        }
+
+        div.info p {
+            display: none;
+        }
+
+        div.info:hover p {/*the span will display just on :hover state*/
+            display: block;
+            position: absolute;
+            top: -10px;
+            left: 25px;
+            width: 15em;
+            border: 5px solid #709DC3;
+            background-color: #fff;
+            color: #000;
+            text-align: center;
+            padding: 10px;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="loading"><img src="loader.gif" alt="Loading..."/>
+    </div>
+    <div id="buttons">
+        <button id="zoom_in" title="Zoom in (Dbl-click diagram)">
+            +
+        </button>
+        <button id="zoom_out" title="Zoom out (Shift+Dbl-click diagram)">
+            -
+        </button>
+        <div class="info">
+            ?
+            <p>
+                This is a diagram of the ADIwg json-schema built using D3.js and tv4, with a bit of jQuery ajax.
+                <br />
+                <br />
+                Drag the schema diagram to pan. Use the buttons to zoom, or Double-click to zoom-in; Shift+Double-click to
+                zoom-out.
+                <br />
+                <br />
+                Click a node to collapse/expand. Clicking a node centers the diagram.
+            </p>
+        </div>
+    </div>
+    <div id="tree-container"></div>
+    <script src="tv4.min.js"></script>
+    <script src="tv4.async-load-jquery.js"></script>
+    <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="dndTree.js"></script>
+</body>
+</html>
