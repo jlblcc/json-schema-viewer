@@ -1,3 +1,3 @@
 [submodule "adiwg-json-schemas"]
 	path = adiwg-json-schemas
-	url = git@github.com:adiwg/adiwg-json-schemas.git
+	url = https://github.com/adiwg/adiwg-json-schemas.git
