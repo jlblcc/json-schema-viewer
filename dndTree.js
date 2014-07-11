@@ -5,7 +5,7 @@ tv4.addAllAsync('adiwg-json-schemas/schema/schema.json', function(schemas) {
     //var treeData;
 
     //create schema tree
-    function compileData(schema, parent, name) {
+    function compileData(schema, parent, name, real) {
         var key, obj, prop, node = {},
             s = schema.$ref ? tv4.getSchema(schema.$ref) : schema,
             props = s.properties,
@@ -29,6 +29,10 @@ tv4.addAllAsync('adiwg-json-schemas/schema/schema.json', function(schemas) {
         node.description = s.description;
         node.name = s.title || name || 'schema';
         node.type = s.type;
+        node.opacity = real ? 1 : 0.5;
+        node.required = s.required;
+        node.schema = s.id || schema.$ref || parent.schema;
+        node.require = parent && parent.required ? parent.required.indexOf(node.name) > -1 : false;
 
         if (parent) {
             if (node.name === 'item') {
@@ -46,6 +50,10 @@ tv4.addAllAsync('adiwg-json-schemas/schema/schema.json', function(schemas) {
             node.name += '[ ]';
         }
 
+        if(node.type === 'object' && node.name !== 'item') {
+            node.name += '{ }';
+        }
+
         if(props || items || all) {
             node.children = [];
         }
@@ -53,7 +61,7 @@ tv4.addAllAsync('adiwg-json-schemas/schema/schema.json', function(schemas) {
         for (key in props) {
             if (owns.call(props, key)) {
                 //console.log(key, "=", props[key]);
-                compileData(props[key],  node, key);
+                compileData(props[key],  node, key, true);
             }
         }
 
@@ -63,7 +71,8 @@ tv4.addAllAsync('adiwg-json-schemas/schema/schema.json', function(schemas) {
                 if(all[key]) {
                     var allNode = {
                         name: key,
-                        children: []
+                        children: [],
+                        opacity: 0.5
                     };
 
 
@@ -116,10 +125,25 @@ tv4.addAllAsync('adiwg-json-schemas/schema/schema.json', function(schemas) {
         .size([viewerHeight, viewerWidth]);
 
     // define a d3 diagonal projection for use by the node paths later on.
-    var diagonal = d3.svg.diagonal()
-        .projection(function(d) {
-            return [d.y, d.x];
-        });
+    var diagonal1 = function(d, i) {
+        var src = d.source,
+            node = d3.select("#n-" + (src.id))[0][0],
+            dia,
+            width = 0 ;
+
+        if(node) {
+            width = node.getBBox().width;
+        }
+
+        dia = "M" + (src.y + width) + "," + src.x +
+            "H" + (d.target.y - 30) + "V" + d.target.x +
+            //+ (d.target.children ? "" : "h" + 30);
+            ("h" + 30);
+
+//       console.info(node);
+//       console.info(src.id + ":" + width);
+       return dia;
+};
 
     // A recursive helper function for performing some setup by walking through all nodes
 
@@ -146,7 +170,6 @@ tv4.addAllAsync('adiwg-json-schemas/schema/schema.json', function(schemas) {
         return d.children && d.children.length > 0 ? d.children : null;
     });
 
-
     // sort the tree according to the node names
 
     function sortTree() {
@@ -155,7 +178,7 @@ tv4.addAllAsync('adiwg-json-schemas/schema/schema.json', function(schemas) {
         });
     }
     // Sort the tree initially incase the JSON isn't in a sorted order.
-    sortTree();
+    //sortTree();
 
     /*// TODO: Pan function, can be better implemented.
 
@@ -495,7 +518,7 @@ tv4.addAllAsync('adiwg-json-schemas/schema/schema.json', function(schemas) {
             }
         };
         childCount(0, root);
-        var newHeight = d3.max(levelWidth) * 25; // 25 pixels per line
+        var newHeight = d3.max(levelWidth) * 45; // 25 pixels per line
         tree = tree.size([newHeight, viewerWidth]);
 
         // Compute the new tree layout.
@@ -509,7 +532,6 @@ tv4.addAllAsync('adiwg-json-schemas/schema/schema.json', function(schemas) {
             // Normalize for fixed-depth by commenting out below line
             // d.y = (d.depth * 500); //500px per level.
         });
-
         // Update the nodes…
         node = svgGroup.selectAll("g.node")
             .data(nodes, function(d) {
@@ -520,34 +542,42 @@ tv4.addAllAsync('adiwg-json-schemas/schema/schema.json', function(schemas) {
         var nodeEnter = node.enter().append("g")
             //.call(dragListener)
             .attr("class", "node")
+            .attr("id", function(d, i) {
+//console.info(arguments);
+                return "n-" + d.id;
+            })
             .attr("transform", function(d) {
                 return "translate(" + source.y0 + "," + source.x0 + ")";
-            })
-            .on('click', click);
+            });
 
         nodeEnter.append("circle")
             .attr('class', 'nodeCircle')
             .attr("r", 0)
             .style("fill", function(d) {
                 return d._children ? "lightsteelblue" : "#fff";
-            });
+            })
+            .on('click', click);
 
         nodeEnter.append("text")
             .attr("x", function(d) {
-                return d.children || d._children ? -10 : 10;
+                return 10;
+//                return d.children || d._children ? -10 : 10;
             })
             .attr("dy", ".35em")
-            .attr('class', 'nodeText')
+            .attr('class', function(d) {
+                return d.children || d._children ? 'nodeText nodeBranch' : 'nodeText';
+            })
             .attr("text-anchor", function(d) {
-                return d.children || d._children ? "end" : "start";
+                //return d.children || d._children ? "end" : "start";
+                return "start";
             })
             .text(function(d) {
-                return d.name;
+                return d.name + (d.require ? '*' : '');
             })
             .style("fill-opacity", 0);
 
         // phantom node to give us mouseover in a radius around it
-        nodeEnter.append("circle")
+        /*nodeEnter.append("circle")
             .attr('class', 'ghostCircle')
             .attr("r", 5)
             .attr("opacity", 0.7) // change this to zero to hide the target area
@@ -558,10 +588,10 @@ tv4.addAllAsync('adiwg-json-schemas/schema/schema.json', function(schemas) {
             })
             .on("mouseout", function(node) {
                 //outCircle(node);
-            });
+            });*/
 
         // Update the text to reflect whether node has children or not.
-        node.select('text')
+        /*node.select('text')
             .attr("x", function(d) {
                 return d.children || d._children ? -10 : 10;
             })
@@ -570,11 +600,11 @@ tv4.addAllAsync('adiwg-json-schemas/schema/schema.json', function(schemas) {
             })
             .text(function(d) {
                 return d.name;
-            });
+            });*/
 
         // Change the circle fill depending on whether it has children and is collapsed
         node.select("circle.nodeCircle")
-            .attr("r", 4.5)
+            .attr("r", 6.5)
             .style("fill", function(d) {
                 return d._children ? "lightsteelblue" : "#fff";
             });
@@ -588,7 +618,9 @@ tv4.addAllAsync('adiwg-json-schemas/schema/schema.json', function(schemas) {
 
         // Fade the text in
         nodeUpdate.select("text")
-            .style("fill-opacity", 1);
+            .style("fill-opacity", function(d) {
+                return d.opacity || 1;
+            });
 
         // Transition exiting nodes to the parent's new position.
         var nodeExit = node.exit().transition()
@@ -618,7 +650,10 @@ tv4.addAllAsync('adiwg-json-schemas/schema/schema.json', function(schemas) {
                     x: source.x0,
                     y: source.y0
                 };
-                return diagonal({
+
+                //console.info(d3.select("#n-"+d.source.id)[0][0].getBBox());
+
+                return diagonal1({
                     source: o,
                     target: o
                 });
@@ -627,7 +662,7 @@ tv4.addAllAsync('adiwg-json-schemas/schema/schema.json', function(schemas) {
         // Transition links to their new position.
         link.transition()
             .duration(duration)
-            .attr("d", diagonal);
+            .attr("d", diagonal1);
 
         // Transition exiting nodes to the parent's new position.
         link.exit().transition()
@@ -637,7 +672,7 @@ tv4.addAllAsync('adiwg-json-schemas/schema/schema.json', function(schemas) {
                     x: source.x,
                     y: source.y
                 };
-                return diagonal({
+                return diagonal1({
                     source: o,
                     target: o
                 });
@@ -653,15 +688,35 @@ tv4.addAllAsync('adiwg-json-schemas/schema/schema.json', function(schemas) {
 
     // Append a group which holds all nodes and which the zoom Listener can act upon.
     var svgGroup = baseSvg.append("g");
-
     // Define the root
     root = treeData;
     root.x0 = viewerHeight / 2;
     root.y0 = 0;
 
+
     // Layout the tree initially and center on the root node.
     update(root);
+    // Call visit function to set initial depth
+    visit(root, function(d) {
+//console.info(d.depth);
+        if (d.children && d.children.length > 0 && d.depth > 1) {
+            d._children = d.children;
+            d.children = null;
+        }
+    }, function(d) {
+        if(d.children && d.children.length > 0) {
+            return d.children;
+        } else if(d._children && d._children.length > 0) {
+            return d._children;
+        } else {
+          return null;
+        }
+    });
+
+    update(root);
+
     centerNode(root);
+console.info(root);
     d3.select("#buttons").attr("style", "display:block;");
     d3.select("#loading").attr("style", "display:none;");
 });
