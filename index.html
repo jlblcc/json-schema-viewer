@@ -2,6 +2,7 @@
 <head>
     <meta charset="utf-8">
     <title>ADIwg JSON Tree</title>
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.3/jquery.mobile-1.4.3.min.css" />
     <style type="text/css">
         html, body {
             padding: 0;
@@ -19,7 +20,7 @@
         }
 
         .overlay {
-            background-color: #EEE;
+            background-color: inherit;
         }
 
         .node circle {
@@ -90,12 +91,116 @@
             padding: 10px;
         }
 
+/*********************/
+        #main-body {
+            position: relative;
+        }
+
+        #zoom-controls {
+            position: absolute;
+            top: 15px;
+            left: 10px;
+        }
+
+        /* Adjust the width of the panels. */
+        /* Panel */
+         .ui-panel {
+            width: 25em;
+            min-height: 100%;
+            max-height: none;
+            border-width: 0;
+            position: absolute;
+            top: 0;
+            display: block;
+        }
+        /* Panel positioning (for overlay and push) */
+
+        /* Panel left closed */
+         .ui-panel-position-left {
+            left: -25em;
+        }
+        /* Panel left closed animated */
+         .ui-panel-animate.ui-panel-position-left.ui-panel-display-overlay, .ui-panel-animate.ui-panel-position-left.ui-panel-display-push {
+            left: 0;
+            -webkit-transform: translate3d(-25em, 0, 0);
+            -moz-transform: translate3d(-25em, 0, 0);
+            transform: translate3d(-25em, 0, 0);
+        }
+        /* Panel left open */
+         .ui-panel-position-left.ui-panel-display-reveal,
+        /* Unset "panel left closed" for reveal */
+         .ui-panel-open.ui-panel-position-left {
+            left: 0;
+        }
+        /* Panel right closed */
+         .ui-panel-position-right {
+            right: -25em;
+        }
+        /* Panel right closed animated */
+         .ui-panel-animate.ui-panel-position-right.ui-panel-display-overlay, .ui-panel-animate.ui-panel-position-right.ui-panel-display-push {
+            right: 0;
+            -webkit-transform: translate3d(25em, 0, 0);
+            -moz-transform: translate3d(25em, 0, 0);
+            transform: translate3d(25em, 0, 0);
+        }
+        /* Wrapper and fixed toolbars positioning (for reveal and push) */
+
+        /* Panel left open */
+         .ui-panel-page-content-position-left {
+            left: 25em;
+            right: -25em;
+        }
+        /* Panel left open animated */
+         .ui-panel-animate.ui-panel-page-content-position-left {
+            left: 0;
+            right: 0;
+            -webkit-transform: translate3d(25em, 0, 0);
+            -moz-transform: translate3d(25em, 0, 0);
+            transform: translate3d(25em, 0, 0);
+        }
+        /* Panel right open */
+         .ui-panel-page-content-position-right {
+            left: -25em;
+            right: 25em;
+        }
+        /* Panel right open animated */
+         .ui-panel-animate.ui-panel-page-content-position-right {
+            left: 0;
+            right: 0;
+            -webkit-transform: translate3d(-25em, 0, 0);
+            -moz-transform: translate3d(-25em, 0, 0);
+            transform: translate3d(-25em, 0, 0);
+        }
+        /* Dismiss model open */
+         .ui-panel-dismiss-open.ui-panel-dismiss-position-left {
+            left: 25em;
+        }
+        .ui-panel-dismiss-open.ui-panel-dismiss-position-right {
+            right: 25em;
+        }
+        /* Responsive: wrap on wide viewports once open */
+         @media (min-width:55em) {
+            .ui-responsive-panel .ui-panel-page-content-open.ui-panel-page-content-position-left {
+                margin-right: 25em;
+            }
+            .ui-responsive-panel .ui-panel-page-content-open.ui-panel-page-content-position-right {
+                margin-left: 25em;
+            }
+            .ui-responsive-panel .ui-panel-page-content-open {
+                width: auto;
+            }
+            .ui-responsive-panel .ui-panel-dismiss-display-push, .ui-responsive-panel.ui-page-active ~ .ui-panel-dismiss-display-push {
+                display: none;
+            }
+        }
+
+
     </style>
 </head>
 <body>
     <div id="loading"><img src="loader.gif" alt="Loading..."/>
     </div>
-    <div id="buttons">
+    <!--<div id="buttons">
         <button id="zoom_in" title="Zoom in (Dbl-click diagram)">
             +
         </button>
@@ -116,11 +221,90 @@
             </p>
         </div>
     </div>
-    <div id="tree-container"></div>
+    <div id="tree-container"></div>-->
+
+
+  <div class="ui-responsive-panel" data-role="page" id="demo-page">
+        <div data-role="header">
+            <!--<div data-role="controlgroup" data-type="horizontal" class="ui-btn-left ui-corner-all">-->
+                <a class="ui-btn ui-btn-icon-left ui-icon-bars ui-btn-icon-notext ui-corner-all" data-iconpos="notext" href="#info-panel" title="test">Menu</a>
+                <!--<a href="#" class="ui-btn ui-btn-icon-right ui-icon-plus ui-btn-icon-notext ui-corner-all">Zoom-in</a>
+                <a href="#" class="ui-btn ui-btn-icon-right ui-icon-minus ui-btn-icon-notext ui-corner-all">Zoom-out</a>
+
+            </div>-->
+            <h1>Schema Viewer</h1>
+            <a class="ui-btn-right ui-btn ui-icon-info ui-btn-icon-notext ui-corner-all" href="#help-panel">Help</a>
+
+        </div>
+        <div class="ui-content" id="main-body">
+            <div id="zoom-controls">
+                <a id="zoom_in" href="#" class="ui-btn ui-icon-plus ui-btn-icon-notext ui-corner-all">Zoom-in</a>
+                <a id="zoom_out" href="#" class="ui-btn ui-icon-minus ui-btn-icon-notext ui-corner-all">Zoom-out</a>
+            </div>
+        </div>
+        <div data-display="push" data-role="panel" id="info-panel">
+            <div data-role="header" data-theme="b">
+                <h1 id="info-title">Info</h1>
+            </div>
+            <div data-role="tabs" id="tabs">
+                <div data-role="navbar">
+                    <ul>
+                        <li>
+                            <a data-ajax="false" href="#one">Definition</a>
+
+                        </li>
+                        <li>
+                            <a data-ajax="false" href="#two">Example</a>
+
+                        </li>
+                        <li>
+                            <a data-ajax="false" href="./adiwg-json-schemas/schema/schema.json">Schema</a>
+
+                        </li>
+                    </ul>
+                </div>
+                <div class="ui-body-d ui-content" id="one">
+                    <h1>First tab contents</h1>
+
+                </div>
+                <div class="ui-body-d ui-content"  id="two">
+                    <h1>2nd tab contents</h1>
+                </div>
+            </div>
+        </div>
+        <div data-role="panel" data-position="right" data-display="overlay" data-theme="a" id="help-panel">
+            <div data-role="header" data-theme="b">
+                <h1 data-role="header">Help</h1>
+
+            </div>
+        </div>
+    </div>
+
+
+
     <script src="tv4.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.4.3/jquery.mobile-1.4.3.min.js"></script>
     <script src="tv4.async-load-jquery.js"></script>
-    <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script type='text/javascript'>//<![CDATA[
+
+    function contentHeight() {
+        var screen = $.mobile.getScreenHeight();
+        var header = $(".ui-header").hasClass("ui-header-fixed") ? $(".ui-header").outerHeight() - 1 : $(".ui-header").outerHeight();
+        var footer = $(".ui-footer").hasClass("ui-footer-fixed") ? $(".ui-footer").outerHeight() - 1 : $(".ui-footer").outerHeight();
+        var contentCurrent = $("#main-body.ui-content").outerHeight() - $("#main-body.ui-content").height();
+
+        var content = screen - header - footer - contentCurrent;
+        //alert(content);
+        $("#main-body.ui-content").css("min-height", content + "px");
+    }
+
+    $(document).on("pagecontainertransition", contentHeight);
+    $(window).on("throttledresize orientationchange", contentHeight);
+    //]]>
+
+    </script>
     <script src="dndTree.js"></script>
 </body>
 </html>
