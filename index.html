@@ -11,8 +11,16 @@
         }
 
         #loading {
-            margin: 50px auto;
-            width: 50px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            font-weight: 900;
+            padding-top: 5em;
+            background-color: #FFF;
+            z-index: 1000;
         }
 
         .node {
@@ -193,12 +201,11 @@
                 display: none;
             }
         }
-
-
     </style>
 </head>
 <body>
-    <div id="loading"><img src="loader.gif" alt="Loading..."/>
+    <div id="loading">
+        <div><img src="loader.gif" alt="Loading..."/><br />Loading...</div>
     </div>
     <!--<div id="buttons">
         <button id="zoom_in" title="Zoom in (Dbl-click diagram)">
@@ -224,7 +231,7 @@
     <div id="tree-container"></div>-->
 
 
-  <div class="ui-responsive-panel" data-role="page" id="demo-page">
+  <div class="ui-responsive-panel" data-role="page" id="viewer-page">
         <div data-role="header">
             <!--<div data-role="controlgroup" data-type="horizontal" class="ui-btn-left ui-corner-all">-->
                 <a class="ui-btn ui-btn-icon-left ui-icon-bars ui-btn-icon-notext ui-corner-all" data-iconpos="notext" href="#info-panel" title="test">Menu</a>
