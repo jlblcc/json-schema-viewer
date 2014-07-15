@@ -116,22 +116,28 @@ tv4.addAllAsync('adiwg-json-schemas/schema/schema.json', function(schemas) {
     var i = 0;
     var duration = 750;
     var root;
+    var focusNode; //the currently focused node
 
     // size of the diagram
     var viewerWidth = $("#main-body").width();
     var viewerHeight = $("#main-body").height();
 
-    //reset size when open/close left panel
-
-    $("#info-panel").on("panelopen", function(event, ui) {
+    //reset size when open/close left panel, center diagram
+    var resizeViewer = function() {
         viewerWidth = $("#main-body").width();
         viewerHeight = $("#main-body").height();
-    });
-    $("#info-panel").on("panelclose", function(event, ui) {
-        viewerWidth = $("#main-body").width();
-        viewerHeight = $("#main-body").height();
-    });
+        if(focusNode) {
+            centerNode(focusNode);
+        }
+    };
 
+
+    $("#info-panel").on("panelopen", function() {
+        resizeViewer();
+    });
+    $("#info-panel").on("panelclose", function() {
+        resizeViewer();
+    });
 
     var tree = d3.layout.tree()
         .size([viewerHeight, viewerWidth]);
@@ -309,17 +315,19 @@ tv4.addAllAsync('adiwg-json-schemas/schema/schema.json', function(schemas) {
 
     // Function to center node when clicked/dropped so node doesn't get lost when collapsing/moving with large amount of children.
 
-    function centerNode(source) {
+    function centerNode(source, ratio) {
+        r = ratio ? ratio : 2;
         scale = zoomListener.scale();
         x = -source.y0;
         y = -source.x0;
-        x = x * scale + viewerWidth / 2;
-        y = y * scale + viewerHeight / 2;
+        x = x * scale + viewerWidth / r;
+        y = y * scale + viewerHeight / r;
         d3.select('g').transition()
             .duration(duration)
             .attr("transform", "translate(" + x + "," + y + ")scale(" + scale + ")");
         zoomListener.scale(scale);
         zoomListener.translate([x, y]);
+        focusNode = source;
     }
 
     // Toggle children function
@@ -349,7 +357,7 @@ tv4.addAllAsync('adiwg-json-schemas/schema/schema.json', function(schemas) {
     function clickTitle(d) {
         if (d3.event.defaultPrevented) return; // click suppressed
         var panel = $( "#info-panel" );
-
+//console.info(arguments);
         panel.panel( "open" );
         $("#info-title").text("Info: " + d.name);
 
@@ -572,8 +580,9 @@ tv4.addAllAsync('adiwg-json-schemas/schema/schema.json', function(schemas) {
 
     update(root);
 
-    centerNode(root);
-console.info(root);
-    d3.select("#buttons").attr("style", "display:block;");
-    d3.select("#loading").attr("style", "display:none;");
+    centerNode(root, 4);
+//console.info(root);
+    //d3.select("#loading").attr("style", "display:none;");
+    $("#loading").fadeOut("slow");
+
 });
