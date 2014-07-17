@@ -1,8 +1,28 @@
-// Get JSON data
-var treeData;
+/**
+ * JSV namespace.
+ */
+if ( typeof JSV === "undefined") {
+    var JSV = {
+        /**
+         * Initializes this object.
+         */
+        init: function() {
+        },
+        /**
+         * Schema to load
+         */
+        schema: null
+    };
 
-tv4.addAllAsync('adiwg-json-schemas/schema/schema.json', function(schemas) {
-    //var treeData;
+    JSV.init();
+}
+
+
+// Get JSON data
+JSV.schema = 'adiwg-json-schemas/schema/schema.json';
+
+tv4.addAllAsync(JSV.schema, function(schemas) {
+    //var JSV.treeData;
 
     //create schema tree
     function compileData(schema, parent, name, real) {
@@ -27,7 +47,7 @@ tv4.addAllAsync('adiwg-json-schemas/schema/schema.json', function(schemas) {
         }
 
         node.description = s.description;
-        node.name = s.title || name || 'schema';
+        node.name = (schema.$ref && real ? name : false) || s.title || name || 'schema';
         node.type = s.type;
         node.opacity = real ? 1 : 0.5;
         node.required = s.required;
@@ -37,17 +57,22 @@ tv4.addAllAsync('adiwg-json-schemas/schema/schema.json', function(schemas) {
         if (parent) {
             if (node.name === 'item') {
                 node.parent = parent;
+                if(node.type) {
+                    node.name = node.type;
+                    parent.children.push(node);
+                }
             } else if (parent.name === 'item') {
                 parent.parent.children.push(node);
             } else {
                 parent.children.push(node);
             }
         } else {
-            treeData = node;
+            JSV.treeData = node;
         }
 
         if(node.type === 'array') {
-            node.name += '[ ]';
+            node.name += '[' + (s.minItems || ' ') + ']';
+            node.minItems = s.minItems;
         }
 
         if(node.type === 'object' && node.name !== 'item') {
@@ -101,7 +126,7 @@ tv4.addAllAsync('adiwg-json-schemas/schema/schema.json', function(schemas) {
 
     }
 
-    compileData(tv4.getSchema('adiwg-json-schemas/schema/schema.json'),false,'schema');
+    compileData(tv4.getSchema(JSV.schema),false,'schema');
 
     // Calculate total nodes, max label length
     var totalNodes = 0;
@@ -180,7 +205,7 @@ tv4.addAllAsync('adiwg-json-schemas/schema/schema.json', function(schemas) {
     }
 
     // Call visit function to establish maxLabelLength
-    visit(treeData, function(d) {
+    visit(JSV.treeData, function(d) {
         totalNodes++;
         maxLabelLength = Math.max(d.name.length, maxLabelLength);
 
@@ -553,7 +578,7 @@ tv4.addAllAsync('adiwg-json-schemas/schema/schema.json', function(schemas) {
     // Append a group which holds all nodes and which the zoom Listener can act upon.
     var svgGroup = baseSvg.append("g");
     // Define the root
-    root = treeData;
+    root = JSV.treeData;
     root.x0 = viewerHeight / 2;
     root.y0 = 0;
 
