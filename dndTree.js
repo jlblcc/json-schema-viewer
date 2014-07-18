@@ -22,7 +22,13 @@ if ( typeof JSV === "undefined") {
 JSV.schema = 'adiwg-json-schemas/schema/schema.json';
 
 tv4.addAllAsync(JSV.schema, function(schemas) {
-    //var JSV.treeData;
+
+    var labels = {
+        allOf: true,
+        anyOf: true,
+        oneOf: true,
+        "object{ }": true
+    };
 
     //create schema tree
     function compileData(schema, parent, name, real) {
@@ -159,9 +165,11 @@ tv4.addAllAsync(JSV.schema, function(schemas) {
 
     $("#info-panel").on("panelopen", function() {
         resizeViewer();
+        d3.select('#n-' + focusNode.id).classed('focus',true);
     });
     $("#info-panel").on("panelclose", function() {
         resizeViewer();
+        d3.select('#n-' + focusNode.id).classed('focus',false);
     });
 
     var tree = d3.layout.tree()
@@ -222,6 +230,26 @@ tv4.addAllAsync(JSV.schema, function(schemas) {
     }
     // Sort the tree initially incase the JSON isn't in a sorted order.
     //sortTree();
+
+    function resetTree(source, level) {
+        visit(source, function(d) {
+            if (d.children && d.children.length > 0 && d.depth > level && !labels[d.name]) {
+                collapse(d);
+                //d._children = d.children;
+                //d.children = null;
+            }else if(labels[d.name]){
+                expand(d);
+            }
+        }, function(d) {
+            if (d.children && d.children.length > 0) {
+                return d.children;
+            } else if (d._children && d._children.length > 0) {
+                return d._children;
+            } else {
+                return null;
+            }
+        });
+    }
 
     /*// TODO: Pan function, can be better implemented.
 
@@ -305,7 +333,25 @@ tv4.addAllAsync(JSV.schema, function(schemas) {
         interpolateZoom([view.x, view.y], view.k);
     }
 
+    function resetClick() {
+        // Define the root
+        root = JSV.treeData;
+        root.x0 = viewerHeight / 2;
+        root.y0 = 0;
+
+
+        // Layout the tree initially and center on the root node.
+        // Call visit function to set initial depth
+        tree.nodes(root);
+        resetTree(root, 1);
+        update(root);
+
+        //focusNode = root;
+        centerNode(root, 4);
+    }
+
     d3.selectAll('#zoom-controls>a').on('click', zoomClick);
+    d3.select('#tree-controls>a#reset-tree').on('click', resetClick);
 
     // define the zoomListener which calls the zoom function on the "zoom" event constrained within the scaleExtents
     var zoomListener = d3.behavior.zoom().scaleExtent([0.1, 3]).on("zoom", zoomed);
@@ -325,7 +371,7 @@ tv4.addAllAsync(JSV.schema, function(schemas) {
     function collapse(d) {
         if (d.children) {
             d._children = d.children;
-            d._children.forEach(collapse);
+            //d._children.forEach(collapse);
             d.children = null;
         }
     }
@@ -333,8 +379,17 @@ tv4.addAllAsync(JSV.schema, function(schemas) {
     function expand(d) {
         if (d._children) {
             d.children = d._children;
-            d.children.forEach(expand);
+            //d.children.forEach(expand);
             d._children = null;
+        }
+
+        if (d.children) {
+            var count = d.children.length, i;
+            for (i = 0; i < count; i++) {
+                if(labels[d.children[i].name]) {
+                    expand(d.children[i]);
+                }
+            }
         }
     }
 
@@ -352,6 +407,8 @@ tv4.addAllAsync(JSV.schema, function(schemas) {
             .attr("transform", "translate(" + x + "," + y + ")scale(" + scale + ")");
         zoomListener.scale(scale);
         zoomListener.translate([x, y]);
+        //d3.select('#n-' + focusNode.id).classed('focus',false);
+        //d3.select('#n-' + source.id).classed('focus',true);
         focusNode = source;
     }
 
@@ -359,11 +416,9 @@ tv4.addAllAsync(JSV.schema, function(schemas) {
 
     function toggleChildren(d) {
         if (d.children) {
-            d._children = d.children;
-            d.children = null;
+            collapse(d);
         } else if (d._children) {
-            d.children = d._children;
-            d._children = null;
+            expand(d);
         }
         return d;
     }
@@ -371,22 +426,27 @@ tv4.addAllAsync(JSV.schema, function(schemas) {
     // Toggle children on click.
 
     function click(d) {
-        if (d3.event.defaultPrevented) return; // click suppressed
-        d = toggleChildren(d);
-        update(d);
-        centerNode(d);
+        if(!labels[d.name]) {
+            if (d3.event.defaultPrevented) return; // click suppressed
+            d = toggleChildren(d);
+            update(d);
+            centerNode(d);
+        }
     }
 
     // Show info on click.
 
     function clickTitle(d) {
-        if (d3.event.defaultPrevented) return; // click suppressed
-        var panel = $( "#info-panel" );
-//console.info(arguments);
-        panel.panel( "open" );
-        $("#info-title").text("Info: " + d.name);
-
-        centerNode(d);
+        if(!labels[d.name]) {
+            if (d3.event.defaultPrevented) return; // click suppressed
+            var panel = $( "#info-panel" );
+            d3.select('#n-' + focusNode.id).classed('focus',false);
+            focusNode = d;
+            panel.panel( "open" );
+            $("#info-title").text("Info: " + d.name);
+            centerNode(d);
+            d3.select('#n-' + d.id).classed('focus',true);
+        }
     }
 
     function update(source) {
@@ -415,7 +475,7 @@ tv4.addAllAsync(JSV.schema, function(schemas) {
 
         // Set widths between levels based on maxLabelLength.
         nodes.forEach(function(d) {
-            d.y = (d.depth * (maxLabelLength * 10)); //maxLabelLength * 10px
+            d.y = (d.depth * (maxLabelLength * 8)); //maxLabelLength * 8px
             // alternatively to keep a fixed scale one can set a fixed depth per level
             // Normalize for fixed-depth by commenting out below line
             // d.y = (d.depth * 500); //500px per level.
@@ -429,7 +489,9 @@ tv4.addAllAsync(JSV.schema, function(schemas) {
         // Enter any new nodes at the parent's previous position.
         var nodeEnter = node.enter().append("g")
             //.call(dragListener)
-            .attr("class", "node")
+            .attr("class", function(d) {
+                return labels[d.name] ? "node label" : "node";
+            })
             .attr("id", function(d, i) {
 //console.info(arguments);
                 return "n-" + d.id;
@@ -439,7 +501,7 @@ tv4.addAllAsync(JSV.schema, function(schemas) {
             });
 
         nodeEnter.append("circle")
-            .attr('class', 'nodeCircle')
+            .attr('class', "nodeCircle")
             .attr("r", 0)
             .style("fill", function(d) {
                 return d._children ? "lightsteelblue" : "#fff";
@@ -495,7 +557,7 @@ tv4.addAllAsync(JSV.schema, function(schemas) {
         node.select("circle.nodeCircle")
             .attr("r", 6.5)
             .style("fill", function(d) {
-                return d._children ? "lightsteelblue" : "#fff";
+                return (d._children ? "lightsteelblue" : "#fff");
             });
 
         // Transition nodes to their new position.
@@ -568,6 +630,12 @@ tv4.addAllAsync(JSV.schema, function(schemas) {
             })
             .remove();
 
+        //hide circles for "labels"
+        /*node.select("circle.nodeCircle")
+            .style("display", function(d) {
+                return labels[d.name] ? "none" : null;
+            });*/
+
         // Stash the old positions for transition.
         nodes.forEach(function(d) {
             d.x0 = d.x;
@@ -577,33 +645,9 @@ tv4.addAllAsync(JSV.schema, function(schemas) {
 
     // Append a group which holds all nodes and which the zoom Listener can act upon.
     var svgGroup = baseSvg.append("g");
-    // Define the root
-    root = JSV.treeData;
-    root.x0 = viewerHeight / 2;
-    root.y0 = 0;
-
 
     // Layout the tree initially and center on the root node.
-    //update(root);
-    // Call visit function to set initial depth
-    tree.nodes(root);
-    visit(root, function(d) {
-//console.info(d.depth);
-        if (d.children && d.children.length > 0 && d.depth > 1) {
-            d._children = d.children;
-            d.children = null;
-        }
-    }, function(d) {
-        if(d.children && d.children.length > 0) {
-            return d.children;
-        } else if(d._children && d._children.length > 0) {
-            return d._children;
-        } else {
-          return null;
-        }
-    });
-
-    update(root);
+    resetClick();
 
     centerNode(root, 4);
 //console.info(root);

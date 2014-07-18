@@ -37,9 +37,29 @@
             stroke-width: 1.5px;
         }
 
+        .node.label{
+            cursor: default;
+            font-style: italic;
+        }
+
+        .node.label circle {
+            fill: #ddd;
+            stroke: #ccc;
+            stroke-width: 1.5px;
+        }
+
         .node text {
             font-size: 14px;
             font-family: sans-serif;
+        }
+
+        .node.focus {
+            font-weight: bold;
+        }
+
+        .node.focus circle{
+            stroke: #0ECC43;
+            stroke-width: 2px;
         }
 
         .link {
@@ -245,8 +265,11 @@
         </div>
         <div class="ui-content" id="main-body">
             <div id="zoom-controls">
-                <a id="zoom_in" href="#" class="ui-btn ui-icon-plus ui-btn-icon-notext ui-corner-all">Zoom-in</a>
-                <a id="zoom_out" href="#" class="ui-btn ui-icon-minus ui-btn-icon-notext ui-corner-all">Zoom-out</a>
+                <a id="zoom_in" href="#" class="ui-btn ui-icon-plus ui-btn-icon-notext ui-corner-all" title="Zoom In">Zoom-in</a>
+                <a id="zoom_out" href="#" class="ui-btn ui-icon-minus ui-btn-icon-notext ui-corner-all" title="Zoom Out">Zoom-out</a>
+                <div id="tree-controls">
+                    <a id="reset-tree" href="#" class="ui-btn ui-icon-refresh ui-btn-icon-notext ui-corner-all" title="Reset">Reset</a>
+                </div>
             </div>
         </div>
         <div data-display="push" data-role="panel" id="info-panel">
