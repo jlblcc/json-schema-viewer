@@ -409,7 +409,7 @@ tv4.addAllAsync(JSV.schema, function(schemas) {
         zoomListener.translate([x, y]);
         //d3.select('#n-' + focusNode.id).classed('focus',false);
         //d3.select('#n-' + source.id).classed('focus',true);
-        focusNode = source;
+        //focusNode = source;
     }
 
     // Toggle children function
@@ -440,7 +440,10 @@ tv4.addAllAsync(JSV.schema, function(schemas) {
         if(!labels[d.name]) {
             if (d3.event.defaultPrevented) return; // click suppressed
             var panel = $( "#info-panel" );
-            d3.select('#n-' + focusNode.id).classed('focus',false);
+
+            if(focusNode) {
+                d3.select('#n-' + focusNode.id).classed('focus',false);
+            }
             focusNode = d;
             panel.panel( "open" );
             $("#info-title").text("Info: " + d.name);
