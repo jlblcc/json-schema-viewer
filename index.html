@@ -31,19 +31,25 @@
             background-color: inherit;
         }
 
-        .node circle {
+        .node circle, #legend circle {
             fill: #fff;
             stroke: steelblue;
             stroke-width: 1.5px;
         }
 
-        .node.label{
-            cursor: default;
+        .node circle.collapsed, #legend circle.collapsed {
+            fill: lightsteelblue;
+        }
+
+        .node .abstract, #legend .abstract {
             font-style: italic;
         }
 
+        .node.label{
+            cursor: default;
+        }
+
         .node.label circle {
-            fill: #ddd;
             stroke: #ccc;
             stroke-width: 1.5px;
         }
@@ -53,14 +59,26 @@
             font-family: sans-serif;
         }
 
-        .node.focus {
+        .node.focus, #legend .focus {
             font-weight: bold;
         }
 
-        .node.focus circle{
+        .node.focus circle, #legend .focus circle{
             stroke: #0ECC43;
             stroke-width: 2px;
         }
+
+        #info-panel .ui-title {
+            margin: 0 20%;
+        }
+
+        #info-panel .info-tab {
+            overflow: hidden;
+        }
+
+        /*#info-panel #info-tab-schema {
+            overflow: hidden;
+        }-*/
 
         .link {
             fill: none;
@@ -68,7 +86,7 @@
             stroke-width: 1.5px;
         }
 
-        .templink {
+        /*.templink {
             fill: none;
             stroke: red;
             stroke-width: 3px;
@@ -107,7 +125,7 @@
         }
 
         div.info:hover p {/*the span will display just on :hover state*/
-            display: block;
+        /*    display: block;
             position: absolute;
             top: -10px;
             left: 25px;
@@ -117,110 +135,117 @@
             color: #000;
             text-align: center;
             padding: 10px;
-        }
+        }*/
 
 /*********************/
-        #main-body {
-            position: relative;
-        }
+    #main-body {
+        position: relative;
+    }
 
-        #zoom-controls {
-            position: absolute;
-            top: 15px;
-            left: 10px;
-        }
+    #zoom-controls {
+        position: absolute;
+        top: 15px;
+        left: 10px;
+    }
 
-        /* Adjust the width of the panels. */
-        /* Panel */
-         .ui-panel {
-            width: 25em;
-            min-height: 100%;
-            max-height: none;
-            border-width: 0;
-            position: absolute;
-            top: 0;
-            display: block;
-        }
-        /* Panel positioning (for overlay and push) */
+    #legend {
+        width: 200px;
+        position: absolute;
+        right: 20px;
+        top: 15px;
+        font-size: .9em;
+    }
+    /* Adjust the width of the panels. */
+    /* Panel */
+     .ui-panel {
+        width: 25em;
+        min-height: 100%;
+        max-height: none;
+        border-width: 0;
+        position: absolute;
+        top: 0;
+        display: block;
+    }
+    /* Panel positioning (for overlay and push) */
 
-        /* Panel left closed */
-         .ui-panel-position-left {
-            left: -25em;
-        }
-        /* Panel left closed animated */
-         .ui-panel-animate.ui-panel-position-left.ui-panel-display-overlay, .ui-panel-animate.ui-panel-position-left.ui-panel-display-push {
-            left: 0;
-            -webkit-transform: translate3d(-25em, 0, 0);
-            -moz-transform: translate3d(-25em, 0, 0);
-            transform: translate3d(-25em, 0, 0);
-        }
-        /* Panel left open */
-         .ui-panel-position-left.ui-panel-display-reveal,
-        /* Unset "panel left closed" for reveal */
-         .ui-panel-open.ui-panel-position-left {
-            left: 0;
-        }
-        /* Panel right closed */
-         .ui-panel-position-right {
-            right: -25em;
-        }
-        /* Panel right closed animated */
-         .ui-panel-animate.ui-panel-position-right.ui-panel-display-overlay, .ui-panel-animate.ui-panel-position-right.ui-panel-display-push {
-            right: 0;
-            -webkit-transform: translate3d(25em, 0, 0);
-            -moz-transform: translate3d(25em, 0, 0);
-            transform: translate3d(25em, 0, 0);
-        }
-        /* Wrapper and fixed toolbars positioning (for reveal and push) */
+    /* Panel left closed */
+     .ui-panel-position-left {
+        left: -25em;
+    }
+    /* Panel left closed animated */
+     .ui-panel-animate.ui-panel-position-left.ui-panel-display-overlay, .ui-panel-animate.ui-panel-position-left.ui-panel-display-push {
+        left: 0;
+        -webkit-transform: translate3d(-25em, 0, 0);
+        -moz-transform: translate3d(-25em, 0, 0);
+        transform: translate3d(-25em, 0, 0);
+    }
+    /* Panel left open */
+     .ui-panel-position-left.ui-panel-display-reveal,
+    /* Unset "panel left closed" for reveal */
+     .ui-panel-open.ui-panel-position-left {
+        left: 0;
+    }
+    /* Panel right closed */
+     .ui-panel-position-right {
+        right: -25em;
+    }
+    /* Panel right closed animated */
+     .ui-panel-animate.ui-panel-position-right.ui-panel-display-overlay, .ui-panel-animate.ui-panel-position-right.ui-panel-display-push {
+        right: 0;
+        -webkit-transform: translate3d(25em, 0, 0);
+        -moz-transform: translate3d(25em, 0, 0);
+        transform: translate3d(25em, 0, 0);
+    }
+    /* Wrapper and fixed toolbars positioning (for reveal and push) */
 
-        /* Panel left open */
-         .ui-panel-page-content-position-left {
-            left: 25em;
-            right: -25em;
+    /* Panel left open */
+     .ui-panel-page-content-position-left {
+        left: 25em;
+        right: -25em;
+    }
+    /* Panel left open animated */
+     .ui-panel-animate.ui-panel-page-content-position-left {
+        left: 0;
+        right: 0;
+        -webkit-transform: translate3d(25em, 0, 0);
+        -moz-transform: translate3d(25em, 0, 0);
+        transform: translate3d(25em, 0, 0);
+    }
+    /* Panel right open */
+     .ui-panel-page-content-position-right {
+        left: -25em;
+        right: 25em;
+    }
+    /* Panel right open animated */
+     .ui-panel-animate.ui-panel-page-content-position-right {
+        left: 0;
+        right: 0;
+        -webkit-transform: translate3d(-25em, 0, 0);
+        -moz-transform: translate3d(-25em, 0, 0);
+        transform: translate3d(-25em, 0, 0);
+    }
+    /* Dismiss model open */
+     .ui-panel-dismiss-open.ui-panel-dismiss-position-left {
+        left: 25em;
+    }
+    .ui-panel-dismiss-open.ui-panel-dismiss-position-right {
+        right: 25em;
+    }
+    /* Responsive: wrap on wide viewports once open */
+     @media (min-width:55em) {
+        .ui-responsive-panel .ui-panel-page-content-open.ui-panel-page-content-position-left {
+            margin-right: 25em;
         }
-        /* Panel left open animated */
-         .ui-panel-animate.ui-panel-page-content-position-left {
-            left: 0;
-            right: 0;
-            -webkit-transform: translate3d(25em, 0, 0);
-            -moz-transform: translate3d(25em, 0, 0);
-            transform: translate3d(25em, 0, 0);
+        .ui-responsive-panel .ui-panel-page-content-open.ui-panel-page-content-position-right {
+            margin-left: 25em;
         }
-        /* Panel right open */
-         .ui-panel-page-content-position-right {
-            left: -25em;
-            right: 25em;
+        .ui-responsive-panel .ui-panel-page-content-open {
+            width: auto;
         }
-        /* Panel right open animated */
-         .ui-panel-animate.ui-panel-page-content-position-right {
-            left: 0;
-            right: 0;
-            -webkit-transform: translate3d(-25em, 0, 0);
-            -moz-transform: translate3d(-25em, 0, 0);
-            transform: translate3d(-25em, 0, 0);
+        .ui-responsive-panel .ui-panel-dismiss-display-push, .ui-responsive-panel.ui-page-active ~ .ui-panel-dismiss-display-push {
+            display: none;
         }
-        /* Dismiss model open */
-         .ui-panel-dismiss-open.ui-panel-dismiss-position-left {
-            left: 25em;
-        }
-        .ui-panel-dismiss-open.ui-panel-dismiss-position-right {
-            right: 25em;
-        }
-        /* Responsive: wrap on wide viewports once open */
-         @media (min-width:55em) {
-            .ui-responsive-panel .ui-panel-page-content-open.ui-panel-page-content-position-left {
-                margin-right: 25em;
-            }
-            .ui-responsive-panel .ui-panel-page-content-open.ui-panel-page-content-position-right {
-                margin-left: 25em;
-            }
-            .ui-responsive-panel .ui-panel-page-content-open {
-                width: auto;
-            }
-            .ui-responsive-panel .ui-panel-dismiss-display-push, .ui-responsive-panel.ui-page-active ~ .ui-panel-dismiss-display-push {
-                display: none;
-            }
-        }
+    }
     </style>
 </head>
 <body>
@@ -254,13 +279,13 @@
   <div class="ui-responsive-panel" data-role="page" id="viewer-page">
         <div data-role="header">
             <!--<div data-role="controlgroup" data-type="horizontal" class="ui-btn-left ui-corner-all">-->
-                <a class="ui-btn ui-btn-icon-left ui-icon-bars ui-btn-icon-notext ui-corner-all" data-iconpos="notext" href="#info-panel" title="test">Menu</a>
+                <a class="ui-btn ui-btn-icon-left ui-icon-bars ui-btn-icon-notext ui-corner-all" data-iconpos="notext" href="#info-panel" title="Toggle Info">Menu</a>
                 <!--<a href="#" class="ui-btn ui-btn-icon-right ui-icon-plus ui-btn-icon-notext ui-corner-all">Zoom-in</a>
                 <a href="#" class="ui-btn ui-btn-icon-right ui-icon-minus ui-btn-icon-notext ui-corner-all">Zoom-out</a>
 
             </div>-->
-            <h1>Schema Viewer</h1>
-            <a class="ui-btn-right ui-btn ui-icon-info ui-btn-icon-notext ui-corner-all" href="#help-panel">Help</a>
+            <h1>JSON Schema Viewer</h1>
+            <a class="ui-btn-right ui-btn ui-icon-info ui-btn-icon-notext ui-corner-all" href="#help-panel"  title="Toggle Help">Help</a>
 
         </div>
         <div class="ui-content" id="main-body">
@@ -271,34 +296,40 @@
                     <a id="reset-tree" href="#" class="ui-btn ui-icon-refresh ui-btn-icon-notext ui-corner-all" title="Reset">Reset</a>
                 </div>
             </div>
+            <div id="legend" data-role="collapsible" data-collapsed="false">
+                <h3 class="ui-mini">Legend</h3>
+                <div id="legend-items"></div>
+            </div>
         </div>
         <div data-display="push" data-role="panel" id="info-panel">
-            <div data-role="header" data-theme="b">
+            <div data-role="header" data-theme="b" class="ui-mini">
                 <h1 id="info-title">Info</h1>
             </div>
-            <div data-role="tabs" id="tabs">
-                <div data-role="navbar">
+            <div data-role="tabs" id="info-tabs">
+                <div data-role="navbar" id="info-tabs-navbar">
                     <ul>
                         <li>
-                            <a data-ajax="false" href="#one">Definition</a>
+                            <a data-ajax="false" href="#info-tab-def">Definition</a>
 
                         </li>
                         <li>
-                            <a data-ajax="false" href="#two">Example</a>
+                            <a data-ajax="false" href="#info-tab-example">Example</a>
 
                         </li>
                         <li>
-                            <a data-ajax="false" href="./adiwg-json-schemas/schema/schema.json">Schema</a>
+                            <a data-ajax="false" href="#info-tab-schema">Schema</a>
 
                         </li>
                     </ul>
                 </div>
-                <div class="ui-body-d ui-content" id="one">
+                <div class="ui-body-d ui-content info-tab" id="info-tab-def">
                     <h1>First tab contents</h1>
-
                 </div>
-                <div class="ui-body-d ui-content"  id="two">
+                <div class="ui-body-d ui-content info-tab"  id="info-tab-example">
                     <h1>2nd tab contents</h1>
+                </div>
+                <div class="ui-body-d ui-content info-tab"  id="info-tab-schema">
+                    <p>Select a node to view the JSON schema</p>
                 </div>
             </div>
         </div>
@@ -317,24 +348,8 @@
     <script src="http://code.jquery.com/mobile/1.4.3/jquery.mobile-1.4.3.min.js"></script>
     <script src="tv4.async-load-jquery.js"></script>
     <script src="http://d3js.org/d3.v3.min.js"></script>
-    <script type='text/javascript'>//<![CDATA[
-
-    function contentHeight() {
-        var screen = $.mobile.getScreenHeight();
-        var header = $(".ui-header").hasClass("ui-header-fixed") ? $(".ui-header").outerHeight() - 1 : $(".ui-header").outerHeight();
-        var footer = $(".ui-footer").hasClass("ui-footer-fixed") ? $(".ui-footer").outerHeight() - 1 : $(".ui-footer").outerHeight();
-        var contentCurrent = $("#main-body.ui-content").outerHeight() - $("#main-body.ui-content").height();
-
-        var content = screen - header - footer - contentCurrent;
-        //alert(content);
-        $("#main-body.ui-content").css("min-height", content + "px");
-    }
-
-    $(document).on("pagecontainertransition", contentHeight);
-    $(window).on("throttledresize orientationchange", contentHeight);
-    //]]>
-
-    </script>
-    <script src="dndTree.js"></script>
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/styles/default.min.css">
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/highlight.min.js"></script>
+    <script src="jsv.js"></script>
 </body>
 </html>

@@ -2,20 +2,91 @@
  * JSV namespace.
  */
 if ( typeof JSV === "undefined") {
-    var JSV = {
+    var JSV = {};
+}
+
+(function($) {
+    JSV = {
         /**
          * Initializes this object.
          */
         init: function() {
+            $(document).on("pagecontainertransition", this.contentHeight);
+            $(window).on("throttledresize orientationchange", this.contentHeight);
+            $(window).on("resize", this.contentHeight);
         },
         /**
          * Schema to load
          */
-        schema: null
+        schema: null,
+
+        contentHeight: function() {
+            var screen = $.mobile.getScreenHeight();
+            var header = $(".ui-header").hasClass("ui-header-fixed") ? $(".ui-header").outerHeight() - 1 : $(".ui-header").outerHeight();
+            var footer = $(".ui-footer").hasClass("ui-footer-fixed") ? $(".ui-footer").outerHeight() - 1 : $(".ui-footer").outerHeight();
+            var contentCurrent = $("#main-body.ui-content").outerHeight() - $("#main-body.ui-content").height();
+            var content = screen - header - footer - contentCurrent;
+
+            $("#main-body.ui-content").css("min-height", content + "px");
+        },
+
+        setInfo: function(node) {
+            var schema = $('#info-tab-schema');
+            //var pre = $('<pre><code class="language-json">' + JSON.stringify(tv4.getSchema(node.schema), null, '  ') + '</code></pre>');
+            //var btn = $('<a href="#" class="ui-btn ui-mini ui-icon-action ui-btn-icon-right">Open in new window</a>').click(function() {
+                //var w = window.open(null, "pre", null, true);
+
+               // $(w.document.body).html(pre);
+            //});
+            var def = $('#info-tab-def');
+            var ex = $('#info-tab-example');
+
+            var height = ($('#info-panel').innerHeight() - $('#info-panel .ui-panel-inner').outerHeight() + $('#info-panel #info-tabs').height()) -
+                $('#info-panel #info-tabs-navbar').height() - (schema.outerHeight(true) - schema.height());
+
+            $.each([schema, def, ex], function(i, e){
+                e.height(height);
+            });
+
+            this.createPre(schema, tv4.getSchema(node.schema));
+
+            $.getJSON(node.schema.replace('#','') + '/../../../examples/full_example.json', function(data) {
+                JSV.createPre(ex, data);
+            }).fail(function() {
+                console.log("error");
+            });
+
+
+            //schema.html(btn);
+
+            //schema.append(pre);
+            //hljs.highlightBlock(pre[0]);
+            //pre.height(height - btn.outerHeight(true) - (pre.outerHeight(true) - pre.height()));
+        },
+
+        createPre: function(el, obj) {
+            ///../../../examples/full_example.json
+            var pre = $('<pre><code class="language-json">' + JSON.stringify(obj, null, '  ') + '</code></pre>');
+            var btn = $('<a href="#" class="ui-btn ui-mini ui-icon-action ui-btn-icon-right">Open in new window</a>').click(function() {
+                var w = window.open(null, "pre", null, true);
+
+                $(w.document.body).html(pre.clone().height('95%'));
+                $(w.document.body).append('<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/styles/default.min.css">');
+            });
+
+            el.html(btn);
+
+            el.append(pre);
+            hljs.highlightBlock(pre[0]);
+            pre.height(el.height() - btn.outerHeight(true) - (pre.outerHeight(true) - pre.height()));
+        }
+
     };
 
     JSV.init();
-}
+
+})(jQuery);
+
 
 
 // Get JSON data
@@ -165,11 +236,13 @@ tv4.addAllAsync(JSV.schema, function(schemas) {
 
     $("#info-panel").on("panelopen", function() {
         resizeViewer();
-        d3.select('#n-' + focusNode.id).classed('focus',true);
+        if(focusNode) {
+            d3.select('#n-' + focusNode.id).classed('focus',true);
+        }
     });
     $("#info-panel").on("panelclose", function() {
         resizeViewer();
-        d3.select('#n-' + focusNode.id).classed('focus',false);
+        if(focusNode) {d3.select('#n-' + focusNode.id).classed('focus',false);}
     });
 
     var tree = d3.layout.tree()
@@ -395,14 +468,14 @@ tv4.addAllAsync(JSV.schema, function(schemas) {
 
     // Function to center node when clicked/dropped so node doesn't get lost when collapsing/moving with large amount of children.
 
-    function centerNode(source, ratio) {
-        r = ratio ? ratio : 2;
+    function centerNode(source, ratioX) {
+        rX = ratioX ? ratioX : 2;
         scale = zoomListener.scale();
         x = -source.y0;
         y = -source.x0;
-        x = x * scale + viewerWidth / r;
-        y = y * scale + viewerHeight / r;
-        d3.select('g').transition()
+        x = x * scale + viewerWidth / rX;
+        y = y * scale + viewerHeight / 2;
+        d3.select('g#node-group').transition()
             .duration(duration)
             .attr("transform", "translate(" + x + "," + y + ")scale(" + scale + ")");
         zoomListener.scale(scale);
@@ -445,10 +518,12 @@ tv4.addAllAsync(JSV.schema, function(schemas) {
                 d3.select('#n-' + focusNode.id).classed('focus',false);
             }
             focusNode = d;
+            JSV.setInfo(d);
             panel.panel( "open" );
             $("#info-title").text("Info: " + d.name);
             centerNode(d);
             d3.select('#n-' + d.id).classed('focus',true);
+//console.info(focusNode);
         }
     }
 
@@ -504,10 +579,10 @@ tv4.addAllAsync(JSV.schema, function(schemas) {
             });
 
         nodeEnter.append("circle")
-            .attr('class', "nodeCircle")
+            //.attr('class', "nodeCircle")
             .attr("r", 0)
-            .style("fill", function(d) {
-                return d._children ? "lightsteelblue" : "#fff";
+            .classed("collapsed", function(d) {
+                return d._children ? true : false;
             })
             .on('click', click);
 
@@ -518,7 +593,10 @@ tv4.addAllAsync(JSV.schema, function(schemas) {
             })
             .attr("dy", ".35em")
             .attr('class', function(d) {
-                return d.children || d._children ? 'nodeText nodeBranch' : 'nodeText';
+                return (d.children || d._children) ? 'node-text node-branch' : 'node-text';
+            })
+            .classed("abstract", function(d) {
+                return d.opacity < 1;
             })
             .attr("text-anchor", function(d) {
                 //return d.children || d._children ? "end" : "start";
@@ -557,10 +635,10 @@ tv4.addAllAsync(JSV.schema, function(schemas) {
             });*/
 
         // Change the circle fill depending on whether it has children and is collapsed
-        node.select("circle.nodeCircle")
+        node.select(".node circle")
             .attr("r", 6.5)
-            .style("fill", function(d) {
-                return (d._children ? "lightsteelblue" : "#fff");
+            .classed("collapsed", function(d) {
+                return (d._children ? true : false);
             });
 
         // Transition nodes to their new position.
@@ -647,14 +725,86 @@ tv4.addAllAsync(JSV.schema, function(schemas) {
     }
 
     // Append a group which holds all nodes and which the zoom Listener can act upon.
-    var svgGroup = baseSvg.append("g");
+    var svgGroup = baseSvg.append("g")
+        .attr("id", "node-group");
 
     // Layout the tree initially and center on the root node.
     resetClick();
 
     centerNode(root, 4);
-//console.info(root);
-    //d3.select("#loading").attr("style", "display:none;");
+
+    // define the legend svg, attaching a class for styling
+    var legendData = [{
+        text: "Expanded",
+        y: 20
+    }, {
+        text: "Collapsed",
+        iconCls: "collapsed",
+        y: 40
+    }, {
+        text: "Selected",
+        itemCls: "focus",
+        y: 60
+    },{
+        text: "Required*",
+        y: 80
+    },{
+        text: "Object{ }",
+        iconCls: "collapsed",
+        y: 100
+    },{
+        text: "Array[minimum #]",
+        iconCls: "collapsed",
+        y: 120
+    },{
+        text: "Abstract Property",
+        itemCls: "abstract",
+        y: 140,
+        opacity: 0.5
+    }];
+
+
+    var legendSvg = d3.select("#legend-items").append("svg")
+        //.attr("width", viewerWidth)
+        .attr("height", 160);
+
+    // Update the nodes…
+    var legendItem = legendSvg.selectAll("g.item-group")
+        .data(legendData)
+        .enter()
+        .append("g")
+        .attr("class", function(d) {
+            var cls = "item-group ";
+            return cls += d.itemCls || '';
+        })
+        .attr("transform", function(d) {
+            return "translate(10, " + d.y + ")";
+        });
+
+    // Enter any new nodes at the parent's previous position.
+    //var itemEnter = legendItem.enter();
+        /*.attr("transform", function(d) {
+            return "translate(" + source.y0 + "," + source.x0 + ")";
+        });*/
+
+    legendItem.append("circle")
+        .attr("r", 6.5)
+        .attr("class", function(d) {
+            return d.iconCls;
+        });
+
+    legendItem.append("text")
+        .attr("x", 15)
+        .attr("dy", ".35em")
+        .attr("class", "item-text")
+        .attr("text-anchor", "start")
+        .style("fill-opacity", function(d) {
+            return d.opacity || 1;
+        })
+        .text(function(d) {
+            return d.text;
+        });
+
     $("#loading").fadeOut("slow");
 
 });
