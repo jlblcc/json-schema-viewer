@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <head>
     <meta charset="utf-8">
-    <title>ADIwg JSON Tree</title>
+    <title>JSON Schema Viewer</title>
     <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.3/jquery.mobile-1.4.3.min.css" />
     <style type="text/css">
         html, body {
@@ -49,7 +49,7 @@
             cursor: default;
         }
 
-        .node.label circle {
+        .node.label circle, .node.label circle:hover {
             stroke: #ccc;
             stroke-width: 1.5px;
         }
@@ -57,6 +57,14 @@
         .node text {
             font-size: 14px;
             font-family: sans-serif;
+        }
+
+        .node text:hover {
+            text-decoration: underline;
+        }
+
+        .node.label text:hover {
+            text-decoration: none;
         }
 
         .node.focus, #legend .focus {
@@ -68,6 +76,9 @@
             stroke-width: 2px;
         }
 
+        .node circle:hover, .focus circle:hover {
+            stroke-width: 3px;
+        }
         #info-panel .ui-title {
             margin: 0 20%;
         }
@@ -76,6 +87,9 @@
             overflow: hidden;
         }
 
+        #info-panel .info-tab pre {
+            overflow: auto;
+        }
         /*#info-panel #info-tab-schema {
             overflow: hidden;
         }-*/
@@ -323,13 +337,15 @@
                     </ul>
                 </div>
                 <div class="ui-body-d ui-content info-tab" id="info-tab-def">
-                    <h1>First tab contents</h1>
+                    <h4>Definition:</h4>
+                    <p id="info-definition">Select a node to view the definition.</p>
+                    <hr />
                 </div>
                 <div class="ui-body-d ui-content info-tab"  id="info-tab-example">
-                    <h1>2nd tab contents</h1>
+                    <p>Select a node to view the example.</p>
                 </div>
                 <div class="ui-body-d ui-content info-tab"  id="info-tab-schema">
-                    <p>Select a node to view the JSON schema</p>
+                    <p>Select a node to view the JSON schema.</p>
                 </div>
             </div>
         </div>
@@ -350,6 +366,8 @@
     <script src="http://d3js.org/d3.v3.min.js"></script>
     <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/styles/default.min.css">
     <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/highlight.min.js"></script>
+    <!-- <link rel="stylesheet" href="prism.css">
+    <script src="prism.js"></script>-->
     <script src="jsv.js"></script>
 </body>
 </html>

@@ -13,7 +13,9 @@ if ( typeof JSV === "undefined") {
         init: function() {
             $(document).on("pagecontainertransition", this.contentHeight);
             $(window).on("throttledresize orientationchange", this.contentHeight);
-            $(window).on("resize", this.contentHeight);
+            $(window).on("resize", this.contentHeight); //TODO: currently not picked up by the static d3 variables
+            //alias for Prism
+            //Prism.languages.json = Prism.languages.javascript;
         },
         /**
          * Schema to load
@@ -44,16 +46,19 @@ if ( typeof JSV === "undefined") {
             var height = ($('#info-panel').innerHeight() - $('#info-panel .ui-panel-inner').outerHeight() + $('#info-panel #info-tabs').height()) -
                 $('#info-panel #info-tabs-navbar').height() - (schema.outerHeight(true) - schema.height());
 
+            $("#info-definition").html(node.description || 'No definition provided.');
+
             $.each([schema, def, ex], function(i, e){
                 e.height(height);
             });
 
             this.createPre(schema, tv4.getSchema(node.schema));
 
-            $.getJSON(node.schema.replace('#','') + '/../../../examples/full_example.json', function(data) {
+            $.getJSON(node.schema.match( /^(.*?)\.json/g ) + '/../../../examples/full_example.json', function(data) {
                 JSV.createPre(ex, data);
             }).fail(function() {
-                console.log("error");
+                ex.html('<h3>No example found.</h3>');
+                //console.log("error");
             });
 
 
@@ -64,20 +69,23 @@ if ( typeof JSV === "undefined") {
             //pre.height(height - btn.outerHeight(true) - (pre.outerHeight(true) - pre.height()));
         },
 
-        createPre: function(el, obj) {
+        createPre: function(el, obj, title) {
             ///../../../examples/full_example.json
             var pre = $('<pre><code class="language-json">' + JSON.stringify(obj, null, '  ') + '</code></pre>');
             var btn = $('<a href="#" class="ui-btn ui-mini ui-icon-action ui-btn-icon-right">Open in new window</a>').click(function() {
                 var w = window.open(null, "pre", null, true);
 
                 $(w.document.body).html(pre.clone().height('95%'));
+                hljs.highlightBlock($(w.document.body).children('pre')[0]);
                 $(w.document.body).append('<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/styles/default.min.css">');
+                w.document.title = title || 'JSON Schema Viewer';
             });
 
             el.html(btn);
 
             el.append(pre);
-            hljs.highlightBlock(pre[0]);
+            //setTimeout(function(){hljs.highlightBlock(pre[0]);},1000);
+            //Prism.highlightElement(pre.children('code')[0]);
             pre.height(el.height() - btn.outerHeight(true) - (pre.outerHeight(true) - pre.height()));
         }
 
@@ -518,11 +526,12 @@ tv4.addAllAsync(JSV.schema, function(schemas) {
                 d3.select('#n-' + focusNode.id).classed('focus',false);
             }
             focusNode = d;
-            JSV.setInfo(d);
-            panel.panel( "open" );
-            $("#info-title").text("Info: " + d.name);
             centerNode(d);
             d3.select('#n-' + d.id).classed('focus',true);
+
+            $("#info-title").text("Info: " + d.name);
+            JSV.setInfo(d);
+            panel.panel( "open" );
 //console.info(focusNode);
         }
     }
