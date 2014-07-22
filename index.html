@@ -10,6 +10,9 @@
             overflow: hidden;
         }
 
+        #preload {
+            background: url(loader.gif) no-repeat -9999px -9999px;
+        }
         #loading {
             position: absolute;
             top: 0;
@@ -45,7 +48,7 @@
             font-style: italic;
         }
 
-        .node.label{
+        .node.label {
             cursor: default;
         }
 
@@ -71,7 +74,7 @@
             font-weight: bold;
         }
 
-        .node.focus circle, #legend .focus circle{
+        .node.focus circle, #legend .focus circle {
             stroke: #0ECC43;
             stroke-width: 2px;
         }
@@ -264,7 +267,7 @@
 </head>
 <body>
     <div id="loading">
-        <div><img src="loader.gif" alt="Loading..."/><br />Loading...</div>
+        <div id="preload"><img src="loader.gif" alt="Loading..."/><br />Loading...</div>
     </div>
     <!--<div id="buttons">
         <button id="zoom_in" title="Zoom in (Dbl-click diagram)">
