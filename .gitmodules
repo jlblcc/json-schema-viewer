@@ -1,3 +1,6 @@
 [submodule "adiwg-json-schemas"]
 	path = adiwg-json-schemas
 	url = https://github.com/adiwg/adiwg-json-schemas.git
+[submodule "lib/filereader"]
+	path = lib/filereader
+	url = git@github.com:jlblcc/filereader.js.git
