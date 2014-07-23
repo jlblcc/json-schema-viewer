@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <head>
     <meta charset="utf-8">
-    <title>JSON Schema Viewer</title>
+    <title>ADIwg JSON Schema Viewer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.3/jquery.mobile-1.4.3.min.css" />
     <style type="text/css">
         html, body {
@@ -24,6 +25,25 @@
             padding-top: 5em;
             background-color: #FFF;
             z-index: 1000;
+        }
+
+    /******Viewer*******/
+        #main-body {
+            position: relative;
+        }
+
+        #zoom-controls {
+            position: absolute;
+            top: 15px;
+            left: 10px;
+        }
+
+        #legend {
+            width: 200px;
+            position: absolute;
+            right: 20px;
+            top: 15px;
+            font-size: .9em;
         }
 
         .node {
@@ -102,76 +122,27 @@
             stroke: #ccc;
             stroke-width: 1.5px;
         }
+    /*****Validator*****/
 
-        /*.templink {
-            fill: none;
-            stroke: red;
-            stroke-width: 3px;
-        }
-
-        .ghostCircle.show {
-            display: block;
-        }
-
-        .ghostCircle, .activeDrag .ghostCircle {
-            display: none;
-        }
-
-        #buttons {
-            position: fixed;
-            padding: 10px;
-            display: none;
-        }
-
-        button {
-            padding: 5px 10px;
-            margin: 3px;
-            font-size: 18px;
-        }
-
-        div.info {
-            position: relative;
-            display: inline-block;
-            font-size: 24px;
-            font-family: sans-serif;
-            margin-left: 10px;
-        }
-
-        div.info p {
-            display: none;
-        }
-
-        div.info:hover p {/*the span will display just on :hover state*/
-        /*    display: block;
-            position: absolute;
-            top: -10px;
-            left: 25px;
-            width: 15em;
-            border: 5px solid #709DC3;
-            background-color: #fff;
-            color: #000;
-            text-align: center;
-            padding: 10px;
-        }*/
-
-/*********************/
-    #main-body {
-        position: relative;
+    #textarea-json {
+        height: auto !important;
+        overflow-y: auto;
     }
 
-    #zoom-controls {
-        position: absolute;
-        top: 15px;
-        left: 10px;
+    #validator-page .section {
+        padding: 1em;
     }
 
-    #legend {
-        width: 200px;
-        position: absolute;
-        right: 20px;
-        top: 15px;
-        font-size: .9em;
+    #validator-page .drag {
+        background-color: lightgreen;
     }
+
+    /*****JQM Overrides*****/
+
+    .ui-icon-loading {
+        background:none !important;
+    }
+
     /* Adjust the width of the panels. */
     /* Panel */
      .ui-panel {
@@ -295,17 +266,18 @@
 
   <div class="ui-responsive-panel" data-role="page" id="viewer-page">
         <div data-role="header">
-            <!--<div data-role="controlgroup" data-type="horizontal" class="ui-btn-left ui-corner-all">-->
-                <a class="ui-btn ui-btn-icon-left ui-icon-bars ui-btn-icon-notext ui-corner-all" data-iconpos="notext" href="#info-panel" title="Toggle Info">Menu</a>
+            <div data-role="controlgroup" data-type="horizontal" class="ui-btn-left">
+                <a class="ui-btn ui-corner-all ui-icon-bars ui-btn-icon-notext" href="#info-panel" title="Toggle Info">Menu</a>
+                <a class="ui-btn ui-corner-all ui-icon-check ui-btn-icon-left" href="#validator-page" title="Go to Validator">Validator</a>
                 <!--<a href="#" class="ui-btn ui-btn-icon-right ui-icon-plus ui-btn-icon-notext ui-corner-all">Zoom-in</a>
-                <a href="#" class="ui-btn ui-btn-icon-right ui-icon-minus ui-btn-icon-notext ui-corner-all">Zoom-out</a>
+                <a href="#" class="ui-btn ui-btn-icon-right ui-icon-minus ui-btn-icon-notext ui-corner-all">Zoom-out</a>-->
 
-            </div>-->
-            <h1>JSON Schema Viewer</h1>
+            </div>
+            <h1>ADIwg mdJSON Schema Viewer</h1>
             <a class="ui-btn-right ui-btn ui-icon-info ui-btn-icon-notext ui-corner-all" href="#help-panel"  title="Toggle Help">Help</a>
 
         </div>
-        <div class="ui-content" id="main-body">
+        <div  role="main" class="ui-content" id="main-body">
             <div id="zoom-controls">
                 <a id="zoom_in" href="#" class="ui-btn ui-icon-plus ui-btn-icon-notext ui-corner-all" title="Zoom In">Zoom-in</a>
                 <a id="zoom_out" href="#" class="ui-btn ui-icon-minus ui-btn-icon-notext ui-corner-all" title="Zoom Out">Zoom-out</a>
@@ -360,6 +332,32 @@
         </div>
     </div>
 
+    <div data-role="page" id="validator-page">
+        <div data-role="header">
+            <h1>ADIwg mdJSON Validator</h1>
+            <a class="ui-btn-left ui-btn ui-icon-eye ui-btn-icon-left ui-corner-all" href="#viewer-page"  title="Go to Viewer">Viewer</a>
+        </div>
+        <div role="main" class="ui-content">
+            <div class="ui-grid-a ui-responsive">
+                <div class="ui-block-a section">
+                    <label for="textarea-json">JSON to Validate:</label>
+                    <textarea cols="40" rows="15" name="textarea-json" id="textarea-json" placeholder="Enter your JSON or Drag-n-Drop a file here..."></textarea>
+                </div>
+                <div class="ui-block-b section">
+                    <label for="file-upload">Upload File:</label>
+                    <input id="file-upload" type="file" name="file" data-role=""/>
+                    <fieldset data-role="controlgroup">
+                        <legend>Options:</legend>
+                        <input type="checkbox" name="checkbox-v-2a" id="checkbox-v-2a">
+                        <label for="checkbox-v-2a">Strict</label>
+                        <input type="checkbox" name="checkbox-v-2b" id="checkbox-v-2b">
+                        <label for="checkbox-v-2b">Stop at First Error</label>
+                    </fieldset>
+                </div>
+            </div>
+            <button class="ui-btn ui-icon-check ui-btn-icon-bottom">Validate!</button>
+        </div>
+    </div>
 
 
     <script src="tv4.min.js"></script>
@@ -367,6 +365,7 @@
     <script src="http://code.jquery.com/mobile/1.4.3/jquery.mobile-1.4.3.min.js"></script>
     <script src="tv4.async-load-jquery.js"></script>
     <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script type='text/javascript' src='lib/filereader/filereader.js'></script>
     <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/styles/default.min.css">
     <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/highlight.min.js"></script>
     <!-- <link rel="stylesheet" href="prism.css">
