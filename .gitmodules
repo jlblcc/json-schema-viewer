@@ -3,4 +3,4 @@
 	url = https://github.com/adiwg/adiwg-json-schemas.git
 [submodule "lib/filereader"]
 	path = lib/filereader
-	url = git@github.com:jlblcc/filereader.js.git
+	url = https://github.com/jlblcc/filereader.js.git
