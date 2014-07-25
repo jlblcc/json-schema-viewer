@@ -18,6 +18,9 @@ if (typeof JSV === "undefined") {
             //Prism.languages.json = Prism.languages.javascript;
             this.createDiagram();
             this.initValidator();
+
+            //initialize error popup
+            $( "#popup-error" ).enhanceWithin().popup();
         },
         /**
          * Schema to load
@@ -34,8 +37,40 @@ if (typeof JSV === "undefined") {
             $("#main-body.ui-content").css("min-height", content + "px");
         },
 
+        showError: function(msg) {
+            $("#popup-error .error-message").html(msg);
+            $("#popup-error").popup("open");
+        },
+
         initValidator: function() {
-            var opts = {};
+            var opts = {
+                readAsDefault: 'Text',
+                on: {
+                    load: function(e, file) {
+                        var data = e.currentTarget.result;
+
+                        try {
+                            $.parseJSON(data);
+                        } catch(e) {
+                            JSV.showError('Unable to parse JSON: <br/>' + e);
+                        }
+
+                        if (data === null) {
+                            JSV.showError('Failed to load ' + file.name + '. The file is not valid JSON.');
+                        } else {
+                            //console.info(data);
+                            $('#textarea-json').val(data);
+                        }
+
+                    },
+                    error: function(e, file) {
+                        var msg = 'Failed to load ' + file.name + '. ' + e.currentTarget.error.message;
+
+                        JSV.showError(msg);
+                    }
+                }
+            };
+
 
             $("#file-upload, #textarea-json").fileReaderJS(opts);
             $("body").fileClipboard(opts);

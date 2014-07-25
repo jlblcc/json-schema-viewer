@@ -6,265 +6,281 @@
     <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.3/jquery.mobile-1.4.3.min.css" />
     <style type="text/css">
         html, body {
-            padding: 0;
-            margin: 0;
-            overflow: hidden;
+          padding: 0;
+          margin: 0;
+          overflow: hidden;
         }
 
         #preload {
-            background: url(loader.gif) no-repeat -9999px -9999px;
-        }
-        #loading {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            text-align: center;
-            font-weight: 900;
-            padding-top: 5em;
-            background-color: #FFF;
-            z-index: 1000;
+          background: url(loader.gif) no-repeat -9999px -9999px;
         }
 
-    /******Viewer*******/
+        #loading {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          text-align: center;
+          font-weight: 900;
+          padding-top: 5em;
+          background-color: #FFF;
+          z-index: 1000;
+        }
+
+        p.ui-content.error-message {
+          min-width: 10em;
+          text-align: center;
+        }
+                /******Viewer*******/
         #main-body {
-            position: relative;
+          position: relative;
         }
 
         #zoom-controls {
-            position: absolute;
-            top: 15px;
-            left: 10px;
+          position: absolute;
+          top: 15px;
+          left: 10px;
         }
 
         #legend {
-            width: 200px;
-            position: absolute;
-            right: 20px;
-            top: 15px;
-            font-size: .9em;
+          width: 200px;
+          position: absolute;
+          right: 20px;
+          top: 15px;
+          font-size: .9em;
         }
 
         .node {
-            cursor: pointer;
+          cursor: pointer;
         }
 
         .overlay {
-            background-color: inherit;
+          background-color: inherit;
         }
 
         .node circle, #legend circle {
-            fill: #fff;
-            stroke: steelblue;
-            stroke-width: 1.5px;
+          fill: #fff;
+          stroke: steelblue;
+          stroke-width: 1.5px;
         }
 
         .node circle.collapsed, #legend circle.collapsed {
-            fill: lightsteelblue;
+          fill: lightsteelblue;
         }
 
         .node .abstract, #legend .abstract {
-            font-style: italic;
+          font-style: italic;
         }
 
         .node.label {
-            cursor: default;
+          cursor: default;
         }
 
         .node.label circle, .node.label circle:hover {
-            stroke: #ccc;
-            stroke-width: 1.5px;
+          stroke: #ccc;
+          stroke-width: 1.5px;
         }
 
         .node text {
-            font-size: 14px;
-            font-family: sans-serif;
+          font-size: 14px;
+          font-family: sans-serif;
         }
 
         .node text:hover {
-            text-decoration: underline;
+          text-decoration: underline;
         }
 
         .node.label text:hover {
-            text-decoration: none;
+          text-decoration: none;
         }
 
         .node.focus, #legend .focus {
-            font-weight: bold;
+          font-weight: bold;
         }
 
         .node.focus circle, #legend .focus circle {
-            stroke: #0ECC43;
-            stroke-width: 2px;
+          stroke: #0ECC43;
+          stroke-width: 2px;
         }
 
         .node circle:hover, .focus circle:hover {
-            stroke-width: 3px;
+          stroke-width: 3px;
         }
+
         #info-panel .ui-title {
-            margin: 0 20%;
+          margin: 0 20%;
         }
 
         #info-panel .info-tab {
-            overflow: hidden;
+          overflow: hidden;
         }
 
         #info-panel .info-tab pre {
-            overflow: auto;
+          overflow: auto;
         }
-        /*#info-panel #info-tab-schema {
-            overflow: hidden;
-        }-*/
+                /*#info-panel #info-tab-schema {
+                overflow: hidden;
+                }-*/
 
         .link {
-            fill: none;
-            stroke: #ccc;
-            stroke-width: 1.5px;
+          fill: none;
+          stroke: #ccc;
+          stroke-width: 1.5px;
         }
-    /*****Validator*****/
+                /*****Validator*****/
 
-    #textarea-json {
-        height: auto !important;
-        overflow-y: auto;
-    }
+        #textarea-json {
+          height: auto !important;
+          overflow-y: auto;
+        }
 
-    #validator-page .section {
-        padding: 1em;
-    }
+        #validator-page {
+          height: 100%;
+        }
 
-    #validator-page .drag {
-        background-color: lightgreen;
-    }
+        #validator-page .section {
+          padding: 1em;
+        }
 
-    /*****JQM Overrides*****/
+        #validator-page .drag {
+          background-color: lightgreen;
+        }
 
-    .ui-icon-loading {
-        background:none !important;
-    }
+                /*****JQM Overrides*****/
 
-    /* Adjust the width of the panels. */
-    /* Panel */
-     .ui-panel {
-        width: 25em;
-        min-height: 100%;
-        max-height: none;
-        border-width: 0;
-        position: absolute;
-        top: 0;
-        display: block;
-    }
-    /* Panel positioning (for overlay and push) */
+        .ui-icon-loading {
+          background: none !important;
+        }
 
-    /* Panel left closed */
-     .ui-panel-position-left {
-        left: -25em;
-    }
-    /* Panel left closed animated */
-     .ui-panel-animate.ui-panel-position-left.ui-panel-display-overlay, .ui-panel-animate.ui-panel-position-left.ui-panel-display-push {
-        left: 0;
-        -webkit-transform: translate3d(-25em, 0, 0);
-        -moz-transform: translate3d(-25em, 0, 0);
-        transform: translate3d(-25em, 0, 0);
-    }
-    /* Panel left open */
-     .ui-panel-position-left.ui-panel-display-reveal,
-    /* Unset "panel left closed" for reveal */
-     .ui-panel-open.ui-panel-position-left {
-        left: 0;
-    }
-    /* Panel right closed */
-     .ui-panel-position-right {
-        right: -25em;
-    }
-    /* Panel right closed animated */
-     .ui-panel-animate.ui-panel-position-right.ui-panel-display-overlay, .ui-panel-animate.ui-panel-position-right.ui-panel-display-push {
-        right: 0;
-        -webkit-transform: translate3d(25em, 0, 0);
-        -moz-transform: translate3d(25em, 0, 0);
-        transform: translate3d(25em, 0, 0);
-    }
-    /* Wrapper and fixed toolbars positioning (for reveal and push) */
+                /* Adjust the width of the panels. */
+                /* Panel */
+        .ui-panel {
+          width: 25em;
+          min-height: 100%;
+          max-height: none;
+          border-width: 0;
+          position: absolute;
+          top: 0;
+          display: block;
+        }
+                /* Panel positioning (for overlay and push) */
 
-    /* Panel left open */
-     .ui-panel-page-content-position-left {
-        left: 25em;
-        right: -25em;
-    }
-    /* Panel left open animated */
-     .ui-panel-animate.ui-panel-page-content-position-left {
-        left: 0;
-        right: 0;
-        -webkit-transform: translate3d(25em, 0, 0);
-        -moz-transform: translate3d(25em, 0, 0);
-        transform: translate3d(25em, 0, 0);
-    }
-    /* Panel right open */
-     .ui-panel-page-content-position-right {
-        left: -25em;
-        right: 25em;
-    }
-    /* Panel right open animated */
-     .ui-panel-animate.ui-panel-page-content-position-right {
-        left: 0;
-        right: 0;
-        -webkit-transform: translate3d(-25em, 0, 0);
-        -moz-transform: translate3d(-25em, 0, 0);
-        transform: translate3d(-25em, 0, 0);
-    }
-    /* Dismiss model open */
-     .ui-panel-dismiss-open.ui-panel-dismiss-position-left {
-        left: 25em;
-    }
-    .ui-panel-dismiss-open.ui-panel-dismiss-position-right {
-        right: 25em;
-    }
-    /* Responsive: wrap on wide viewports once open */
-     @media (min-width:55em) {
-        .ui-responsive-panel .ui-panel-page-content-open.ui-panel-page-content-position-left {
+                /* Panel left closed */
+        .ui-panel-position-left {
+          left: -25em;
+        }
+                /* Panel left closed animated */
+        .ui-panel-animate.ui-panel-position-left.ui-panel-display-overlay, .ui-panel-animate.ui-panel-position-left.ui-panel-display-push {
+          left: 0;
+          -webkit-transform: translate3d(-25em, 0, 0);
+          -moz-transform: translate3d(-25em, 0, 0);
+          transform: translate3d(-25em, 0, 0);
+        }
+                /* Panel left open */
+        .ui-panel-position-left.ui-panel-display-reveal,
+                /* Unset "panel left closed" for reveal */
+                .ui-panel-open.ui-panel-position-left {
+          left: 0;
+        }
+                /* Panel right closed */
+        .ui-panel-position-right {
+          right: -25em;
+        }
+                /* Panel right closed animated */
+        .ui-panel-animate.ui-panel-position-right.ui-panel-display-overlay, .ui-panel-animate.ui-panel-position-right.ui-panel-display-push {
+          right: 0;
+          -webkit-transform: translate3d(25em, 0, 0);
+          -moz-transform: translate3d(25em, 0, 0);
+          transform: translate3d(25em, 0, 0);
+        }
+                /* Wrapper and fixed toolbars positioning (for reveal and push) */
+
+                /* Panel left open */
+        .ui-panel-page-content-position-left {
+          left: 25em;
+          right: -25em;
+        }
+                /* Panel left open animated */
+        .ui-panel-animate.ui-panel-page-content-position-left {
+          left: 0;
+          right: 0;
+          -webkit-transform: translate3d(25em, 0, 0);
+          -moz-transform: translate3d(25em, 0, 0);
+          transform: translate3d(25em, 0, 0);
+        }
+                /* Panel right open */
+        .ui-panel-page-content-position-right {
+          left: -25em;
+          right: 25em;
+        }
+                /* Panel right open animated */
+        .ui-panel-animate.ui-panel-page-content-position-right {
+          left: 0;
+          right: 0;
+          -webkit-transform: translate3d(-25em, 0, 0);
+          -moz-transform: translate3d(-25em, 0, 0);
+          transform: translate3d(-25em, 0, 0);
+        }
+                /* Dismiss model open */
+        .ui-panel-dismiss-open.ui-panel-dismiss-position-left {
+          left: 25em;
+        }
+
+        .ui-panel-dismiss-open.ui-panel-dismiss-position-right {
+          right: 25em;
+        }
+                /* Responsive: wrap on wide viewports once open */
+        @media (min-width:55em) {
+          .ui-responsive-panel .ui-panel-page-content-open.ui-panel-page-content-position-left {
             margin-right: 25em;
-        }
-        .ui-responsive-panel .ui-panel-page-content-open.ui-panel-page-content-position-right {
+          }
+
+          .ui-responsive-panel .ui-panel-page-content-open.ui-panel-page-content-position-right {
             margin-left: 25em;
-        }
-        .ui-responsive-panel .ui-panel-page-content-open {
+          }
+
+          .ui-responsive-panel .ui-panel-page-content-open {
             width: auto;
-        }
-        .ui-responsive-panel .ui-panel-dismiss-display-push, .ui-responsive-panel.ui-page-active ~ .ui-panel-dismiss-display-push {
+          }
+
+          .ui-responsive-panel .ui-panel-dismiss-display-push, .ui-responsive-panel.ui-page-active ~ .ui-panel-dismiss-display-push {
             display: none;
+          }
         }
-    }
     </style>
 </head>
 <body>
     <div id="loading">
-        <div id="preload"><img src="loader.gif" alt="Loading..."/><br />Loading...</div>
+        <div id="preload"><img src="loader.gif" alt="Loading..."/>
+            <br />
+            Loading...
+        </div>
     </div>
     <!--<div id="buttons">
-        <button id="zoom_in" title="Zoom in (Dbl-click diagram)">
-            +
-        </button>
-        <button id="zoom_out" title="Zoom out (Shift+Dbl-click diagram)">
-            -
-        </button>
-        <div class="info">
-            ?
-            <p>
-                This is a diagram of the ADIwg json-schema built using D3.js and tv4, with a bit of jQuery ajax.
-                <br />
-                <br />
-                Drag the schema diagram to pan. Use the buttons to zoom, or Double-click to zoom-in; Shift+Double-click to
-                zoom-out.
-                <br />
-                <br />
-                Click a node to collapse/expand. Clicking a node centers the diagram.
-            </p>
-        </div>
+    <button id="zoom_in" title="Zoom in (Dbl-click diagram)">
+    +
+    </button>
+    <button id="zoom_out" title="Zoom out (Shift+Dbl-click diagram)">
+    -
+    </button>
+    <div class="info">
+    ?
+    <p>
+    This is a diagram of the ADIwg json-schema built using D3.js and tv4, with a bit of jQuery ajax.
+    <br />
+    <br />
+    Drag the schema diagram to pan. Use the buttons to zoom, or Double-click to zoom-in; Shift+Double-click to
+    zoom-out.
+    <br />
+    <br />
+    Click a node to collapse/expand. Clicking a node centers the diagram.
+    </p>
+    </div>
     </div>
     <div id="tree-container"></div>-->
 
-
-  <div class="ui-responsive-panel" data-role="page" id="viewer-page">
+    <div class="ui-responsive-panel" data-role="page" id="viewer-page">
         <div data-role="header">
             <div data-role="controlgroup" data-type="horizontal" class="ui-btn-left">
                 <a class="ui-btn ui-corner-all ui-icon-bars ui-btn-icon-notext" href="#info-panel" title="Toggle Info">Menu</a>
@@ -313,14 +329,20 @@
                 </div>
                 <div class="ui-body-d ui-content info-tab" id="info-tab-def">
                     <h4>Definition:</h4>
-                    <p id="info-definition">Select a node to view the definition.</p>
+                    <p id="info-definition">
+                        Select a node to view the definition.
+                    </p>
                     <hr />
                 </div>
                 <div class="ui-body-d ui-content info-tab"  id="info-tab-example">
-                    <p>Select a node to view the example.</p>
+                    <p>
+                        Select a node to view the example.
+                    </p>
                 </div>
                 <div class="ui-body-d ui-content info-tab"  id="info-tab-schema">
-                    <p>Select a node to view the JSON schema.</p>
+                    <p>
+                        Select a node to view the JSON schema.
+                    </p>
                 </div>
             </div>
         </div>
@@ -347,7 +369,9 @@
                     <label for="file-upload">Upload File:</label>
                     <input id="file-upload" type="file" name="file" data-role=""/>
                     <fieldset data-role="controlgroup">
-                        <legend>Options:</legend>
+                        <legend>
+                            Options:
+                        </legend>
                         <input type="checkbox" name="checkbox-v-2a" id="checkbox-v-2a">
                         <label for="checkbox-v-2a">Strict</label>
                         <input type="checkbox" name="checkbox-v-2b" id="checkbox-v-2b">
@@ -355,10 +379,20 @@
                     </fieldset>
                 </div>
             </div>
-            <button class="ui-btn ui-icon-check ui-btn-icon-bottom">Validate!</button>
+            <button class="ui-btn ui-icon-check ui-btn-icon-bottom">
+                Validate!
+            </button>
         </div>
-    </div>
 
+    </div>
+    <div id="popup-error" data-theme="a" data-overlay-theme="b">
+        <div data-role="header" data-theme="a">
+            <h1>Error!</h1>
+        </div>
+        <p class="ui-content error-message">
+            If you see this, something went wrong.
+        </p>
+    </div>
 
     <script src="tv4.min.js"></script>
     <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
