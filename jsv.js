@@ -30,7 +30,7 @@ if (typeof JSV === "undefined") {
         /**
          * Schema to load
          */
-        schema: window.location.origin + '/adiwg-json-schemas/schema/schema.json',
+        schema: window.location.origin + window.location.pathname + 'adiwg-json-schemas/schema/schema.json',
 
         contentHeight: function() {
             var screen = $.mobile.getScreenHeight();
