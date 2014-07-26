@@ -11,6 +11,11 @@ if (typeof JSV === "undefined") {
          * Initializes this object.
          */
         init: function() {
+            //fix for IE
+            if (!window.location.origin) {
+              window.location.origin = window.location.protocol + "//" + window.location.hostname + (window.location.port ? ':' + window.location.port: '');
+            }
+
             $(document).on("pagecontainertransition", this.contentHeight);
             $(window).on("throttledresize orientationchange", this.contentHeight);
             $(window).on("resize", this.contentHeight); //TODO: currently not picked up by the static d3 variables
@@ -25,7 +30,7 @@ if (typeof JSV === "undefined") {
         /**
          * Schema to load
          */
-        schema: 'adiwg-json-schemas/schema/schema.json',
+        schema: window.location.origin + '/adiwg-json-schemas/schema/schema.json',
 
         contentHeight: function() {
             var screen = $.mobile.getScreenHeight();
@@ -51,15 +56,11 @@ if (typeof JSV === "undefined") {
 
                         try {
                             $.parseJSON(data);
-                        } catch(e) {
-                            JSV.showError('Unable to parse JSON: <br/>' + e);
-                        }
-
-                        if (data === null) {
-                            JSV.showError('Failed to load ' + file.name + '. The file is not valid JSON.');
-                        } else {
                             //console.info(data);
                             $('#textarea-json').val(data);
+                        } catch(e) {
+                            //JSV.showError('Unable to parse JSON: <br/>' + e);
+                            JSV.showError('Failed to load ' + file.name + '. The file is not valid JSON. <br/>The error: <i>' + e + '</i>');
                         }
 
                     },
@@ -74,6 +75,54 @@ if (typeof JSV === "undefined") {
 
             $("#file-upload, #textarea-json").fileReaderJS(opts);
             $("body").fileClipboard(opts);
+
+
+            $("#button-validate").click(function() {
+                var result = JSV.validate();
+
+                if (result) {
+                    JSV.showResult(result);
+                }
+                //console.info(result);
+            });
+        },
+
+        validate: function() {
+            try {
+                var data = $.parseJSON($('#textarea-json').val());
+            } catch(e) {
+                JSV.showError('Unable to parse JSON: <br/>' + e);
+            }
+
+            if (data) {
+                var stop = $("#checkbox-stop").is(':checked'),
+                    strict = $("#checkbox-strict").is(':checked'),
+                    schema = tv4.getSchemaMap()[this.schema], result,
+                    result;
+
+                if (stop) {
+                    var r = tv4.validate(data, schema, false, strict);
+                    result = {
+                        valid: r,
+                        errors: !r ? [tv4.error] : []
+                    };
+                } else {
+                    result = tv4.validateMultiple(data, schema, false, strict);
+                }
+
+                return result;
+            }
+
+        },
+
+        showResult: function(result) {
+            var cont = $("#validation-results");
+
+            if(result.valid) {
+                cont.html('<p class=ui-content>JSON is valid!</p>');
+            } else {
+                cont.html('<p class=ui-content>JSON is <b>NOT</b> valid!</p>');
+            }
         },
 
         setInfo: function(node) {

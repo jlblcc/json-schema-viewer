@@ -372,16 +372,18 @@
                         <legend>
                             Options:
                         </legend>
-                        <input type="checkbox" name="checkbox-v-2a" id="checkbox-v-2a">
-                        <label for="checkbox-v-2a">Strict</label>
-                        <input type="checkbox" name="checkbox-v-2b" id="checkbox-v-2b">
-                        <label for="checkbox-v-2b">Stop at First Error</label>
+                        <input type="checkbox" name="checkbox-strict" id="checkbox-strict">
+                        <label for="checkbox-strict">Strict</label>
+                        <input type="checkbox" name="checkbox-stop" id="checkbox-stop">
+                        <label for="checkbox-stop">Stop at First Error</label>
                     </fieldset>
                 </div>
             </div>
-            <button class="ui-btn ui-icon-check ui-btn-icon-bottom">
+            <button id="button-validate" class="ui-btn ui-icon-check ui-btn-icon-bottom">
                 Validate!
             </button>
+            <div id="validation-results" class="ui-responsive">
+            </div>
         </div>
 
     </div>
@@ -394,7 +396,7 @@
         </p>
     </div>
 
-    <script src="tv4.min.js"></script>
+    <script src="lib/tv4/tv4.min.js"></script>
     <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
     <script src="http://code.jquery.com/mobile/1.4.3/jquery.mobile-1.4.3.min.js"></script>
     <script src="tv4.async-load-jquery.js"></script>
