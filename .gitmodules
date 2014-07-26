@@ -4,3 +4,6 @@
 [submodule "lib/filereader"]
 	path = lib/filereader
 	url = https://github.com/jlblcc/filereader.js.git
+[submodule "lib/tv4"]
+	path = lib/tv4
+	url = https://github.com/jlblcc/tv4.git
