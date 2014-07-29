@@ -116,13 +116,36 @@ if (typeof JSV === "undefined") {
         },
 
         showResult: function(result) {
-            var cont = $("#validation-results");
+            var cont = $("#validation-results"), ui;
 
             if(result.valid) {
                 cont.html('<p class=ui-content>JSON is valid!</p>');
             } else {
-                cont.html('<p class=ui-content>JSON is <b>NOT</b> valid!</p>');
+                ui = cont.html('<div class=ui-content>JSON is <b>NOT</b> valid!</div>');
+                $.each(result.errors, function(i, err){
+                    var me = JSV.buildValError(err, 'Error ' + (i+1) + ': ');
+
+                    if(err.subErrors) {
+                        $.each(err.subErrors, function(i, sub){
+                            me.append(JSV.buildValError(sub, 'SubError ' + (i+1) + ': '));
+                        });
+                    }
+
+                    ui.children('.ui-content').first().append(me).enhanceWithin();
+                });
             }
+
+            cont.toggleClass('error', !result.valid);
+        },
+
+        buildValError: function(err, title) {
+            var main = '<div data-role="collapsible" data-collapsed="true" data-mini="true">' +
+                            '<h4>' + (title || 'Error: ') + err.message + '</h4>' +
+                            '<ul><li>Message: '+ err.message + '</li>' +
+                            '<li>Data Path: '+ err.dataPath + '</li>' +
+                            '<li>Schema Path: '+ err.schemaPath + '</li></ul></div>';
+
+           return $(main);
         },
 
         setInfo: function(node) {
@@ -182,8 +205,21 @@ if (typeof JSV === "undefined") {
             pre.height(el.height() - btn.outerHeight(true) - (pre.outerHeight(true) - pre.height()));
         },
 
+        compilePath: function(node, path) {
+            var p;
+
+            if(node.parent) {
+                p = path ? node.name + ' > ' + path : node.name;
+                return this.compilePath(node.parent, p);
+            } else {
+                p = path ? node.name + ' > ' + path : node.name;
+            }
+
+            return p;
+        },
+
         /**
-         * TODO: Refactor this method to support refreshing diagram
+         * TODO: Refactor this method to support refreshing diagram, window resize, etc.
          */
         createDiagram: function() {
             tv4.addAllAsync(JSV.schema, function() {
@@ -332,11 +368,15 @@ if (typeof JSV === "undefined") {
                     resizeViewer();
                     if(focusNode) {
                         d3.select('#n-' + focusNode.id).classed('focus',true);
+                        $("#schema-path").html(JSV.compilePath(focusNode));
                     }
                 });
                 $("#info-panel").on("panelclose", function() {
                     resizeViewer();
-                    if(focusNode) {d3.select('#n-' + focusNode.id).classed('focus',false);}
+                    if (focusNode) {
+                        d3.select('#n-' + focusNode.id).classed('focus', false);
+                        $("#schema-path").html('Select a Node...');
+                    }
                 });
 
                 var tree = d3.layout.tree()
@@ -614,6 +654,7 @@ if (typeof JSV === "undefined") {
                         focusNode = d;
                         centerNode(d);
                         d3.select('#n-' + d.id).classed('focus',true);
+                        $("#schema-path").html(JSV.compilePath(d));
 
                         $("#info-title").text("Info: " + d.name);
                         JSV.setInfo(d);

@@ -37,6 +37,13 @@
           position: relative;
         }
 
+        #schema-path {
+          font-weight: 500;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
         #zoom-controls {
           position: absolute;
           top: 15px;
@@ -119,17 +126,12 @@
         #info-panel .info-tab pre {
           overflow: auto;
         }
-                /*#info-panel #info-tab-schema {
-                overflow: hidden;
-                }-*/
-
         .link {
           fill: none;
           stroke: #ccc;
           stroke-width: 1.5px;
         }
                 /*****Validator*****/
-
         #textarea-json {
           height: auto !important;
           overflow-y: auto;
@@ -147,12 +149,17 @@
           background-color: lightgreen;
         }
 
-                /*****JQM Overrides*****/
+        #validation-results {
+          background-color: #CBFCCB;
+        }
 
+        #validation-results.error {
+          background-color: #FFE3E3;
+        }
+                /*****JQM Overrides*****/
         .ui-icon-loading {
           background: none !important;
         }
-
                 /* Adjust the width of the panels. */
                 /* Panel */
         .ui-panel {
@@ -165,7 +172,6 @@
           display: block;
         }
                 /* Panel positioning (for overlay and push) */
-
                 /* Panel left closed */
         .ui-panel-position-left {
           left: -25em;
@@ -195,7 +201,6 @@
           transform: translate3d(25em, 0, 0);
         }
                 /* Wrapper and fixed toolbars positioning (for reveal and push) */
-
                 /* Panel left open */
         .ui-panel-page-content-position-left {
           left: 25em;
@@ -246,7 +251,7 @@
 
           .ui-responsive-panel .ui-panel-dismiss-display-push, .ui-responsive-panel.ui-page-active ~ .ui-panel-dismiss-display-push {
             display: none;
-          }
+          };
         }
     </style>
 </head>
@@ -291,8 +296,7 @@
             </div>
             <h1>ADIwg mdJSON Schema Viewer</h1>
             <a class="ui-btn-right ui-btn ui-icon-info ui-btn-icon-notext ui-corner-all" href="#help-panel"  title="Toggle Help">Help</a>
-
-        </div>
+        </div><!-- /header -->
         <div  role="main" class="ui-content" id="main-body">
             <div id="zoom-controls">
                 <a id="zoom_in" href="#" class="ui-btn ui-icon-plus ui-btn-icon-notext ui-corner-all" title="Zoom In">Zoom-in</a>
@@ -306,6 +310,9 @@
                 <div id="legend-items"></div>
             </div>
         </div>
+        <div data-role="footer">
+            <div id="schema-path" class="ui-content">Select a Node</div>
+        </div><!-- /footer -->
         <div data-display="push" data-role="panel" id="info-panel">
             <div data-role="header" data-theme="b" class="ui-mini">
                 <h1 id="info-title">Info</h1>
