@@ -1,3 +1,8 @@
+//fix for IE
+if (!window.location.origin) {
+  window.location.origin = window.location.protocol + "//" + window.location.hostname + (window.location.port ? ':' + window.location.port: '');
+}
+
 /**
  * JSV namespace.
  */
@@ -11,11 +16,6 @@ if (typeof JSV === "undefined") {
          * Initializes this object.
          */
         init: function() {
-            //fix for IE
-            if (!window.location.origin) {
-              window.location.origin = window.location.protocol + "//" + window.location.hostname + (window.location.port ? ':' + window.location.port: '');
-            }
-
             $(document).on("pagecontainertransition", this.contentHeight);
             $(window).on("throttledresize orientationchange", this.contentHeight);
             $(window).on("resize", this.contentHeight); //TODO: currently not picked up by the static d3 variables
@@ -58,9 +58,9 @@ if (typeof JSV === "undefined") {
                             $.parseJSON(data);
                             //console.info(data);
                             $('#textarea-json').val(data);
-                        } catch(e) {
+                        } catch(err) {
                             //JSV.showError('Unable to parse JSON: <br/>' + e);
-                            JSV.showError('Failed to load ' + file.name + '. The file is not valid JSON. <br/>The error: <i>' + e + '</i>');
+                            JSV.showError('Failed to load ' + file.name + '. The file is not valid JSON. <br/>The error: <i>' + err + '</i>');
                         }
 
                     },
@@ -88,8 +88,10 @@ if (typeof JSV === "undefined") {
         },
 
         validate: function() {
+            var data;
+
             try {
-                var data = $.parseJSON($('#textarea-json').val());
+                 data = $.parseJSON($('#textarea-json').val());
             } catch(e) {
                 JSV.showError('Unable to parse JSON: <br/>' + e);
             }
@@ -97,7 +99,7 @@ if (typeof JSV === "undefined") {
             if (data) {
                 var stop = $("#checkbox-stop").is(':checked'),
                     strict = $("#checkbox-strict").is(':checked'),
-                    schema = tv4.getSchemaMap()[this.schema], result,
+                    schema = tv4.getSchemaMap()[this.schema],
                     result;
 
                 if (stop) {
@@ -695,7 +697,7 @@ if (typeof JSV === "undefined") {
                         // d.y = (d.depth * 500); //500px per level.
                     });
                     // Update the nodes…
-                    node = svgGroup.selectAll("g.node")
+                    var node = svgGroup.selectAll("g.node")
                         .data(nodes, function(d) {
                             return d.id || (d.id = ++i);
                         });
