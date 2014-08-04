@@ -36,6 +36,33 @@ if (typeof JSV === "undefined") {
                 });
             };
 
+            //restore info-panel state
+            $("body").on("pagecontainershow", function(event, ui) {
+                var page = ui.toPage;
+
+                if(page.attr('id') === 'viewer-page') {
+                    if(page.jqmData('infoOpen')) {
+                        $('#info-panel'). panel("open");
+                    }
+                    //TODO: add this to "pagecontainercreate" handler on refactor
+                    if($("svg#jsv-tree").height() === 0) {
+                        $("svg#jsv-tree").attr("width", $("#main-body").width())
+                                         .attr("height", $("#main-body").height());
+                        JSV.resizeViewer();
+                        JSV.resetViewer();
+
+                    }
+
+                }
+            });
+
+            //store info-panel state
+            $("body").on("pagecontainerbeforehide", function(event, ui) {
+                var page = ui.prevPage;
+                if(page.attr('id') === 'viewer-page') {
+                    page.jqmData('infoOpen', !!page.find("#info-panel.ui-panel-open").length);
+                }
+            });
         },
         /**
          * Schema to load
@@ -379,6 +406,7 @@ if (typeof JSV === "undefined") {
                     }
                 };
 
+                JSV.resizeViewer = resizeViewer;
 
                 $("#info-panel").on("panelopen", function() {
                     resizeViewer();
@@ -397,6 +425,10 @@ if (typeof JSV === "undefined") {
 
                 var tree = d3.layout.tree()
                     .size([viewerHeight, viewerWidth]);
+
+                //Hack reference to make resize work;
+                //TODO: refactor;
+                //JSV.tree = tree;
 
                 // define a d3 diagonal projection for use by the node paths later on.
                 var diagonal1 = function(d) {
@@ -572,6 +604,9 @@ if (typeof JSV === "undefined") {
                     centerNode(root, 4);
                 }
 
+                //TODO: fix this hack on refactor
+                JSV.resetViewer = resetClick;
+
                 d3.selectAll('#zoom-controls>a').on('click', zoomClick);
                 d3.select('#tree-controls>a#reset-tree').on('click', resetClick);
 
@@ -582,11 +617,9 @@ if (typeof JSV === "undefined") {
                 var baseSvg = d3.select("#main-body").append("svg")
                     .attr("width", viewerWidth)
                     .attr("height", viewerHeight)
+                    .attr("id", "jsv-tree")
                     .attr("class", "overlay")
                     .call(zoomListener);
-
-
-
 
                 // Helper functions for collapsing and expanding nodes.
 
