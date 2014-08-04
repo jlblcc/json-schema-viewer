@@ -26,6 +26,16 @@ if (typeof JSV === "undefined") {
 
             //initialize error popup
             $( "#popup-error" ).enhanceWithin().popup();
+
+            ///highlight plugin
+            $.fn.highlight = function (str, className) {
+                var regex = new RegExp("\\b"+str+"\\b", "g");
+
+                return this.each(function () {
+                    this.innerHTML = this.innerHTML.replace(regex, function(matched) {return "<span class=\"" + className + "\">" + matched + "</span>";});
+                });
+            };
+
         },
         /**
          * Schema to load
@@ -164,13 +174,13 @@ if (typeof JSV === "undefined") {
             var height = ($('#info-panel').innerHeight() - $('#info-panel .ui-panel-inner').outerHeight() + $('#info-panel #info-tabs').height()) -
                 $('#info-panel #info-tabs-navbar').height() - (schema.outerHeight(true) - schema.height());
 
-            $("#info-definition").html(node.description || 'No definition provided.');
-
             $.each([schema, def, ex], function(i, e){
                 e.height(height);
             });
 
-            this.createPre(schema, tv4.getSchema(node.schema));
+            $("#info-definition").html(node.description || 'No definition provided.');
+
+            this.createPre(schema, tv4.getSchema(node.schema), false, node.plainName);
 
             $.getJSON(node.schema.match( /^(.*?)\.json/g ) + '/../../../examples/full_example.json', function(data) {
                 JSV.createPre(ex, data);
@@ -187,7 +197,7 @@ if (typeof JSV === "undefined") {
             //pre.height(height - btn.outerHeight(true) - (pre.outerHeight(true) - pre.height()));
         },
 
-        createPre: function(el, obj, title) {
+        createPre: function(el, obj, title, exp) {
             ///../../../examples/full_example.json
             var pre = $('<pre><code class="language-json">' + JSON.stringify(obj, null, '  ') + '</code></pre>');
             var btn = $('<a href="#" class="ui-btn ui-mini ui-icon-action ui-btn-icon-right">Open in new window</a>').click(function() {
@@ -201,6 +211,9 @@ if (typeof JSV === "undefined") {
 
             el.html(btn);
 
+            if(exp) {
+                pre.highlight(exp, 'highlight');
+            }
             el.append(pre);
             //setTimeout(function(){hljs.highlightBlock(pre[0]);},1000);
             //Prism.highlightElement(pre.children('code')[0]);
@@ -257,6 +270,7 @@ if (typeof JSV === "undefined") {
 
                     node.description = s.description;
                     node.name = (schema.$ref && real ? name : false) || s.title || name || 'schema';
+                    node.plainName = name;
                     node.type = s.type;
                     node.opacity = real ? 1 : 0.5;
                     node.required = s.required;
