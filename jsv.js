@@ -229,23 +229,18 @@ if (typeof JSV === "undefined") {
 
             this.createPre(schema, tv4.getSchema(node.schema), false, node.plainName);
 
-            $.getJSON(node.schema.match( /^(.*?)\.json/g ) + '/../../../examples/full_example.json', function(data) {
-                JSV.createPre(ex, data);
-            }).fail(function() {
-                ex.html('<h3>No example found.</h3>');
-                //console.log("error");
-            });
-
-
-            //schema.html(btn);
-
-            //schema.append(pre);
-            //hljs.highlightBlock(pre[0]);
-            //pre.height(height - btn.outerHeight(true) - (pre.outerHeight(true) - pre.height()));
+            if(node.example) {
+                $.getJSON(node.schema.match( /^(.*?)(?=[^\/]*\.json)/g ) + node.example, function(data) {
+                    JSV.createPre(ex, data);
+                }).fail(function() {
+                    ex.html('<h3>No example found.</h3>');
+                });
+            } else {
+                ex.html('<h3>No example available.</h3>');
+            }
         },
 
         createPre: function(el, obj, title, exp) {
-            ///../../../examples/full_example.json
             var pre = $('<pre><code class="language-json">' + JSON.stringify(obj, null, '  ') + '</code></pre>');
             var btn = $('<a href="#" class="ui-btn ui-mini ui-icon-action ui-btn-icon-right">Open in new window</a>').click(function() {
                 var w = window.open(null, "pre", null, true);
@@ -315,11 +310,12 @@ if (typeof JSV === "undefined") {
                         all.anyOf = s.anyOf;
                     }
 
-                    node.description = s.description;
+                    node.description = schema.description || s.description;
                     node.name = (schema.$ref && real ? name : false) || s.title || name || 'schema';
                     node.plainName = name;
                     node.type = s.type;
-                    node.translation = s.translation;
+                    node.translation = schema.translation || s.translation;
+                    node.example = schema.example || s.example;
                     node.opacity = real ? 1 : 0.5;
                     node.required = s.required;
                     node.schema = s.id || schema.$ref || parent.schema;
