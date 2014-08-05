@@ -207,6 +207,26 @@ if (typeof JSV === "undefined") {
 
             $("#info-definition").html(node.description || 'No definition provided.');
 
+            if(node.translation) {
+                var trans = $('<ul></ul>');
+
+                $.each(node.translation, function(p, v) {
+                    var li = $('<li>' + p + '</li>');
+                    var ul = $('<ul></ul>');
+
+                    $.each(v, function(i, e) {
+                       ul.append('<li>' + e + '</li>');
+                    });
+
+                    trans.append(li.append(ul));
+                });
+
+                $("#info-translation").html(trans);
+            } else {
+                $("#info-translation").html('No translations available.');
+            }
+
+
             this.createPre(schema, tv4.getSchema(node.schema), false, node.plainName);
 
             $.getJSON(node.schema.match( /^(.*?)\.json/g ) + '/../../../examples/full_example.json', function(data) {
@@ -299,6 +319,7 @@ if (typeof JSV === "undefined") {
                     node.name = (schema.$ref && real ? name : false) || s.title || name || 'schema';
                     node.plainName = name;
                     node.type = s.type;
+                    node.translation = s.translation;
                     node.opacity = real ? 1 : 0.5;
                     node.required = s.required;
                     node.schema = s.id || schema.$ref || parent.schema;
