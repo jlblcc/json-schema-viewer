@@ -243,7 +243,7 @@ if (typeof JSV === "undefined") {
         createPre: function(el, obj, title, exp) {
             var pre = $('<pre><code class="language-json">' + JSON.stringify(obj, null, '  ') + '</code></pre>');
             var btn = $('<a href="#" class="ui-btn ui-mini ui-icon-action ui-btn-icon-right">Open in new window</a>').click(function() {
-                var w = window.open(null, "pre", null, true);
+                var w = window.open("", "pre", null, true);
 
                 $(w.document.body).html(pre.clone().height('95%'));
                 hljs.highlightBlock($(w.document.body).children('pre')[0]);
