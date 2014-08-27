@@ -245,7 +245,7 @@ if (typeof JSV === "undefined") {
             var btn = $('<a href="#" class="ui-btn ui-mini ui-icon-action ui-btn-icon-right">Open in new window</a>').click(function() {
                 var w = window.open("", "pre", null, true);
 
-                $(w.document.body).html(pre.clone().height('95%'));
+                $(w.document.body).html($('<div>').append(pre.clone().height('95%')).html());
                 hljs.highlightBlock($(w.document.body).children('pre')[0]);
                 $(w.document.body).append('<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/styles/default.min.css">');
                 w.document.title = title || 'JSON Schema Viewer';
