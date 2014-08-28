@@ -605,17 +605,25 @@ if (typeof JSV === "undefined") {
                 }
 
                 function resetClick() {
+                    //Firefox will choke if the viewer-page is not visible
+                    //TODO: fix on refactor to use pagecontainer event
+                    var page = $("#viewer-page");
+
+                    page.css('display','block');
+
                     // Define the root
                     root = JSV.treeData;
                     root.x0 = viewerHeight / 2;
                     root.y0 = 0;
-
 
                     // Layout the tree initially and center on the root node.
                     // Call visit function to set initial depth
                     tree.nodes(root);
                     resetTree(root, 1);
                     update(root);
+
+                    //reset the style for viewer-page
+                    page.css('display', "");
 
                     //focusNode = root;
                     centerNode(root, 4);
