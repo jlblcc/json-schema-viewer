@@ -295,7 +295,19 @@ if (typeof JSV === "undefined") {
                         props = s.properties,
                         items = s.items,
                         owns = Object.prototype.hasOwnProperty,
-                        all = {};
+                        all = {},
+                        parentSchema = function(node) {
+                            var schema = node.id || node.$ref || node.schema;
+
+                            if (schema) {
+                                return schema;
+                            } else if (node.parentSchema) {
+                                return parentSchema(node.parentSchema);
+                            } else {
+                                return null;
+                            }
+                        };
+
 
 
                     if (s.allOf) {
@@ -318,7 +330,8 @@ if (typeof JSV === "undefined") {
                     node.example = schema.example || s.example;
                     node.opacity = real ? 1 : 0.5;
                     node.required = s.required;
-                    node.schema = s.id || schema.$ref || parent.schema;
+                    node.schema = s.id || schema.$ref || parentSchema(parent);
+                    node.parentSchema = parent;
                     node.require = parent && parent.required ? parent.required.indexOf(node.name) > -1 : false;
 
                     if (parent) {
@@ -364,7 +377,9 @@ if (typeof JSV === "undefined") {
                                 var allNode = {
                                     name: key,
                                     children: [],
-                                    opacity: 0.5
+                                    opacity: 0.5,
+                                    parentSchema: parent,
+                                    schema: schema.$ref || parentSchema(parent)
                                 };
 
 
@@ -375,7 +390,9 @@ if (typeof JSV === "undefined") {
                                 }
 
                                 all[key].forEach(function(itm){
-                                    compileData(itm, allNode, key);
+                                    var s = itm.$ref ? tv4.getSchema(itm.$ref) : itm;
+
+                                    compileData(itm, allNode, s.title || key);
                                 });
 
                             }
