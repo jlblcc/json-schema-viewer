@@ -231,6 +231,12 @@ if (typeof JSV === "undefined") {
 
             if(node.example) {
                 $.getJSON(node.schema.match( /^(.*?)(?=[^\/]*\.json)/g ) + node.example, function(data) {
+                    var pointer = node.example.split('#')[1];
+
+                    if(pointer) {
+                        data = jsonpointer.get(data, pointer);
+                    }
+
                     JSV.createPre(ex, data);
                 }).fail(function() {
                     ex.html('<h3>No example found.</h3>');
