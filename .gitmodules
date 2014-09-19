@@ -7,3 +7,6 @@
 [submodule "lib/tv4"]
 	path = lib/tv4
 	url = https://github.com/jlblcc/tv4.git
+[submodule "lib/jsonpointer"]
+	path = lib/jsonpointer
+	url = https://github.com/alexeykuzmin/jsonpointer.js.git
