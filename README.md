@@ -13,3 +13,4 @@ Built using:
  - [tv4](http://geraintluff.github.io/tv4/)
  - [FileReader.js](http://bgrins.github.io/filereader.js/)
  - [highlight.js](https://highlightjs.org/)
+ - [jsonpointer.js](https://github.com/alexeykuzmin/jsonpointer.js)
