@@ -333,7 +333,7 @@ if (typeof JSV === "undefined") {
                     node.name = (schema.$ref && real ? name : false) || s.title || name || 'schema';
                     node.plainName = name;
                     node.type = s.type;
-                    node.displayType = s.type || (s.enum ? 'enum' : s.items ? 'array' : s.properties ? 'object' : 'ambiguous');
+                    node.displayType = s.type || (s.enum ? 'enum: ' + s.enum.join(', ') : s.items ? 'array' : s.properties ? 'object' : 'ambiguous');
                     node.translation = schema.translation || s.translation;
                     node.example = schema.example || s.example;
                     node.opacity = real ? 1 : 0.5;
