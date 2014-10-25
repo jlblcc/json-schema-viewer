@@ -3,10 +3,12 @@ if (!window.location.origin) {
   window.location.origin = window.location.protocol + "//" + window.location.hostname + (window.location.port ? ':' + window.location.port: '');
 }
 
-/**
- * JSV namespace.
- */
+
 if (typeof JSV === "undefined") {
+    /**
+     * JSV namespace for JSON Schema Viewer.
+     * @namespace
+     */
     var JSV = {
         /**
          * The root schema to load.
@@ -14,9 +16,9 @@ if (typeof JSV === "undefined") {
         schema: '',
 
         /**
-         * The title to use in the viewer.
+         * The version of the schema.
          */
-        title: 'Viewer',
+        version: '',
 
         /**
          * Currently focused node
@@ -24,7 +26,7 @@ if (typeof JSV === "undefined") {
         focusNode: false,
 
         /**
-         * The diagram nodes
+         * @property {object} treeData The diagram nodes
          */
         treeData: null,
 
@@ -41,12 +43,17 @@ if (typeof JSV === "undefined") {
         /**
          * The default duration of the node transitions
          */
-        duration: 0,
+        duration: 750,
+
+        /**
+         * Counter for generating unique ids
+         */
+        counter: 0,
 
         maxLabelLength: 0,
 
         /**
-         * Nodes to render as non-clickable in the tree. They will auto-expand if child nodes are present.
+         * @property {object} labels Nodes to render as non-clickable in the tree. They will auto-expand if child nodes are present.
          */
         labels: {
             allOf: true,
@@ -55,20 +62,25 @@ if (typeof JSV === "undefined") {
             "object{ }": true
         },
 
-        /*
-         * The baseSvg, attaching a class for styling and the zoomListener
+        /**
+         * @property {array} baseSvg The base SVG element for the d3 diagram
          */
         baseSvg: null,
 
-        /*
-         * Group which holds all nodes and which the zoom Listener can act upon.
+        /**
+         * @property {array} svgGroup SVG group which holds all nodes and which the zoom Listener can act upon.
          */
         svgGroup: null,
 
         /**
-         * Initializes this object.
+         * Initializes the viewer.
+         *
+         * @param {object} config The configuration.
+         * @param {function} callback Function to run after schemas are loaded and
+         * diagram is created.
          */
-        init: function(config) {
+
+        init: function(config, callback) {
             var i;
             //apply config
             for (i in config) {
@@ -77,11 +89,14 @@ if (typeof JSV === "undefined") {
 
             $(document).on("pagecontainertransition", this.contentHeight);
             $(window).on("throttledresize orientationchange", this.contentHeight);
-            $(window).on("resize", this.contentHeight); //TODO: currently not picked up by the static d3 variables
-            //alias for Prism
-            //Prism.languages.json = Prism.languages.javascript;
-            this.createDiagram();
-            this.initValidator();
+            $(window).on("resize", this.contentHeight);
+
+            var cb = function() {
+                callback();
+                $("#loading").fadeOut("slow");
+            };
+            JSV.createDiagram(cb);
+            JSV.initValidator();
 
             //initialize error popup
             $( "#popup-error" ).enhanceWithin().popup();
@@ -107,7 +122,7 @@ if (typeof JSV === "undefined") {
                     if($("svg#jsv-tree").height() === 0) {
                         $("svg#jsv-tree").attr("width", $("#main-body").width())
                                          .attr("height", $("#main-body").height());
-                        this.resizeViewer();
+                        JSV.resizeViewer();
                         JSV.resetViewer();
 
                     }
@@ -125,25 +140,34 @@ if (typeof JSV === "undefined") {
 
             //resize viewer on panel open/close
             $("#info-panel").on("panelopen", function() {
+                var focus = JSV.focusNode;
+
                 JSV.resizeViewer();
-                if(focusNode) {
-                    d3.select('#n-' + focusNode.id).classed('focus',true);
-                    $("#schema-path").html(JSV.compilePath(focusNode));
+                if(focus) {
+                    d3.select('#n-' + focus.id).classed('focus',true);
+                    $("#schema-path").html(JSV.compilePath(focus));
                 }
             });
+
             $("#info-panel").on("panelclose", function() {
+                var focus = JSV.focusNode;
+
                 JSV.resizeViewer();
-                if (focusNode) {
-                    d3.select('#n-' + focusNode.id).classed('focus', false);
+                if (focus) {
+                    d3.select('#n-' + focus.id).classed('focus', false);
                     $("#schema-path").html('Select a Node...');
                 }
             });
 
             //setup controls
-            d3.selectAll('#zoom-controls>a').on('click', this.zoomClick);
-            d3.select('#tree-controls>a#reset-tree').on('click', this.resetViewer);
+            d3.selectAll('#zoom-controls>a').on('click', JSV.zoomClick);
+            d3.select('#tree-controls>a#reset-tree').on('click', JSV.resetViewer);
+
         },
 
+        /**
+         * (Re)set the viewer page height, set the diagram dimensions.
+         */
         contentHeight: function() {
             var screen = $.mobile.getScreenHeight(),
                 header = $(".ui-header").hasClass("ui-header-fixed") ? $(".ui-header").outerHeight() - 1 : $(".ui-header").outerHeight(),
@@ -156,6 +180,23 @@ if (typeof JSV === "undefined") {
             JSV.resizeViewer();
         },
 
+        /**
+         * Set version of the schema and the content
+         * of any elemant with the class *schema-version*.
+         *
+         * @param {string} version
+         */
+        setVersion: function(version) {
+            JSV.version = version;
+
+            $(".schema-version").text(version);
+        },
+
+        /**
+         * Display an error message.
+         *
+         * @param {string} msg The message to display.
+         */
         showError: function(msg) {
             $("#popup-error .error-message").html(msg);
             $("#popup-error").popup("open");
@@ -195,12 +236,15 @@ if (typeof JSV === "undefined") {
                 var result = JSV.validate();
 
                 if (result) {
-                    JSV.showResult(result);
+                    JSV.showValResult(result);
                 }
                 //console.info(result);
             });
         },
 
+        /**
+         * Validate using tv4 and currently loaded schema(s).
+         */
         validate: function() {
             var data;
 
@@ -213,7 +257,7 @@ if (typeof JSV === "undefined") {
             if (data) {
                 var stop = $("#checkbox-stop").is(':checked'),
                     strict = $("#checkbox-strict").is(':checked'),
-                    schema = tv4.getSchemaMap()[this.schema],
+                    schema = tv4.getSchemaMap()[JSV.schema],
                     result;
 
                 if (stop) {
@@ -231,7 +275,12 @@ if (typeof JSV === "undefined") {
 
         },
 
-        showResult: function(result) {
+        /**
+         * Display the validation result
+         *
+         * @param {object} result A result object, ouput from [validate]{@link JSV.validate}
+         */
+        showValResult: function(result) {
             var cont = $("#validation-results"), ui;
 
             if(result.valid) {
@@ -254,6 +303,12 @@ if (typeof JSV === "undefined") {
             cont.toggleClass('error', !result.valid);
         },
 
+        /**
+         * Build a collapsible validation block.
+         *
+         * @param {object} err The error object
+         * @param {title} title The title for the error block
+         */
         buildValError: function(err, title) {
             var main = '<div data-role="collapsible" data-collapsed="true" data-mini="true">' +
                             '<h4>' + (title || 'Error: ') + err.message + '</h4>' +
@@ -264,14 +319,13 @@ if (typeof JSV === "undefined") {
            return $(main);
         },
 
+        /**
+         * Set the content for the info panel.
+         *
+         * @param {object} node The d3 tree node.
+         */
         setInfo: function(node) {
             var schema = $('#info-tab-schema');
-            //var pre = $('<pre><code class="language-json">' + JSON.stringify(tv4.getSchema(node.schema), null, '  ') + '</code></pre>');
-            //var btn = $('<a href="#" class="ui-btn ui-mini ui-icon-action ui-btn-icon-right">Open in new window</a>').click(function() {
-                //var w = window.open(null, "pre", null, true);
-
-               // $(w.document.body).html(pre);
-            //});
             var def = $('#info-tab-def');
             var ex = $('#info-tab-example');
 
@@ -305,7 +359,7 @@ if (typeof JSV === "undefined") {
             }
 
 
-            this.createPre(schema, tv4.getSchema(node.schema), false, node.plainName);
+            JSV.createPre(schema, tv4.getSchema(node.schema), false, node.plainName);
 
             if(node.example) {
                 $.getJSON(node.schema.match( /^(.*?)(?=[^\/]*\.json)/g ) + node.example, function(data) {
@@ -324,6 +378,14 @@ if (typeof JSV === "undefined") {
             }
         },
 
+        /**
+         * Create a *pre* block and append it to the passed element.
+         *
+         * @param {object} el jQuery element
+         * @param {object} obj The obj to stringify and display
+         * @param {string} title The title for the new window
+         * @param {string} exp The string to highlight
+         */
         createPre: function(el, obj, title, exp) {
             var pre = $('<pre><code class="language-json">' + JSON.stringify(obj, null, '  ') + '</code></pre>');
             var btn = $('<a href="#" class="ui-btn ui-mini ui-icon-action ui-btn-icon-right">Open in new window</a>').click(function() {
@@ -341,17 +403,18 @@ if (typeof JSV === "undefined") {
                 pre.highlight(exp, 'highlight');
             }
             el.append(pre);
-            //setTimeout(function(){hljs.highlightBlock(pre[0]);},1000);
-            //Prism.highlightElement(pre.children('code')[0]);
             pre.height(el.height() - btn.outerHeight(true) - (pre.outerHeight(true) - pre.height()));
         },
 
+        /**
+         * Create a "breadcrumb" for the node.
+         */
         compilePath: function(node, path) {
             var p;
 
             if(node.parent) {
                 p = path ? node.name + ' > ' + path : node.name;
-                return this.compilePath(node.parent, p);
+                return JSV.compilePath(node.parent, p);
             } else {
                 p = path ? node.name + ' > ' + path : node.name;
             }
@@ -359,7 +422,7 @@ if (typeof JSV === "undefined") {
             return p;
         },
 
-        /*
+        /**
          * A recursive helper function for performing some setup by walking
          * through all nodes
          */
@@ -374,13 +437,13 @@ if (typeof JSV === "undefined") {
             if (children) {
                 var count = children.length, i;
                 for ( i = 0; i < count; i++) {
-                    this.visit(children[i], visitFn, childrenFn);
+                    JSV.visit(children[i], visitFn, childrenFn);
                 }
             }
         },
 
-        /*
-         * Create schema tree
+        /**
+         * Create the tree data object from the schema(s)
          */
         compileData: function (schema, parent, name, real) {
             var key, node = {},
@@ -441,7 +504,7 @@ if (typeof JSV === "undefined") {
                     parent.children.push(node);
                 }
             } else {
-                this.treeData = node;
+                JSV.treeData = node;
             }
 
             if(node.type === 'array') {
@@ -460,7 +523,7 @@ if (typeof JSV === "undefined") {
             for (key in props) {
                 if (owns.call(props, key)) {
                     //console.log(key, "=", props[key]);
-                    this.compileData(props[key],  node, key, true);
+                    JSV.compileData(props[key],  node, key, true);
                 }
             }
 
@@ -493,32 +556,32 @@ if (typeof JSV === "undefined") {
             }
 
             if (Object.prototype.toString.call(items) === "[object Object]") {
-                this.compileData(items, node, 'item');
+                JSV.compileData(items, node, 'item');
             } else if (Object.prototype.toString.call(items) === "[object Array]") {
 
                 items.forEach(function(itm, idx, arr) {
-                    this.compileData(itm, node, idx.toString());
+                    JSV.compileData(itm, node, idx.toString());
                 });
             }
 
         },
 
-        /*
+        /**
          * Resize the diagram
          */
         resizeViewer: function() {
-            this.viewerWidth = $("#main-body").width();
-            this.viewerHeight = $("#main-body").height();
-            if(this.focusNode) {
-                this.centerNode(this.focusNode);
+            JSV.viewerWidth = $("#main-body").width();
+            JSV.viewerHeight = $("#main-body").height();
+            if(JSV.focusNode) {
+                JSV.centerNode(JSV.focusNode);
             }
         },
 
-        /*
+        /**
          * Reset the tree starting from the passed source.
          */
         resetTree: function (source, level) {
-            this.visit(source, function(d) {
+            JSV.visit(source, function(d) {
                 if (d.children && d.children.length > 0 && d.depth > level && !JSV.labels[d.name]) {
                     JSV.collapse(d);
                     //d._children = d.children;
@@ -537,7 +600,7 @@ if (typeof JSV === "undefined") {
             });
         },
 
-        /*
+        /**
          * Reset and center the tree.
          */
         resetViewer: function () {
@@ -564,7 +627,7 @@ if (typeof JSV === "undefined") {
             JSV.centerNode(root, 4);
         },
 
-        /*
+        /**
          * Function to center node when clicked so node doesn't get lost when collapsing with large amount of children.
          */
         centerNode: function (source, ratioX) {
@@ -581,85 +644,91 @@ if (typeof JSV === "undefined") {
             zl.translate([x, y]);
         },
 
-                // Helper functions for collapsing and expanding nodes.
+        /**
+         * Helper functions for collapsing nodes.
+         */
+        collapse: function (d) {
+            if (d.children) {
+                d._children = d.children;
+                //d._children.forEach(collapse);
+                d.children = null;
+            }
+        },
 
-                collapse: function (d) {
-                    if (d.children) {
-                        d._children = d.children;
-                        //d._children.forEach(collapse);
-                        d.children = null;
+        /**
+         * Helper functions for expanding nodes.
+         */
+        expand: function (d) {
+            if (d._children) {
+                d.children = d._children;
+                //d.children.forEach(expand);
+                d._children = null;
+            }
+
+            if (d.children) {
+                var count = d.children.length, i;
+                for (i = 0; i < count; i++) {
+                    if(JSV.labels[d.children[i].name]) {
+                        JSV.expand(d.children[i]);
                     }
-                },
+                }
+            }
+        },
 
-                expand: function (d) {
-                    if (d._children) {
-                        d.children = d._children;
-                        //d.children.forEach(expand);
-                        d._children = null;
-                    }
+        /**
+         * Toggle children function
+         */
+        toggleChildren: function (d) {
+            if (d.children) {
+                JSV.collapse(d);
+            } else if (d._children) {
+                JSV.expand(d);
+            }
+            return d;
+        },
 
-                    if (d.children) {
-                        var count = d.children.length, i;
-                        for (i = 0; i < count; i++) {
-                            if(JSV.labels[d.children[i].name]) {
-                                JSV.expand(d.children[i]);
-                            }
-                        }
-                    }
-                },
+        /**
+         * Toggle children on node click.
+         */
+        click: function (d) {
+            if(!JSV.labels[d.name]) {
+                if (d3.event.defaultPrevented) return; // click suppressed
+                d = JSV.toggleChildren(d);
+                JSV.update(d);
+                JSV.centerNode(d);
+            }
+        },
 
-                // Toggle children function
+        /**
+         * Show info on node title click.
+         */
+       clickTitle: function (d) {
+            if(!JSV.labels[d.name]) {
+                if (d3.event.defaultPrevented) return; // click suppressed
+                var panel = $( "#info-panel" );
 
-                toggleChildren: function (d) {
-                    if (d.children) {
-                        JSV.collapse(d);
-                    } else if (d._children) {
-                        JSV.expand(d);
-                    }
-                    return d;
-                },
+                if(JSV.focusNode) {
+                    d3.select('#n-' + JSV.focusNode.id).classed('focus',false);
+                }
+                JSV.focusNode = d;
+                JSV.centerNode(d);
+                d3.select('#n-' + d.id).classed('focus',true);
+                $("#schema-path").html(JSV.compilePath(d));
 
-                // Toggle children on click.
+                $("#info-title").text("Info: " + d.name);
+                JSV.setInfo(d);
+                panel.panel( "open" );
+            }
+        },
 
-                click: function (d) {
-                    if(!JSV.labels[d.name]) {
-                        if (d3.event.defaultPrevented) return; // click suppressed
-                        d = JSV.toggleChildren(d);
-                        JSV.update(d);
-                        JSV.centerNode(d);
-                    }
-                },
-
-                // Show info on click.
-
-               clickTitle: function (d) {
-                    if(!JSV.labels[d.name]) {
-                        if (d3.event.defaultPrevented) return; // click suppressed
-                        var panel = $( "#info-panel" );
-
-                        if(JSV.focusNode) {
-                            d3.select('#n-' + JSV.focusNode.id).classed('focus',false);
-                        }
-                        JSV.focusNode = d;
-                        JSV.centerNode(d);
-                        d3.select('#n-' + d.id).classed('focus',true);
-                        $("#schema-path").html(JSV.compilePath(d));
-
-                        $("#info-title").text("Info: " + d.name);
-                        JSV.setInfo(d);
-                        panel.panel( "open" );
-                    }
-                },
-
-
-        /*
+        /**
          * Zoom the tree
          */
         zoom: function () {
-            this.svgGroup.attr("transform", "translate(" + this.zoomListener.translate() + ")" + "scale(" + this.zoomListener.scale() + ")");
+            JSV.svgGroup.attr("transform", "translate(" + JSV.zoomListener.translate() + ")" + "scale(" + JSV.zoomListener.scale() + ")");
         },
 
-        /*
+        /**
          * Perform the d3 zoom based on position and scale
          */
         interpolateZoom: function  (translate, scale) {
@@ -675,7 +744,7 @@ if (typeof JSV === "undefined") {
             });
         },
 
-        /*
+        /**
          * Click handler for the zoom control
          */
         zoomClick: function () {
@@ -692,7 +761,7 @@ if (typeof JSV === "undefined") {
                 view = {x: translate[0], y: translate[1], k: zl.scale()};
 
             d3.event.preventDefault();
-            direction = (JSV.id === 'zoom_in') ? 1 : -1;
+            direction = (this.id === 'zoom_in') ? 1 : -1;
             target_zoom = zl.scale() * (1 + factor * direction);
 
             if (target_zoom < extent[0] || target_zoom > extent[1]) { return false; }
@@ -707,12 +776,12 @@ if (typeof JSV === "undefined") {
             JSV.interpolateZoom([view.x, view.y], view.k);
         },
 
-        /*
+        /**
          * The zoomListener which calls the zoom function on the "zoom" event constrained within the scaleExtents
          */
         zoomListener: null,
 
-        /*
+        /**
          * Sort the tree according to the node names
          */
         sortTree: function () {
@@ -721,7 +790,7 @@ if (typeof JSV === "undefined") {
             });
         },
 
-        /*
+        /**
          * The d3 diagonal projection for use by the node paths.
          */
         diagonal1: function(d) {
@@ -742,10 +811,12 @@ if (typeof JSV === "undefined") {
            return dia;
         },
 
+        /**
+         * Update the tree, removing or adding nodes from/to the passed source node
+         */
         update: function (source) {
-            var i = 0;
-            var duration = this.duration;
-            var root = this.treeData;
+            var duration = JSV.duration;
+            var root = JSV.treeData;
             // Compute the new height, function counts total children of root node and sets tree height accordingly.
             // This prevents the layout looking squashed when new nodes are made visible or looking sparse when nodes are removed
             // This makes the layout more consistent.
@@ -763,11 +834,11 @@ if (typeof JSV === "undefined") {
             };
             childCount(0, root);
             var newHeight = d3.max(levelWidth) * 45; // 25 pixels per line
-            this.tree = this.tree.size([newHeight, this.viewerWidth]);
+            JSV.tree.size([newHeight, JSV.viewerWidth]);
 
             // Compute the new tree layout.
-            var nodes = this.tree.nodes(root).reverse(),
-                links = this.tree.links(nodes);
+            var nodes = JSV.tree.nodes(root).reverse(),
+                links = JSV.tree.links(nodes);
 
             // Set widths between levels based on maxLabelLength.
             nodes.forEach(function(d) {
@@ -777,19 +848,17 @@ if (typeof JSV === "undefined") {
                 // d.y = (d.depth * 500); //500px per level.
             });
             // Update the nodes…
-            var node = this.svgGroup.selectAll("g.node")
+            var node = JSV.svgGroup.selectAll("g.node")
                 .data(nodes, function(d) {
-                    return d.id || (d.id = ++i);
+                    return d.id || (d.id = ++JSV.counter);
                 });
 
             // Enter any new nodes at the parent's previous position.
             var nodeEnter = node.enter().append("g")
-                //.call(dragListener)
                 .attr("class", function(d) {
                     return JSV.labels[d.name] ? "node label" : "node";
                 })
                 .attr("id", function(d, i) {
-    //console.info(arguments);
                     return "n-" + d.id;
                 })
                 .attr("transform", function(d) {
@@ -862,7 +931,7 @@ if (typeof JSV === "undefined") {
                 .style("fill-opacity", 0);
 
             // Update the links…
-            var link = this.svgGroup.selectAll("path.link")
+            var link = JSV.svgGroup.selectAll("path.link")
                 .data(links, function(d) {
                     return d.target.id;
                 });
@@ -913,10 +982,11 @@ if (typeof JSV === "undefined") {
 
         /**
          * Create the d3 diagram.
-         * TODO: Refactor this method to support refreshing diagram, window resize, etc.
+         *
+         * @param {function} callback Function to run after the diagram is created
          */
-        createDiagram: function() {
-            tv4.addAllAsync(this.schema, function() {
+        createDiagram: function(callback) {
+            tv4.asyncLoad([JSV.schema], function() {
 
                 JSV.compileData(tv4.getSchema(JSV.schema),false,'schema');
 
@@ -925,18 +995,19 @@ if (typeof JSV === "undefined") {
                 // panning variables
                 //var panSpeed = 200;
                 //var panBoundary = 20; // Within 20px from edges will pan when dragging.
-                // Misc. variables
-                var focusNode = JSV.focusNode; //the currently focused node
 
                 // size of the diagram
                 var viewerWidth = JSV.viewerWidth;
                 var viewerHeight = JSV.viewerHeight;
 
+                JSV.zoomListener = d3.behavior.zoom().scaleExtent([0.1, 3]).on("zoom", JSV.zoom);
+
                 JSV.baseSvg = d3.select("#main-body").append("svg")
                     .attr("id", "jsv-tree")
                     .attr("class", "overlay")
                     .attr("width", viewerWidth)
-                    .attr("height", viewerHeight);
+                    .attr("height", viewerHeight)
+                    .call(JSV.zoomListener);
 
                 JSV.tree = d3.layout.tree()
                     .size([viewerHeight, viewerWidth]);
@@ -950,18 +1021,11 @@ if (typeof JSV === "undefined") {
                     return d.children && d.children.length > 0 ? d.children : null;
                 });
 
-
                 // Sort the tree initially in case the JSON isn't in a sorted order.
-                //sortTree();
-
+                //JSV.sortTree();
 
                 JSV.svgGroup = JSV.baseSvg.append("g")
                     .attr("id", "node-group");
-
-                JSV.zoomListener = d3.behavior.zoom().scaleExtent([0.1, 3]).on("zoom", JSV.zoom);
-
-                //attach zoom listener
-                JSV.baseSvg.call(JSV.zoomListener);
 
                 // Layout the tree initially and center on the root node.
                 JSV.resetViewer();
@@ -1036,18 +1100,8 @@ if (typeof JSV === "undefined") {
                         return d.text;
                     });
 
-                $("#loading").fadeOut("slow");
-
+                callback();
             });
         }
     };
 }
-
-(function($) {
-
-    JSV.init({
-        schema: window.location.origin + window.location.pathname.substring(0, window.location.pathname.lastIndexOf("/")+1) + 'adiwg-json-schemas/schema/schema.json',
-        title: 'ADIwg mdJSON Schema Viewer'
-    });
-
-})(jQuery);

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <head>
     <meta charset="utf-8">
-    <title>ADIwg JSON Schema Viewer</title>
+    <title>JSON Schema Viewer</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.3/jquery.mobile-1.4.3.min.css" />
     <style type="text/css">
@@ -32,6 +32,16 @@
           min-width: 10em;
           text-align: center;
         }
+
+        .schema-version {
+            padding-left: 3px;
+            font-size: .7em;
+            font-weight: 500;
+            vertical-align: baseline;
+            position: relative;
+            top: -0.4em;
+        }
+
                 /******Viewer*******/
         #main-body {
           position: relative;
@@ -266,29 +276,6 @@
             Loading...
         </div>
     </div>
-    <!--<div id="buttons">
-    <button id="zoom_in" title="Zoom in (Dbl-click diagram)">
-    +
-    </button>
-    <button id="zoom_out" title="Zoom out (Shift+Dbl-click diagram)">
-    -
-    </button>
-    <div class="info">
-    ?
-    <p>
-    This is a diagram of the ADIwg json-schema built using D3.js and tv4, with a bit of jQuery ajax.
-    <br />
-    <br />
-    Drag the schema diagram to pan. Use the buttons to zoom, or Double-click to zoom-in; Shift+Double-click to
-    zoom-out.
-    <br />
-    <br />
-    Click a node to collapse/expand. Clicking a node centers the diagram.
-    </p>
-    </div>
-    </div>
-    <div id="tree-container"></div>-->
-
     <div class="ui-responsive-panel" data-role="page" id="viewer-page">
         <div data-role="header">
             <div data-role="controlgroup" data-type="horizontal" class="ui-btn-left">
@@ -298,7 +285,7 @@
                 <a href="#" class="ui-btn ui-btn-icon-right ui-icon-minus ui-btn-icon-notext ui-corner-all">Zoom-out</a>-->
 
             </div>
-            <h1>ADIwg mdJSON Schema Viewer</h1>
+            <h1 id="viewer-title">Viewer<span class="schema-version"></span></h1>
             <a class="ui-btn-right ui-btn ui-icon-info ui-btn-icon-notext ui-corner-all" href="#help-panel"  title="Toggle Help">Help</a>
         </div><!-- /header -->
         <div  role="main" class="ui-content" id="main-body">
@@ -376,7 +363,7 @@
 
     <div data-role="page" id="validator-page">
         <div data-role="header">
-            <h1>ADIwg mdJSON Validator</h1>
+            <h1>Validator<span class="schema-version"></span></h1>
             <a class="ui-btn-left ui-btn ui-icon-eye ui-btn-icon-left ui-corner-all" href="#viewer-page"  title="Go to Viewer">Viewer</a>
         </div>
         <div role="main" class="ui-content">
@@ -425,8 +412,17 @@
     <script type='text/javascript' src='lib/jsonpointer/src/jsonpointer.js'></script>
     <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/styles/default.min.css">
     <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/highlight.min.js"></script>
-    <!-- <link rel="stylesheet" href="prism.css">
-    <script src="prism.js"></script>-->
     <script src="jsv.js"></script>
+    <script type="text/javascript" charset="utf-8">
+        (function($) {
+
+            JSV.init({
+                schema: window.location.origin + window.location.pathname.substring(0, window.location.pathname.lastIndexOf("/")+1) + 'adiwg-json-schemas/schema/schema.json'
+            }, function(){
+                JSV.setVersion(tv4.getSchema(JSV.treeData.schema).version);
+            });
+
+        })(jQuery);
+    </script>
 </body>
 </html>
