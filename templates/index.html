@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <title>JSON Schema Viewer <!-- @echo version --></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.3/jquery.mobile-1.4.3.min.css" />
+    <link rel="stylesheet" href="styles/json-schema-viewer.css" />
+
+</head>
+<body>
+    <div id="loading">
+        <div id="preload"><img src="images/loader.gif" alt="Loading..."/>
+            <br />
+            Loading...
+        </div>
+    </div>
+    <div class="ui-responsive-panel" data-role="page" id="viewer-page">
+        <div data-role="header">
+            <div data-role="controlgroup" data-type="horizontal" class="ui-btn-left">
+                <a class="ui-btn ui-corner-all ui-icon-bars ui-btn-icon-notext" href="#info-panel" title="Toggle Info">Menu</a>
+                <a class="ui-btn ui-corner-all ui-icon-check ui-btn-icon-left" href="#validator-page" title="Go to Validator">Validator</a>
+                <!--<a href="#" class="ui-btn ui-btn-icon-right ui-icon-plus ui-btn-icon-notext ui-corner-all">Zoom-in</a>
+                <a href="#" class="ui-btn ui-btn-icon-right ui-icon-minus ui-btn-icon-notext ui-corner-all">Zoom-out</a>-->
+
+            </div>
+            <h1 id="viewer-title">Viewer<span class="schema-version"></span></h1>
+            <a class="ui-btn-right ui-btn ui-icon-info ui-btn-icon-notext ui-corner-all" href="#help-panel"  title="Toggle Help">Help</a>
+        </div><!-- /header -->
+        <div  role="main" class="ui-content" id="main-body">
+            <div id="zoom-controls">
+                <a id="zoom_in" href="#" class="ui-btn ui-icon-plus ui-btn-icon-notext ui-corner-all" title="Zoom In">Zoom-in</a>
+                <a id="zoom_out" href="#" class="ui-btn ui-icon-minus ui-btn-icon-notext ui-corner-all" title="Zoom Out">Zoom-out</a>
+                <div id="tree-controls">
+                    <a id="reset-tree" href="#" class="ui-btn ui-icon-refresh ui-btn-icon-notext ui-corner-all" title="Reset">Reset</a>
+                </div>
+            </div>
+            <div id="legend" data-role="collapsible" data-collapsed="false">
+                <h3 class="ui-mini">Legend</h3>
+                <div id="legend-items"></div>
+            </div>
+        </div>
+        <div data-role="footer">
+            <div id="schema-path" class="ui-content">Select a Node</div>
+        </div><!-- /footer -->
+        <div data-display="push" data-role="panel" id="info-panel">
+            <div data-role="header" data-theme="b" class="ui-mini">
+                <h1 id="info-title">Info</h1>
+            </div>
+            <div data-role="tabs" id="info-tabs">
+                <div data-role="navbar" id="info-tabs-navbar">
+                    <ul>
+                        <li>
+                            <a data-ajax="false" href="#info-tab-def">Definition</a>
+
+                        </li>
+                        <li>
+                            <a data-ajax="false" href="#info-tab-example">Example</a>
+
+                        </li>
+                        <li>
+                            <a data-ajax="false" href="#info-tab-schema">Schema</a>
+
+                        </li>
+                    </ul>
+                </div>
+                <div class="ui-body-d ui-content info-tab" id="info-tab-def">
+                    <h4>Type:</h4>
+                    <p id="info-type">
+                        Select a node to view the type.
+                    </p>
+                    <hr />
+                    <h4>Definition:</h4>
+                    <p id="info-definition">
+                        Select a node to view the definition.
+                    </p>
+                    <hr />
+                    <h4>Translation:</h4>
+                    <p id="info-translation">
+                        Select a node to view the translation.
+                    </p>
+                </div>
+                <div class="ui-body-d ui-content info-tab"  id="info-tab-example">
+                    <p>
+                        Select a node to view the example.
+                    </p>
+                </div>
+                <div class="ui-body-d ui-content info-tab"  id="info-tab-schema">
+                    <p>
+                        Select a node to view the JSON schema.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div data-role="panel" data-position="right" data-display="overlay" data-theme="a" id="help-panel">
+            <div data-role="header" data-theme="b">
+                <h1 data-role="header">Help</h1>
+
+            </div>
+        </div>
+    </div>
+
+    <div data-role="page" id="validator-page">
+        <div data-role="header">
+            <h1>Validator<span class="schema-version"></span></h1>
+            <a class="ui-btn-left ui-btn ui-icon-eye ui-btn-icon-left ui-corner-all" href="#viewer-page"  title="Go to Viewer">Viewer</a>
+        </div>
+        <div role="main" class="ui-content">
+            <div class="ui-grid-a ui-responsive">
+                <div class="ui-block-a section">
+                    <label for="textarea-json">JSON to Validate:</label>
+                    <textarea cols="40" rows="15" name="textarea-json" id="textarea-json" placeholder="Enter your JSON or Drag-n-Drop a file here..."></textarea>
+                </div>
+                <div class="ui-block-b section">
+                    <label for="file-upload">Upload File:</label>
+                    <input id="file-upload" type="file" name="file" data-role=""/>
+                    <fieldset data-role="controlgroup">
+                        <legend>
+                            Options:
+                        </legend>
+                        <input type="checkbox" name="checkbox-strict" id="checkbox-strict">
+                        <label for="checkbox-strict">Strict</label>
+                        <input type="checkbox" name="checkbox-stop" id="checkbox-stop">
+                        <label for="checkbox-stop">Stop at First Error</label>
+                    </fieldset>
+                </div>
+            </div>
+            <button id="button-validate" class="ui-btn ui-icon-check ui-btn-icon-bottom">
+                Validate!
+            </button>
+            <div id="validation-results" class="ui-responsive">
+            </div>
+        </div>
+
+    </div>
+    <div id="popup-error" data-theme="a" data-overlay-theme="b">
+        <div data-role="header" data-theme="a">
+            <h1>Error!</h1>
+        </div>
+        <p class="ui-content error-message">
+            If you see this, something went wrong.
+        </p>
+    </div>
+
+    <script type='text/javascript' src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script type='text/javascript' src="http://code.jquery.com/mobile/1.4.3/jquery.mobile-1.4.3.min.js"></script>
+    <script type='text/javascript' src="lib/tv4/tv4.min.js"></script>
+    <script type='text/javascript' src="lib/tv4.async-load-jquery.js"></script>
+    <script type='text/javascript' src="lib/d3/d3.js"></script>
+    <script type='text/javascript' src='lib/filereader/filereader.js'></script>
+    <script type='text/javascript' src='lib/jsonpointer/src/jsonpointer.js'></script>
+    <link rel="stylesheet" href="lib/highlightjs/styles/default.css">
+    <script type='text/javascript' src="lib/highlightjs/highlight.min.js"></script>
+    <script type='text/javascript' src="json-schema-viewer.js"></script>
+    <script type="text/javascript" charset="utf-8">
+        (function($) {
+
+            JSV.init({
+                schema: window.location.origin + window.location.pathname.substring(0, window.location.pathname.lastIndexOf("/")+1) + 'adiwg-json-schemas/schema/schema.json'
+            }, function(){
+                JSV.setVersion(tv4.getSchema(JSV.treeData.schema).version);
+            });
+
+        })(jQuery);
+    </script>
+</body>
+</html>

@@ -1,10 +1,10 @@
 //fix for IE
 if (!window.location.origin) {
-  window.location.origin = window.location.protocol + "//" + window.location.hostname + (window.location.port ? ':' + window.location.port: '');
+  window.location.origin = window.location.protocol + '//' + window.location.hostname + (window.location.port ? ':' + window.location.port: '');
 }
 
 
-if (typeof JSV === "undefined") {
+if (typeof JSV === 'undefined') {
     /**
      * JSV namespace for JSON Schema Viewer.
      * @namespace
@@ -59,7 +59,7 @@ if (typeof JSV === "undefined") {
             allOf: true,
             anyOf: true,
             oneOf: true,
-            "object{ }": true
+            'object{ }': true
         },
 
         /**
@@ -84,44 +84,46 @@ if (typeof JSV === "undefined") {
             var i;
             //apply config
             for (i in config) {
-                JSV[i] = config[i];
+                if (JSV.hasOwnProperty(i)) {
+                    JSV[i] = config[i];
+                }
             }
 
-            $(document).on("pagecontainertransition", this.contentHeight);
-            $(window).on("throttledresize orientationchange", this.contentHeight);
-            $(window).on("resize", this.contentHeight);
+            $(document).on('pagecontainertransition', this.contentHeight);
+            $(window).on('throttledresize orientationchange', this.contentHeight);
+            $(window).on('resize', this.contentHeight);
 
             var cb = function() {
                 callback();
-                $("#loading").fadeOut("slow");
+                $('#loading').fadeOut('slow');
             };
             JSV.createDiagram(cb);
             JSV.initValidator();
 
             //initialize error popup
-            $( "#popup-error" ).enhanceWithin().popup();
+            $( '#popup-error' ).enhanceWithin().popup();
 
             ///highlight plugin
             $.fn.highlight = function (str, className) {
-                var regex = new RegExp("\\b"+str+"\\b", "g");
+                var regex = new RegExp('\\b'+str+'\\b', 'g');
 
                 return this.each(function () {
-                    this.innerHTML = this.innerHTML.replace(regex, function(matched) {return "<span class=\"" + className + "\">" + matched + "</span>";});
+                    this.innerHTML = this.innerHTML.replace(regex, function(matched) {return '<span class="' + className + '">' + matched + '</span>';});
                 });
             };
 
             //restore info-panel state
-            $("body").on("pagecontainershow", function(event, ui) {
+            $('body').on('pagecontainershow', function(event, ui) {
                 var page = ui.toPage;
 
                 if(page.attr('id') === 'viewer-page') {
                     if(page.jqmData('infoOpen')) {
-                        $('#info-panel'). panel("open");
+                        $('#info-panel'). panel('open');
                     }
-                    //TODO: add this to "pagecontainercreate" handler on refactor
-                    if($("svg#jsv-tree").height() === 0) {
-                        $("svg#jsv-tree").attr("width", $("#main-body").width())
-                                         .attr("height", $("#main-body").height());
+                    //TODO: add this to 'pagecontainercreate' handler on refactor
+                    if($('svg#jsv-tree').height() === 0) {
+                        $('svg#jsv-tree').attr('width', $('#main-body').width())
+                                         .attr('height', $('#main-body').height());
                         JSV.resizeViewer();
                         JSV.resetViewer();
 
@@ -131,31 +133,31 @@ if (typeof JSV === "undefined") {
             });
 
             //store info-panel state
-            $("body").on("pagecontainerbeforehide", function(event, ui) {
+            $('body').on('pagecontainerbeforehide', function(event, ui) {
                 var page = ui.prevPage;
                 if(page.attr('id') === 'viewer-page') {
-                    page.jqmData('infoOpen', !!page.find("#info-panel.ui-panel-open").length);
+                    page.jqmData('infoOpen', !!page.find('#info-panel.ui-panel-open').length);
                 }
             });
 
             //resize viewer on panel open/close
-            $("#info-panel").on("panelopen", function() {
+            $('#info-panel').on('panelopen', function() {
                 var focus = JSV.focusNode;
 
                 JSV.resizeViewer();
                 if(focus) {
                     d3.select('#n-' + focus.id).classed('focus',true);
-                    $("#schema-path").html(JSV.compilePath(focus));
+                    $('#schema-path').html(JSV.compilePath(focus));
                 }
             });
 
-            $("#info-panel").on("panelclose", function() {
+            $('#info-panel').on('panelclose', function() {
                 var focus = JSV.focusNode;
 
                 JSV.resizeViewer();
                 if (focus) {
                     d3.select('#n-' + focus.id).classed('focus', false);
-                    $("#schema-path").html('Select a Node...');
+                    $('#schema-path').html('Select a Node...');
                 }
             });
 
@@ -170,12 +172,12 @@ if (typeof JSV === "undefined") {
          */
         contentHeight: function() {
             var screen = $.mobile.getScreenHeight(),
-                header = $(".ui-header").hasClass("ui-header-fixed") ? $(".ui-header").outerHeight() - 1 : $(".ui-header").outerHeight(),
-                footer = $(".ui-footer").hasClass("ui-footer-fixed") ? $(".ui-footer").outerHeight() - 1 : $(".ui-footer").outerHeight(),
-                contentCurrent = $("#main-body.ui-content").outerHeight() - $("#main-body.ui-content").height();
+                header = $('.ui-header').hasClass('ui-header-fixed') ? $('.ui-header').outerHeight() - 1 : $('.ui-header').outerHeight(),
+                footer = $('.ui-footer').hasClass('ui-footer-fixed') ? $('.ui-footer').outerHeight() - 1 : $('.ui-footer').outerHeight(),
+                contentCurrent = $('#main-body.ui-content').outerHeight() - $('#main-body.ui-content').height(),
                 content = screen - header - footer - contentCurrent;
 
-            $("#main-body.ui-content").css("min-height", content + "px");
+            $('#main-body.ui-content').css('min-height', content + 'px');
 
             JSV.resizeViewer();
         },
@@ -189,7 +191,7 @@ if (typeof JSV === "undefined") {
         setVersion: function(version) {
             JSV.version = version;
 
-            $(".schema-version").text(version);
+            $('.schema-version').text(version);
         },
 
         /**
@@ -198,8 +200,8 @@ if (typeof JSV === "undefined") {
          * @param {string} msg The message to display.
          */
         showError: function(msg) {
-            $("#popup-error .error-message").html(msg);
-            $("#popup-error").popup("open");
+            $('#popup-error .error-message').html(msg);
+            $('#popup-error').popup('open');
         },
 
         initValidator: function() {
@@ -228,11 +230,11 @@ if (typeof JSV === "undefined") {
             };
 
 
-            $("#file-upload, #textarea-json").fileReaderJS(opts);
-            $("body").fileClipboard(opts);
+            $('#file-upload, #textarea-json').fileReaderJS(opts);
+            $('body').fileClipboard(opts);
 
 
-            $("#button-validate").click(function() {
+            $('#button-validate').click(function() {
                 var result = JSV.validate();
 
                 if (result) {
@@ -255,8 +257,8 @@ if (typeof JSV === "undefined") {
             }
 
             if (data) {
-                var stop = $("#checkbox-stop").is(':checked'),
-                    strict = $("#checkbox-strict").is(':checked'),
+                var stop = $('#checkbox-stop').is(':checked'),
+                    strict = $('#checkbox-strict').is(':checked'),
                     schema = tv4.getSchemaMap()[JSV.schema],
                     result;
 
@@ -281,7 +283,7 @@ if (typeof JSV === "undefined") {
          * @param {object} result A result object, ouput from [validate]{@link JSV.validate}
          */
         showValResult: function(result) {
-            var cont = $("#validation-results"), ui;
+            var cont = $('#validation-results'), ui;
 
             if(result.valid) {
                 cont.html('<p class=ui-content>JSON is valid!</p>');
@@ -336,8 +338,8 @@ if (typeof JSV === "undefined") {
                 e.height(height);
             });
 
-            $("#info-definition").html(node.description || 'No definition provided.');
-            $("#info-type").html(node.displayType.toString());
+            $('#info-definition').html(node.description || 'No definition provided.');
+            $('#info-type').html(node.displayType.toString());
 
             if(node.translation) {
                 var trans = $('<ul></ul>');
@@ -353,9 +355,9 @@ if (typeof JSV === "undefined") {
                     trans.append(li.append(ul));
                 });
 
-                $("#info-translation").html(trans);
+                $('#info-translation').html(trans);
             } else {
-                $("#info-translation").html('No translations available.');
+                $('#info-translation').html('No translations available.');
             }
 
 
@@ -389,7 +391,7 @@ if (typeof JSV === "undefined") {
         createPre: function(el, obj, title, exp) {
             var pre = $('<pre><code class="language-json">' + JSON.stringify(obj, null, '  ') + '</code></pre>');
             var btn = $('<a href="#" class="ui-btn ui-mini ui-icon-action ui-btn-icon-right">Open in new window</a>').click(function() {
-                var w = window.open("", "pre", null, true);
+                var w = window.open('', 'pre', null, true);
 
                 $(w.document.body).html($('<div>').append(pre.clone().height('95%')).html());
                 hljs.highlightBlock($(w.document.body).children('pre')[0]);
@@ -446,7 +448,7 @@ if (typeof JSV === "undefined") {
          * Create the tree data object from the schema(s)
          */
         compileData: function (schema, parent, name, real) {
-            var key, node = {},
+            var key, node,
                 s = schema.$ref ? tv4.getSchema(schema.$ref) : schema,
                 props = s.properties,
                 items = s.items,
@@ -464,8 +466,6 @@ if (typeof JSV === "undefined") {
                     }
                 };
 
-
-
             if (s.allOf) {
                 all.allOf = s.allOf;
             }
@@ -478,17 +478,20 @@ if (typeof JSV === "undefined") {
                 all.anyOf = s.anyOf;
             }
 
-            node.description = schema.description || s.description;
-            node.name = (schema.$ref && real ? name : false) || s.title || name || 'schema';
-            node.plainName = name;
-            node.type = s.type;
-            node.displayType = s.type || (s['enum'] ? 'enum: ' + s['enum'].join(', ') : s.items ? 'array' : s.properties ? 'object' : 'ambiguous');
-            node.translation = schema.translation || s.translation;
-            node.example = schema.example || s.example;
-            node.opacity = real ? 1 : 0.5;
-            node.required = s.required;
-            node.schema = s.id || schema.$ref || parentSchema(parent);
-            node.parentSchema = parent;
+            node = {
+                description: schema.description || s.description,
+                name: (schema.$ref && real ? name : false) || s.title || name || 'schema',
+                plainName: name,
+                type: s.type,
+                displayType: s.type || (s['enum'] ? 'enum: ' + s['enum'].join(', ') : s.items ? 'array' : s.properties ? 'object' : 'ambiguous'),
+                translation: schema.translation || s.translation,
+                example: schema.example || s.example,
+                opacity: real ? 1 : 0.5,
+                required: s.required,
+                schema: s.id || schema.$ref || parentSchema(parent),
+                parentSchema: parent
+            };
+
             node.require = parent && parent.required ? parent.required.indexOf(node.name) > -1 : false;
 
             if (parent) {
@@ -522,14 +525,19 @@ if (typeof JSV === "undefined") {
 
             for (key in props) {
                 if (owns.call(props, key)) {
-                    //console.log(key, "=", props[key]);
                     JSV.compileData(props[key],  node, key, true);
                 }
             }
 
+
+            var compileAll = function(itm, allNode, title) {
+                var s = itm.$ref ? tv4.getSchema(itm.$ref) : itm;
+
+                JSV.compileData(itm, allNode, title);
+            };
+
             for (key in all) {
                 if (owns.call(all, key)) {
-                    //console.log(key, "=", all[key]);
                     if(all[key]) {
                         var allNode = {
                             name: key,
@@ -545,19 +553,18 @@ if (typeof JSV === "undefined") {
                             node.children.push(allNode);
                         }
 
-                        all[key].forEach(function(itm){
-                            var s = itm.$ref ? tv4.getSchema(itm.$ref) : itm;
+                        for (var i = 0; i < all[key].length; i++) {
+                            JSV.compileData(all[key][i], allNode, s.title || key);
+                        }
 
-                            JSV.compileData(itm, allNode, s.title || key);
-                        });
 
                     }
                 }
             }
 
-            if (Object.prototype.toString.call(items) === "[object Object]") {
+            if (Object.prototype.toString.call(items) === '[object Object]') {
                 JSV.compileData(items, node, 'item');
-            } else if (Object.prototype.toString.call(items) === "[object Array]") {
+            } else if (Object.prototype.toString.call(items) === '[object Array]') {
 
                 items.forEach(function(itm, idx, arr) {
                     JSV.compileData(itm, node, idx.toString());
@@ -570,8 +577,8 @@ if (typeof JSV === "undefined") {
          * Resize the diagram
          */
         resizeViewer: function() {
-            JSV.viewerWidth = $("#main-body").width();
-            JSV.viewerHeight = $("#main-body").height();
+            JSV.viewerWidth = $('#main-body').width();
+            JSV.viewerHeight = $('#main-body').height();
             if(JSV.focusNode) {
                 JSV.centerNode(JSV.focusNode);
             }
@@ -606,7 +613,7 @@ if (typeof JSV === "undefined") {
         resetViewer: function () {
             //Firefox will choke if the viewer-page is not visible
             //TODO: fix on refactor to use pagecontainer event
-            var page = $("#viewer-page");
+            var page = $('#viewer-page');
 
             page.css('display','block');
 
@@ -622,7 +629,7 @@ if (typeof JSV === "undefined") {
             JSV.update(root);
 
             //reset the style for viewer-page
-            page.css('display', "");
+            page.css('display', '');
 
             JSV.centerNode(root, 4);
         },
@@ -639,7 +646,7 @@ if (typeof JSV === "undefined") {
 
             d3.select('g#node-group').transition()
                 .duration(JSV.duration)
-                .attr("transform", "translate(" + x + "," + y + ")scale(" + scale + ")");
+                .attr('transform', 'translate(' + x + ',' + y + ')scale(' + scale + ')');
             zl.scale(scale);
             zl.translate([x, y]);
         },
@@ -692,7 +699,7 @@ if (typeof JSV === "undefined") {
          */
         click: function (d) {
             if(!JSV.labels[d.name]) {
-                if (d3.event.defaultPrevented) return; // click suppressed
+                if (d3.event.defaultPrevented) {return;} // click suppressed
                 d = JSV.toggleChildren(d);
                 JSV.update(d);
                 JSV.centerNode(d);
@@ -704,8 +711,8 @@ if (typeof JSV === "undefined") {
          */
        clickTitle: function (d) {
             if(!JSV.labels[d.name]) {
-                if (d3.event.defaultPrevented) return; // click suppressed
-                var panel = $( "#info-panel" );
+                if (d3.event.defaultPrevented) {return;} // click suppressed
+                var panel = $( '#info-panel' );
 
                 if(JSV.focusNode) {
                     d3.select('#n-' + JSV.focusNode.id).classed('focus',false);
@@ -713,11 +720,11 @@ if (typeof JSV === "undefined") {
                 JSV.focusNode = d;
                 JSV.centerNode(d);
                 d3.select('#n-' + d.id).classed('focus',true);
-                $("#schema-path").html(JSV.compilePath(d));
+                $('#schema-path').html(JSV.compilePath(d));
 
-                $("#info-title").text("Info: " + d.name);
+                $('#info-title').text('Info: ' + d.name);
                 JSV.setInfo(d);
-                panel.panel( "open" );
+                panel.panel( 'open' );
             }
         },
 
@@ -725,14 +732,14 @@ if (typeof JSV === "undefined") {
          * Zoom the tree
          */
         zoom: function () {
-            JSV.svgGroup.attr("transform", "translate(" + JSV.zoomListener.translate() + ")" + "scale(" + JSV.zoomListener.scale() + ")");
+            JSV.svgGroup.attr('transform', 'translate(' + JSV.zoomListener.translate() + ')' + 'scale(' + JSV.zoomListener.scale() + ')');
         },
 
         /**
          * Perform the d3 zoom based on position and scale
          */
         interpolateZoom: function  (translate, scale) {
-            return d3.transition().duration(350).tween("zoom", function () {
+            return d3.transition().duration(350).tween('zoom', function () {
                 var iTranslate = d3.interpolate(JSV.zoomListener.translate(), translate),
                     iScale = d3.interpolate(JSV.zoomListener.scale(), scale);
                 return function (t) {
@@ -777,14 +784,14 @@ if (typeof JSV === "undefined") {
         },
 
         /**
-         * The zoomListener which calls the zoom function on the "zoom" event constrained within the scaleExtents
+         * The zoomListener which calls the zoom function on the 'zoom' event constrained within the scaleExtents
          */
         zoomListener: null,
 
         /**
          * Sort the tree according to the node names
          */
-        sortTree: function () {
+        sortTree: function (tree) {
             tree.sort(function(a, b) {
                 return b.name.toLowerCase() < a.name.toLowerCase() ? 1 : -1;
             });
@@ -795,7 +802,7 @@ if (typeof JSV === "undefined") {
          */
         diagonal1: function(d) {
             var src = d.source,
-                node = d3.select("#n-" + (src.id))[0][0],
+                node = d3.select('#n-' + (src.id))[0][0],
                 dia,
                 width = 0 ;
 
@@ -803,10 +810,10 @@ if (typeof JSV === "undefined") {
                 width = node.getBBox().width;
             }
 
-            dia = "M" + (src.y + width) + "," + src.x +
-                "H" + (d.target.y - 30) + "V" + d.target.x +
-                //+ (d.target.children ? "" : "h" + 30);
-                ("h" + 30);
+            dia = 'M' + (src.y + width) + ',' + src.x +
+                'H' + (d.target.y - 30) + 'V' + d.target.x +
+                //+ (d.target.children ? '' : 'h' + 30);
+                ('h' + 30);
 
            return dia;
         },
@@ -824,7 +831,7 @@ if (typeof JSV === "undefined") {
             var childCount = function(level, n) {
 
                 if (n.children && n.children.length > 0) {
-                    if (levelWidth.length <= level + 1) levelWidth.push(0);
+                    if (levelWidth.length <= level + 1) {levelWidth.push(0);}
 
                     levelWidth[level + 1] += n.children.length;
                     n.children.forEach(function(d) {
@@ -848,104 +855,104 @@ if (typeof JSV === "undefined") {
                 // d.y = (d.depth * 500); //500px per level.
             });
             // Update the nodes…
-            var node = JSV.svgGroup.selectAll("g.node")
+            var node = JSV.svgGroup.selectAll('g.node')
                 .data(nodes, function(d) {
                     return d.id || (d.id = ++JSV.counter);
                 });
 
             // Enter any new nodes at the parent's previous position.
-            var nodeEnter = node.enter().append("g")
-                .attr("class", function(d) {
-                    return JSV.labels[d.name] ? "node label" : "node";
+            var nodeEnter = node.enter().append('g')
+                .attr('class', function(d) {
+                    return JSV.labels[d.name] ? 'node label' : 'node';
                 })
-                .attr("id", function(d, i) {
-                    return "n-" + d.id;
+                .attr('id', function(d, i) {
+                    return 'n-' + d.id;
                 })
-                .attr("transform", function(d) {
-                    return "translate(" + source.y0 + "," + source.x0 + ")";
+                .attr('transform', function(d) {
+                    return 'translate(' + source.y0 + ',' + source.x0 + ')';
                 });
 
-            nodeEnter.append("circle")
-                //.attr('class', "nodeCircle")
-                .attr("r", 0)
-                .classed("collapsed", function(d) {
+            nodeEnter.append('circle')
+                //.attr('class', 'nodeCircle')
+                .attr('r', 0)
+                .classed('collapsed', function(d) {
                     return d._children ? true : false;
                 })
                 .on('click', JSV.click);
 
-            nodeEnter.append("text")
-                .attr("x", function(d) {
+            nodeEnter.append('text')
+                .attr('x', function(d) {
                     return 10;
     //                return d.children || d._children ? -10 : 10;
                 })
-                .attr("dy", ".35em")
+                .attr('dy', '.35em')
                 .attr('class', function(d) {
                     return (d.children || d._children) ? 'node-text node-branch' : 'node-text';
                 })
-                .classed("abstract", function(d) {
+                .classed('abstract', function(d) {
                     return d.opacity < 1;
                 })
-                .attr("text-anchor", function(d) {
-                    //return d.children || d._children ? "end" : "start";
-                    return "start";
+                .attr('text-anchor', function(d) {
+                    //return d.children || d._children ? 'end' : 'start';
+                    return 'start';
                 })
                 .text(function(d) {
                     return d.name + (d.require ? '*' : '');
                 })
-                .style("fill-opacity", 0)
+                .style('fill-opacity', 0)
                 .on('click', JSV.clickTitle);
 
 
             // Change the circle fill depending on whether it has children and is collapsed
-            node.select(".node circle")
-                .attr("r", 6.5)
-                .classed("collapsed", function(d) {
+            node.select('.node circle')
+                .attr('r', 6.5)
+                .classed('collapsed', function(d) {
                     return (d._children ? true : false);
                 });
 
             // Transition nodes to their new position.
             var nodeUpdate = node.transition()
                 .duration(duration)
-                .attr("transform", function(d) {
-                    return "translate(" + d.y + "," + d.x + ")";
+                .attr('transform', function(d) {
+                    return 'translate(' + d.y + ',' + d.x + ')';
                 });
 
             // Fade the text in
-            nodeUpdate.select("text")
-                .style("fill-opacity", function(d) {
+            nodeUpdate.select('text')
+                .style('fill-opacity', function(d) {
                     return d.opacity || 1;
                 });
 
             // Transition exiting nodes to the parent's new position.
             var nodeExit = node.exit().transition()
                 .duration(duration)
-                .attr("transform", function(d) {
-                    return "translate(" + source.y + "," + source.x + ")";
+                .attr('transform', function(d) {
+                    return 'translate(' + source.y + ',' + source.x + ')';
                 })
                 .remove();
 
-            nodeExit.select("circle")
-                .attr("r", 0);
+            nodeExit.select('circle')
+                .attr('r', 0);
 
-            nodeExit.select("text")
-                .style("fill-opacity", 0);
+            nodeExit.select('text')
+                .style('fill-opacity', 0);
 
             // Update the links…
-            var link = JSV.svgGroup.selectAll("path.link")
+            var link = JSV.svgGroup.selectAll('path.link')
                 .data(links, function(d) {
                     return d.target.id;
                 });
 
             // Enter any new links at the parent's previous position.
-            link.enter().insert("path", "g")
-                .attr("class", "link")
-                .attr("d", function(d) {
+            link.enter().insert('path', 'g')
+                .attr('class', 'link')
+                .attr('d', function(d) {
                     var o = {
                         x: source.x0,
                         y: source.y0
                     };
 
-                    //console.info(d3.select("#n-"+d.source.id)[0][0].getBBox());
+                    //console.info(d3.select('#n-'+d.source.id)[0][0].getBBox());
 
                     return JSV.diagonal1({
                         source: o,
@@ -956,12 +963,12 @@ if (typeof JSV === "undefined") {
             // Transition links to their new position.
             link.transition()
                 .duration(duration)
-                .attr("d", JSV.diagonal1);
+                .attr('d', JSV.diagonal1);
 
             // Transition exiting nodes to the parent's new position.
             link.exit().transition()
                 .duration(duration)
-                .attr("d", function(d) {
+                .attr('d', function(d) {
                     var o = {
                         x: source.x,
                         y: source.y
@@ -1000,13 +1007,13 @@ if (typeof JSV === "undefined") {
                 var viewerWidth = JSV.viewerWidth;
                 var viewerHeight = JSV.viewerHeight;
 
-                JSV.zoomListener = d3.behavior.zoom().scaleExtent([0.1, 3]).on("zoom", JSV.zoom);
+                JSV.zoomListener = d3.behavior.zoom().scaleExtent([0.1, 3]).on('zoom', JSV.zoom);
 
-                JSV.baseSvg = d3.select("#main-body").append("svg")
-                    .attr("id", "jsv-tree")
-                    .attr("class", "overlay")
-                    .attr("width", viewerWidth)
-                    .attr("height", viewerHeight)
+                JSV.baseSvg = d3.select('#main-body').append('svg')
+                    .attr('id', 'jsv-tree')
+                    .attr('class', 'overlay')
+                    .attr('width', viewerWidth)
+                    .attr('height', viewerHeight)
                     .call(JSV.zoomListener);
 
                 JSV.tree = d3.layout.tree()
@@ -1024,8 +1031,8 @@ if (typeof JSV === "undefined") {
                 // Sort the tree initially in case the JSON isn't in a sorted order.
                 //JSV.sortTree();
 
-                JSV.svgGroup = JSV.baseSvg.append("g")
-                    .attr("id", "node-group");
+                JSV.svgGroup = JSV.baseSvg.append('g')
+                    .attr('id', 'node-group');
 
                 // Layout the tree initially and center on the root node.
                 JSV.resetViewer();
@@ -1034,66 +1041,66 @@ if (typeof JSV === "undefined") {
 
                 // define the legend svg, attaching a class for styling
                 var legendData = [{
-                    text: "Expanded",
+                    text: 'Expanded',
                     y: 20
                 }, {
-                    text: "Collapsed",
-                    iconCls: "collapsed",
+                    text: 'Collapsed',
+                    iconCls: 'collapsed',
                     y: 40
                 }, {
-                    text: "Selected",
-                    itemCls: "focus",
+                    text: 'Selected',
+                    itemCls: 'focus',
                     y: 60
                 },{
-                    text: "Required*",
+                    text: 'Required*',
                     y: 80
                 },{
-                    text: "Object{ }",
-                    iconCls: "collapsed",
+                    text: 'Object{ }',
+                    iconCls: 'collapsed',
                     y: 100
                 },{
-                    text: "Array[minimum #]",
-                    iconCls: "collapsed",
+                    text: 'Array[minimum #]',
+                    iconCls: 'collapsed',
                     y: 120
                 },{
-                    text: "Abstract Property",
-                    itemCls: "abstract",
+                    text: 'Abstract Property',
+                    itemCls: 'abstract',
                     y: 140,
                     opacity: 0.5
                 }];
 
 
-                var legendSvg = d3.select("#legend-items").append("svg")
-                    //.attr("width", viewerWidth)
-                    .attr("height", 160);
+                var legendSvg = d3.select('#legend-items').append('svg')
+                    //.attr('width', viewerWidth)
+                    .attr('height', 160);
 
                 // Update the nodes…
-                var legendItem = legendSvg.selectAll("g.item-group")
+                var legendItem = legendSvg.selectAll('g.item-group')
                     .data(legendData)
                     .enter()
-                    .append("g")
-                    .attr("class", function(d) {
-                        var cls = "item-group ";
+                    .append('g')
+                    .attr('class', function(d) {
+                        var cls = 'item-group ';
 
                         cls += d.itemCls || '';
                         return cls;
                     })
-                    .attr("transform", function(d) {
-                        return "translate(10, " + d.y + ")";
+                    .attr('transform', function(d) {
+                        return 'translate(10, ' + d.y + ')';
                     });
 
-                legendItem.append("circle")
-                    .attr("r", 6.5)
-                    .attr("class", function(d) {
+                legendItem.append('circle')
+                    .attr('r', 6.5)
+                    .attr('class', function(d) {
                         return d.iconCls;
                     });
 
-                legendItem.append("text")
-                    .attr("x", 15)
-                    .attr("dy", ".35em")
-                    .attr("class", "item-text")
-                    .attr("text-anchor", "start")
-                    .style("fill-opacity", function(d) {
+                legendItem.append('text')
+                    .attr('x', 15)
+                    .attr('dy', '.35em')
+                    .attr('class', 'item-text')
+                    .attr('text-anchor', 'start')
+                    .style('fill-opacity', function(d) {
                         return d.opacity || 1;
                     })
                     .text(function(d) {
