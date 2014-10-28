@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <head>
     <meta charset="utf-8">
-    <title>JSON Schema Viewer <!-- @echo version --></title>
+    <title>JSON Schema Viewer 0.1.0</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.3/jquery.mobile-1.4.3.min.css" />
-    <link rel="stylesheet" href="styles/json-schema-viewer<!-- @if NODE_ENV='PRODUCTION' -->.min<!-- @endif -->.css" />
+    <link rel="stylesheet" href="styles/json-schema-viewer.css" />
 
 </head>
 <body>
@@ -143,7 +143,6 @@
 
     <script type='text/javascript' src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
     <script type='text/javascript' src="http://code.jquery.com/mobile/1.4.3/jquery.mobile-1.4.3.min.js"></script>
-    <!-- @if NODE_ENV!='PRODUCTION' -->
     <script type='text/javascript' src="lib/tv4/tv4.min.js"></script>
     <script type='text/javascript' src="lib/tv4.async-load-jquery.js"></script>
     <script type='text/javascript' src="lib/d3/d3.js"></script>
@@ -151,11 +150,6 @@
     <script type='text/javascript' src='lib/jsonpointer/src/jsonpointer.js'></script>
     <script type='text/javascript' src="lib/highlightjs/highlight.min.js"></script>
     <script type='text/javascript' src="json-schema-viewer.js"></script>
-    <!-- @endif -->
-    <!-- @if NODE_ENV='PRODUCTION' -->
-    <script type='text/javascript' src="json-schema-viewer.min.js"></script>
-    <!-- @endif -->
-
     <script type="text/javascript" charset="utf-8">
         (function($) {
 
