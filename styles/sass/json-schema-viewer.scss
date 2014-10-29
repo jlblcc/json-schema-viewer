@@ -135,20 +135,24 @@ div#info-tab-def.info-tab, #info-panel .info-tab pre {
   stroke-width: 1.5px;
 }
         /*****Validator*****/
-#textarea-json {
+#textarea-json, #textarea-translator {
   height: auto !important;
   overflow-y: auto;
 }
 
-#validator-page {
+#translator-page {
+  background-color: #DEF0F9;
+}
+
+#validator-page, #translator-page {
   height: 100%;
 }
 
-#validator-page .section {
+#validator-page .section, #translator-page .section {
   padding: 1em;
 }
 
-#validator-page .drag {
+#validator-page .drag, #translator-page .drag {
   background-color: #CBFF8B;
 }
 
@@ -159,6 +163,7 @@ div#info-tab-def.info-tab, #info-panel .info-tab pre {
 #validation-results.error {
   background-color: #FFE3E3;
 }
+
         /*****JQM Overrides*****/
 .ui-icon-loading {
   background: none !important;
