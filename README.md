@@ -1,4 +1,4 @@
-Json Schema Viewer
+JSON Schema Viewer
 ==================
 
 JavaScript tool for visualizing [json-schemas](http://json-schema.org/), includes validator.
@@ -16,3 +16,4 @@ Built using:
  - [FileReader.js](http://bgrins.github.io/filereader.js/)
  - [highlight.js](https://highlightjs.org/)
  - [jsonpointer.js](https://github.com/alexeykuzmin/jsonpointer.js)
+ - [Grunt HTML Boiler](https://github.com/mhulse/grunt-html-boiler)
