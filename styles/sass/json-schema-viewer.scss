@@ -163,6 +163,11 @@ div#info-tab-def.info-tab, #info-panel .info-tab pre {
 #validation-results.error {
   background-color: #FFE3E3;
 }
+      /*****Buttons******/
+.ui-icon-translate:after {
+    background-image: url("../images/translate.png");
+    background-size: 20px 20px;
+}
 
         /*****JQM Overrides*****/
 .ui-icon-loading {
