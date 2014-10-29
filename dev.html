@@ -154,7 +154,7 @@
         (function($) {
 
             JSV.init({
-                schema: window.location.origin + window.location.pathname.substring(0, window.location.pathname.lastIndexOf("/")+1) + 'adiwg-json-schemas/schema/schema.json'
+                schema: window.location.origin + window.location.pathname.substring(0, window.location.pathname.lastIndexOf("/")+1) + 'schemas/schema/schema.json'
             }, function(){
                 JSV.setVersion(tv4.getSchema(JSV.treeData.schema).version);
             });

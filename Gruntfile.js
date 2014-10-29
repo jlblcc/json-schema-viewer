@@ -388,7 +388,7 @@ module.exports = function(grunt) {
                         cwd : './',
                         src : [
                             'images/**/*',
-                            'schema/**/*',
+                            'schemas/**/*',
                             '!images/junk/**',
                         ],
                         dest : './prod/<%= pkg.version %>/<%= now %>/<%= ver %>/',
