@@ -1,0 +1,53 @@
+[
+  {
+    "distributorContact": {
+      "contactId": "4",
+      "role": "custodian"
+    },
+    "distributionOrderProcess": [
+      {
+        "fees": "0.00USD",
+        "plannedAvailabilityDateTime": "2013-06-21",
+        "orderingInstructions": "Send an e-mail",
+        "turnaround": "up to 3 hours"
+      }, {
+        "fees": "3.00USD",
+        "turnaround": "immediate"
+      }
+    ],
+    "distributorFormat": [
+      {
+        "formatName": "netCDF",
+        "version": "4.0"
+      }, {
+        "formatName": "Excel Spreadsheet",
+        "version": "xlsx"
+      }
+    ],
+    "distributorTransferOptions": [
+      {
+        "online": [
+          {
+            "uri": "http://aoos.org/aoos-data-resources",
+            "name": "Aoos Data Resources",
+            "description": "This page provides links to interactive maps and data discovery tools.",
+            "function": "information"
+          }, {
+            "uri": "http://aoos.org/fake_resource_location",
+            "function": "download"
+          }
+        ],
+        "offline": {
+          "name": "dvd",
+          "mediumFormat": "iso9660",
+          "mediumNote": "To receive a dvd in the mail, contact the distributor POC."
+        }
+      }
+    ]
+  }, {
+    "distributorContact": {
+      "contactId": "5",
+      "role": "distributor"
+    }
+  }
+]

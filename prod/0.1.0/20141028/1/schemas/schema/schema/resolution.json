@@ -1,0 +1,48 @@
+{
+  "id": "resolution.json#",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "description": "Information about the scale of the geographic extent.",
+  "translation": {
+    "ISO 19115-2": ["MD_Resolution"]
+  },
+  "anyOf": [
+    {
+      "type": "object",
+      "title": "scaleFactor",
+      "description": "Scale of geographic extent",
+      "required": ["equivalentScale"],
+      "additionalProperties": true,
+      "properties": {
+        "equivalentScale": {
+          "type": "number",
+          "description": "Scale of geographic extent expressed in a hardcopy map scale fraction (denominator).",
+          "translation": {
+            "ISO 19115-2": ["MD_Resolution > equivalentScale > MD_RepresentativeFraction > denominator > Integer"]
+          }
+        }
+      }
+    }, {
+      "type": "object",
+      "title": "distance",
+      "description": "Scale of geographic extent expressed in ground distance parameters.",
+      "required": ["distance"],
+      "additionalProperties": true,
+      "properties": {
+        "distance": {
+          "type": "number",
+          "description": "Ground distance measurement representing geographic extent.",
+          "translation": {
+            "ISO 19115-2": ["MD_Resolution > distance > Distance "]
+          }
+        },
+        "uom": {
+          "type": "string",
+          "description": "Ground distance units of measure.",
+          "translation": {
+            "ISO 19115-2": ["MD_Resolution > distance > Distance @uom"]
+          }
+        }
+      }
+    }
+  ]
+}
