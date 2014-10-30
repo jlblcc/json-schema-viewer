@@ -1,0 +1,208 @@
+{
+  "id": "extent.json#",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "description": "Information about the geographic extent of the resource.",
+  "translation": {
+    "ISO 19115-2": ["EX_Extent"]
+  },
+  "additionalProperties": true,
+  "properties": {
+    "description": {
+      "type": "string",
+      "description": "Description of the geographic extent.",
+      "translation": {
+        "ISO 19115-2": ["EX_Extent > description"]
+      }
+    },
+    "geographicElement": {
+      "type": "array",
+      "description": "A grouping of geographic objects that comprises all or part of the extent.",
+      "translation": {
+        "ISO 19115-2": ["EX_Extent > geographicElement >"]
+      },
+      "items": {
+        "properties": {
+          "type": {
+            "enum": ["Feature", "FeatureCollection", "GeometryCollection", "Point", "MultiPoint", "LineString", "MultiLineString", "Polygon", "MultiPolygon"],
+            "description": "The type of geographic object."
+          }
+        },
+        "oneOf": [
+          {
+            "$ref": "geojson/geojson.json#"
+          }
+        ]
+      }
+    },
+    "verticalElement": {
+      "type": "array",
+      "description": "Vertical element of an extent.",
+      "translation": {
+        "ISO 19115-2": ["EX_Extent > verticalElement > EX_VerticalExtent "]
+      },
+      "items": {
+        "$ref": "#/definitions/verticalExtent"
+      }
+    },
+    "temporalElement": {
+      "$ref": "#/definitions/temporalElement"
+    }
+  },
+  "definitions": {
+    "timeInstant": {
+      "type": "object",
+      "required": ["timePosition"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "A unique identifier for a temporal element.",
+          "translation": {
+            "ISO 19115-2": ["EX_TemporalExtent > extent > TimeInstant @id"]
+          }
+        },
+        "description": {
+          "type": "string",
+          "description": "Text associated with the time instance.",
+          "translation": {
+            "ISO 19115-2": ["EX_TemporalExtent > extent > TimeInstant > description"]
+          }
+        },
+        "timePosition": {
+          "translation": {
+            "ISO 19115-2": ["EX_TemporalExtent > extent > TimeInstant > timePosition"]
+          },
+          "$ref": "../schema.json#/definitions/date"
+        }
+      }
+    },
+    "timePeriod": {
+      "type": "object",
+      "description": "A span of time represented by a start date/time and an ending date/time.",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "A unique identifier for a temporal element.",
+          "translation": {
+            "ISO 19115-2": ["EX_TemporalExtent > extent > TimePeriod @id"]
+          }
+        },
+        "description": {
+          "type": "string",
+          "description": "Text associated with the time instance.",
+          "translation": {
+            "ISO 19115-2": ["EX_TemporalExtent > extent > TimePeriod > description "]
+          }
+        },
+        "beginPosition": {
+          "description": "Starting date, or date and time.",
+          "translation": {
+            "ISO 19115-2": ["EX_TemporalExtent > extent > TimePeriod > beginPosition "],
+            "FGDC CSDGM": ["idinfo > timeperd > rngdates > begdate"]
+          },
+          "$ref": "../schema.json#/definitions/date"
+        },
+        "endPosition": {
+          "description": "Ending date, or date and time.",
+          "translation": {
+            "ISO 19115-2": ["EX_TemporalExtent > extent > TimePeriod > endPosition"],
+            "FGDC CSDGM": ["idinfo > timeperd > rngdates > enddate"]
+          },
+          "$ref": "../schema.json#/definitions/date"
+        }
+      },
+      "anyOf": [
+        {
+          "title": "beginPosition required",
+          "required": ["beginPosition"]
+        }, {
+          "title": "endPosition required",
+          "required": ["endPosition"]
+        }
+      ]
+    },
+    "temporalElement": {
+      "type": "object",
+      "description": "Temporal context for the resource.",
+      "translation": {
+        "ISO 19115-2": ["EX_Extent > temporalElement > EX_TemporalExtent"]
+      },
+      "additionalProperties": false,
+      "minProperties": 1,
+      "properties": {
+        "timeInstant": {
+          "type": "array",
+          "description": "A set of date time instances.",
+          "translation": {
+            "ISO 19115-2": ["EX_TemporalExtent > extent > TimeInstant"]
+          },
+          "items": {
+            "$ref": "#/definitions/timeInstant"
+          }
+        },
+        "timePeriod": {
+          "type": "array",
+          "description": "A set of time periods.",
+          "translation": {
+            "ISO 19115-2": ["EX_TemporalExtent > extent > TimePeriod"]
+          },
+          "items": {
+            "$ref": "#/definitions/timePeriod"
+          }
+        },
+        "date": {
+          "type": "array",
+          "description": "A set of date times.",
+          "translation": {
+            "ISO 19115-2": ["EX_TemporalExtent > extent > TimeInstant > timePosition"]
+          },
+          "items": {
+            "$ref": "../schema.json#/definitions/date"
+          }
+        }
+      }
+    },
+    "verticalExtent": {
+      "type": "object",
+      "description": "Vertical element of an extent.",
+      "translation": {
+        "ISO 19115-2": ["EX_Extent > verticalElement > EX_VerticalExtent "]
+      },
+      "additionalProperties": false,
+      "required": ["minimumValue", "maximumValue", "verticalCRSTitle", "verticalCRSUri"],
+      "properties": {
+        "minimumValue": {
+          "type": "number",
+          "description": "Lowest vertical extent contained in the dataset.",
+          "translation": {
+            "ISO 19115-2": ["EX_VerticalExtent > minimumValue > Real "]
+          }
+        },
+        "maximumValue": {
+          "type": "number",
+          "description": "Highest vertical extent contained in the dataset.",
+          "translation": {
+            "ISO 19115-2": ["EX_VerticalExtent > maximumValue > Real "]
+          }
+        },
+        "verticalCRSTitle": {
+          "type": "string",
+          "description": "Name of a geographic reference system associated with a vertical extent.",
+          "translation": {
+            "ISO 19115-2": ["EX_VerticalExtent > verticalCRS @xlink:title "],
+            "FGDC CSDGM": ["spref > vertdef > altsys > altdatum"]
+          }
+        },
+        "verticalCRSUri": {
+          "description": "Web link to the parameters for a geographic reference system associated with a vertical extent.",
+          "translation": {
+            "ISO 19115-2": ["EX_VerticalExtent > verticalCRS @xlink:href "]
+          },
+          "$ref": "../schema.json#/definitions/uri"
+        }
+      }
+    }
+  }
+}

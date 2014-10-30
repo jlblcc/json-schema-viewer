@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "bbox.json#",
+  "description": "To include information on the coordinate range for geometries, features, or feature collections, a GeoJSON object may have a member named \"bbox\". The value of the bbox member must be a 2*n array where n is the number of dimensions represented in the contained geometries, with the lowest values for all axes followed by the highest values. The axes order of a bbox follows the axes order of geometries. In addition, the coordinate reference system for the bbox is assumed to match the coordinate reference system of the GeoJSON object of which it is a member.",
+  "translation": {
+    "ISO 19115-2": ["EX_Extent > geographicElement > EX_GeographicBoundingBox\nEX_GeographicBoundingBox > westBoundLongitude > Decimal {west}\nEX_GeographicBoundingBox > eastBoundLongitude > Decimal {east}\nEX_GeographicBoundingBox > southBoundLatitude > Decimal {south}\nEX_GeographicBoundingBox > northBoundLatitude > Decimal {north}"],
+    "FGDC CSDGM": ["[idinfo > spdom > bounding > westbc], [idinfo > spdom > bounding > eastbc], [idinfo > spdom > bounding > northbc], [idinfo > spdom > bounding > southbc]"]
+  },
+  "type": "array",
+  "minItems": 4,
+  "items": {
+    "type": "number"
+  }
+}
