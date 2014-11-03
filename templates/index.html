@@ -145,55 +145,57 @@
             </div>
         </div>
         <div role="main" class="ui-content">
+                <form id="translation-form" name="translation-form" action="http://mdtranslator.herokuapp.com/api/v1/translator">
+
             <div class="ui-grid-a ui-responsive">
-                <div class="ui-block-a section">
-                    <label for="textarea-translator">Input to <b>Translate</b></label>
-                    <textarea cols="40" rows="15" name="textarea-translator" id="textarea-translator" placeholder="Enter your text or Drag-n-Drop a file here..."></textarea>
-                </div>
-                <div class="ui-block-b section">
-                    <label for="file-upload">Upload File:</label>
-                    <input id="file-upload-translator" type="file" name="file" data-role=""/>
-
-                    <div class="ui-field-contain">
-
-                        <label for="select-reader" class="select">Reader:</label>
-                        <select name="select-reader" id="select-reader" data-native-menu="false">
-                            <option data-placeholder="true">Choose a Reader...</option>
-                            <option value="adiwgJSON">ADIwg mdJSON</option>
-                        </select>
-                        <label for="select-writer" class="select">Writer:</label>
-                        <select name="select-writer" id="select-writer" data-native-menu="false">
-                            <option data-placeholder="true">Choose a Writer...</option>
-                            <option value="ISO19115_2">ISO 19115-2</option>
-                        </select>
+                    <div class="ui-block-a section">
+                        <label for="textarea-translator">Input to <b>Translate</b></label>
+                        <textarea cols="40" rows="15" name="file" id="textarea-translator" placeholder="Enter your text or Drag-n-Drop a file here..."></textarea>
                     </div>
-                    <div class="ui-field-contain">
-                        <fieldset data-role="controlgroup" data-type="horizontal">
-                            <legend>
-                                Validation:
-                            </legend>
-                            <input type="radio" name="radio-choice-h-2" id="radio-choice-h-2a" value="normal" checked="checked">
-                            <label for="radio-choice-h-2a">Normal</label>
-                            <input type="radio" name="radio-choice-h-2" id="radio-choice-h-2b" value="strict">
-                            <label for="radio-choice-h-2b">Strict</label>
-                            <input type="radio" name="radio-choice-h-2" id="radio-choice-h-2c" value="none">
-                            <label for="radio-choice-h-2c">None</label>
-                        </fieldset>
-                    </div>
-                    <div class="ui-field-contain">
+                    <div class="ui-block-b section">
+                        <label for="file-upload">Upload File:</label>
+                        <input id="file-upload-translator" type="file" name="fileupload" data-role=""/>
 
-                        <fieldset data-role="controlgroup">
-                            <legend>
-                                Options:
-                            </legend>
-                            <input type="checkbox" name="checkbox-validateonly" id="checkbox-validateonly">
-                            <label for="checkbox-validateonly">Validate Only</label>
-                            <input type="checkbox" name="checkbox-showtags" id="checkbox-showtags">
-                            <label for="checkbox-showtags">Output Empty Tags</label>
-                        </fieldset>
+                        <div class="ui-field-contain">
+
+                            <label for="select-reader" class="select">Reader:</label>
+                            <select name="reader" id="select-reader" data-native-menu="false">
+                                <option value="" data-placeholder="true">Choose a Reader...</option>
+                                <option value="adiwgJson">ADIwg mdJSON</option>
+                            </select>
+                            <label for="select-writer" class="select">Writer:</label>
+                            <select name="writer" id="select-writer" data-native-menu="false">
+                                <option value="" data-placeholder="true">Choose a Writer...</option>
+                                <option value="iso19115_2">ISO 19115-2</option>
+                            </select>
+                        </div>
+                        <div class="ui-field-contain">
+                            <fieldset data-role="controlgroup" data-type="horizontal">
+                                <legend>
+                                    Validation:
+                                </legend>
+                                <input type="radio" name="validate" id="radio-choice-h-2a" value="normal" checked="checked">
+                                <label for="radio-choice-h-2a">Normal</label>
+                                <input type="radio" name="validate" id="radio-choice-h-2b" value="strict">
+                                <label for="radio-choice-h-2b">Strict</label>
+                                <input type="radio" name="validate" id="radio-choice-h-2c" value="none">
+                                <label for="radio-choice-h-2c">None</label>
+                            </fieldset>
+                        </div>
+                        <div class="ui-field-contain">
+
+                            <fieldset data-role="controlgroup">
+                                <legend>
+                                    Options:
+                                </legend>
+                                <input type="checkbox" name="showAllTags" id="checkbox-showtags" value="true">
+                                <label for="checkbox-showtags">Output Empty Tags</label>
+                            </fieldset>
+                        </div>
                     </div>
-                </div>
             </div>
+                </form>
+
             <button id="button-translate" class="ui-btn ui-icon-translate ui-btn-icon-bottom">
                 Translate!
             </button>
@@ -221,21 +223,10 @@
     <script type='text/javascript' src='lib/jsonpointer/src/jsonpointer.js'></script>
     <script type='text/javascript' src="lib/highlightjs/highlight.min.js"></script>
     <script type='text/javascript' src="json-schema-viewer.js"></script>
+    <script type='text/javascript' src="lib/translator.js"></script>
     <!-- @endif -->
     <!-- @if NODE_ENV='PRODUCTION' -->
     <script type='text/javascript' src="json-schema-viewer.min.js"></script>
     <!-- @endif -->
-
-    <script type="text/javascript" charset="utf-8">
-        (function($) {
-
-            JSV.init({
-                schema: window.location.origin + window.location.pathname.substring(0, window.location.pathname.lastIndexOf("/")+1) + 'schemas/schema/schema.json'
-            }, function(){
-                JSV.setVersion(tv4.getSchema(JSV.treeData.schema).version);
-            });
-
-        })(jQuery);
-    </script>
 </body>
 </html>
