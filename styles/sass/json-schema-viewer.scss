@@ -142,6 +142,19 @@ div#info-tab-def.info-tab, #info-panel .info-tab pre {
 
 #translator-page {
   background-color: #DEF0F9;
+
+  #translation-results {
+    overflow: hidden;
+
+    pre {
+      width: 95%;
+      margin: auto;
+      overflow: auto;
+      background-color: #FFFBF4;
+      padding: 10px;
+    }
+  }
+
 }
 
 #validator-page, #translator-page {
