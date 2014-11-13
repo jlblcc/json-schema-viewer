@@ -135,37 +135,20 @@ div#info-tab-def.info-tab, #info-panel .info-tab pre {
   stroke-width: 1.5px;
 }
         /*****Validator*****/
-#textarea-json, #textarea-translator {
+#textarea-json {
   height: auto !important;
   overflow-y: auto;
 }
 
-#translator-page {
-  background-color: #DEF0F9;
-
-  #translation-results {
-    overflow: hidden;
-
-    pre {
-      width: 95%;
-      margin: auto;
-      overflow: auto;
-      background-color: #FFFBF4;
-      padding: 10px;
-    }
-  }
-
-}
-
-#validator-page, #translator-page {
+#validator-page {
   height: 100%;
 }
 
-#validator-page .section, #translator-page .section {
+#validator-page .section {
   padding: 1em;
 }
 
-#validator-page .drag, #translator-page .drag {
+#validator-page .drag {
   background-color: #CBFF8B;
 }
 
@@ -176,12 +159,6 @@ div#info-tab-def.info-tab, #info-panel .info-tab pre {
 #validation-results.error {
   background-color: #FFE3E3;
 }
-      /*****Buttons******/
-.ui-icon-translate:after {
-    background-image: url("../images/translate.png");
-    background-size: 20px 20px;
-}
-
         /*****JQM Overrides*****/
 .ui-icon-loading {
   background: none !important;

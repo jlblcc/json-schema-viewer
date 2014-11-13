@@ -6,7 +6,7 @@
  * @docs https://github.com/jlblcc/json-schema-viewer
  * @license Released under the Unlicense.
  * @version 0.1.0
- * @date 2014/10/30
+ * @date 2014/10/28
  */
 
 
@@ -150,24 +150,20 @@ div#info-tab-def.info-tab, #info-panel .info-tab pre {
 }
 
 /*****Validator*****/
-#textarea-json, #textarea-translator {
+#textarea-json {
   height: auto !important;
   overflow-y: auto;
 }
 
-#translator-page {
-  background-color: #DEF0F9;
-}
-
-#validator-page, #translator-page {
+#validator-page {
   height: 100%;
 }
 
-#validator-page .section, #translator-page .section {
+#validator-page .section {
   padding: 1em;
 }
 
-#validator-page .drag, #translator-page .drag {
+#validator-page .drag {
   background-color: #CBFF8B;
 }
 
@@ -177,12 +173,6 @@ div#info-tab-def.info-tab, #info-panel .info-tab pre {
 
 #validation-results.error {
   background-color: #FFE3E3;
-}
-
-/*****Buttons******/
-.ui-icon-translate:after {
-  background-image: url("../images/translate.png");
-  background-size: 20px 20px;
 }
 
 /*****JQM Overrides*****/
