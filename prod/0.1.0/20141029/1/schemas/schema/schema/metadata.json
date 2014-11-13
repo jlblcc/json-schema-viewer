@@ -1,0 +1,172 @@
+{
+  "id": "metadata.json#",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "description": "The main body of the metadata record.",
+  "type": "object",
+  "example": "../../examples/full_example.json#/metadata",
+  "translation": {
+    "ISO 19115-2": ["MI_Metadata"],
+    "FGDC CSDGM": ["metadata"]
+  },
+  "required": ["resourceInfo"],
+  "additionalProperties": false,
+  "properties": {
+    "metadataInfo": {
+      "type": "object",
+      "description": "General information about the metadata record.",
+      "example": "../../examples/full_example.json#/metadata/metadataInfo",
+      "required": ["metadataContact", "metadataCreationDate"],
+      "additionalProperties": false,
+      "properties": {
+        "metadataIdentifier": {
+          "description": "Unique identifier for this metadata file.",
+          "translation": {
+            "ISO 19115-2": ["MI_Metadata > fileIdentifier"]
+          },
+          "$ref": "citation.json#/definitions/identifier"
+        },
+        "parentMetadata": {
+          "description": "Identifier of the metadata to which this metadata is a subset (child).",
+          "translation": {
+            "ISO 19115-2": ["MI_Metadata > parentIdentifier"]
+          },
+          "$ref": "citation.json#/definitions/citationFull"
+        },
+        "metadataScope": {
+          "type": "array",
+          "description": "Identifier of the metadata to which this metadata is a subset (child).",
+          "translation": {
+            "ISO 19115-2": ["MI_Metadata > parentIdentifier"]
+          },
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        },
+        "metadataContact": {
+          "type": "array",
+          "description": "Person or organization responsible for metadata information (metadata custodian).",
+          "translation": {
+            "ISO 19115-2": ["MI_Metadata > contact > CI_Contact > responsibleParty > CI_ResponsibleParty"],
+            "FGDC CSDGM": ["metainfo > metc > cntinfo"]
+          },
+          "minItems": 1,
+          "items": {
+            "$ref": "contact.json#/definitions/contactRef"
+          }
+        },
+        "metadataCharacterSet": {
+          "type": "string",
+          "description": "Full name of the character coding standard used for the metadata set. ",
+          "translation": {
+            "ISO 19115-2": ["MI_Metadata > characterSet [MD_CharacterSetCode]"]
+          }
+        },
+        "metadataCreationDate": {
+          "$ref": "../schema.json#/definitions/date",
+          "description": "Date that the metadata was created.",
+          "translation": {
+            "ISO 19115-2": ["MI_Metadata > dateStamp"],
+            "FGDC CSDGM": ["metainfo > metd"]
+          }
+        },
+        "metadataLastUpdate": {
+          "$ref": "../schema.json#/definitions/date",
+          "description": "Date that the metadata was updated.",
+          "translation": {
+            "ISO 19115-2": ["MI_Metadata > dateStamp"],
+            "FGDC CSDGM": ["metainfo > metrd"]
+          }
+        },
+        "metadataUri": {
+          "$ref": "../schema.json#/definitions/uri",
+          "description": "Uniform Resource Identifier (URI) of the metadata record."
+        },
+        "metadataStatus": {
+          "type": "string",
+          "description": "Status of the metadata record."
+        },
+        "metadataMaintenance": {
+          "description": "Provides information about the frequency of metadata updates, and the scope of those updates.",
+          "translation": {
+            "ISO 19115-2": ["MI_Metadata > metadataMaintenance > MD_MaintenanceInformation"]
+          },
+          "$ref": "maintInfo.json#"
+        }
+      }
+    },
+    "resourceInfo": {
+      "translation": {
+        "ISO 19115-2": ["MD_Metadata > identificationInfo > MD_DataIdentification"],
+        "FGDC CSDGM": ["idinfo"]
+      },
+      "$ref": "resourceInfo.json#"
+    },
+    "distributionInfo": {
+      "type": "array",
+      "description": "Information about the distributor of and options for obtaining the resource.",
+      "example": "../../examples/full_example.json#/metadata/distributionInfo",
+      "translation": {
+        "ISO 19115-2": ["MD_Metadata > distribution > MD_Distribution"],
+        "FGDC CSDGM": ["distinfo"]
+      },
+      "items": {
+        "$ref": "distributor.json#"
+      }
+    },
+    "associatedResource": {
+      "type": "array",
+      "description": "Information about a resource related to the data resource, such as: study, dataset, project, etc. An associated resource may be a child reference, or reference a larger work, such as an initiative.",
+      "example": "../../examples/full_example.json#/metadata/associatedResource",
+      "translation": {
+        "ISO 19115-2": ["MD_DataIdentification > aggregationInfo > MD_AggregateInformation"],
+        "FGDC CSDGM": ["idinfo > crossref"]
+      },
+      "items": {
+        "type": "object",
+        "required": ["associationType", "resourceType"],
+        "additionalProperties": false,
+        "properties": {
+          "associationType": {
+            "type": "string",
+            "description": "Identifies the type of association, such as; source, cross reference, etc.",
+            "translation": {
+              "ISO 19115-2": ["MD_AggregateInformation > associationType [DS_AssociationTypeCode]"]
+            }
+          },
+          "resourceType": {
+            "type": "string",
+            "description": "Identifies the type of resource, such as; a dataset, study, publication, etc.",
+            "translation": {
+              "ISO 19115-2": ["MD_AggregateInformation > initiativeType > [DS_InitiativeTypeCode]"]
+            }
+          },
+          "resourceCitation": {
+            "description": "Citation for the associated resource.",
+            "translation": {
+              "ISO 19115-2": ["MD_AggregateInformation > aggregateDataSetName > CI_Citation"],
+              "FGDC CSDGM": ["idinfo > crossref > citeinfo"]
+            },
+            "$ref": "citation.json#"
+          },
+          "metadataCitation": {
+            "description": "Citation for the associated resource metadata.",
+            "$ref": "citation.json#"
+          }
+        }
+      }
+    },
+    "additionalDocumentation": {
+      "additionalProperties": false,
+      "type": "array",
+      "description": "Additional references associated with the resource, such as; web sites, documents for additional reading, etc.",
+      "translation": {
+        "ISO 19115-2": ["MD_DataIdentification > aggregationInfo > MD_AggregateInformation > aggregateDataSetName > CI_Citation"],
+        "FGDC CSDGM": ["idinfo > crossref "]
+      },
+      "items": {
+        "$ref": "citation.json#"
+      }
+    }
+  }
+}

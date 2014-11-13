@@ -1,0 +1,73 @@
+[
+  {
+    "keyword": ["Oceans > Ocean temperature > Thermocline", "Oceans > Ocean Temperature > Water Temperature", "Oceans > Ocean Heat Budget > Heat Flux"],
+    "keywordType": "theme",
+    "thesaurus": {
+      "title": "NASA/Global Change Master Directory (GCMD) Earth Science Keywords.",
+      "date": [
+        {
+          "date": "2013-09-19",
+          "dateType": "revision"
+        }
+      ],
+      "onlineResource": [
+        {
+          "uri": "http://gcmdservices.gsfc.nasa.gov/static/kms/sciencekeywords/sciencekeywords.csv"
+        }
+      ],
+      "edition": "Version 8.0.0.0.0",
+      "responsibleParty": [
+        {
+          "contactId": "1",
+          "role": "originator"
+        }, {
+          "contactId": "2",
+          "role": "owner"
+        }
+      ],
+      "presentationForm": ["documentDigital"],
+      "identifier": [
+        {
+          "type": "isbn",
+          "identifier": "HB12365.214"
+        }, {
+          "type": "issn",
+          "identifier": "0ab4-dd983c01"
+        }
+      ]
+    }
+  }, {
+    "keyword": ["Oceans > Ocean temperature > Thermocline", "Oceans > Ocean Temperature > Water Temperature", "Oceans > Ocean Heat Budget > Heat Flux"],
+    "keywordType": "theme",
+    "thesaurus": {
+      "title": "NASA/Global Change Master Directory (GCMD) Earth Science Keywords.",
+      "date": [
+        {
+          "date": "2013-09-19",
+          "dateType": "revision"
+        }
+      ],
+      "onlineResource": [
+        {
+          "uri": "http://gcmdservices.gsfc.nasa.gov/static/kms/sciencekeywords/sciencekeywords.csv"
+        }
+      ]
+    }
+  }, {
+    "keyword": ["In Situ/Laboratory Instruments > Temperature/Humidity Sensors > Thermometers"],
+    "keywordType": "instrument",
+    "thesaurus": {
+      "title": "NASA/Global Change Master Directory (GCMD) Earth Science Keywords."
+    }
+  }, {
+    "keyword": ["In Situ/Laboratory Instruments > Temperature/Humidity Sensors > Thermometers"],
+    "keywordType": "instrument"
+  }, {
+    "keyword": ["In Situ/Laboratory Instruments > Temperature/Humidity Sensors > Thermometers"],
+    "thesaurus": {
+      "title": "NASA/Global Change Master Directory (GCMD) Earth Science Keywords."
+    }
+  }, {
+    "keyword": ["thermocline", "sea surface temperature"]
+  }
+]
