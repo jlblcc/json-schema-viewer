@@ -17,4 +17,3 @@ Built using:
  - [highlight.js](https://highlightjs.org/)
  - [jsonpointer.js](https://github.com/alexeykuzmin/jsonpointer.js)
  - [Grunt HTML Boiler](https://github.com/mhulse/grunt-html-boiler)
- 
