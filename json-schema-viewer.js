@@ -16,7 +16,8 @@ if (typeof JSV === 'undefined') {
         schema: '',
 
         /**
-         * If true, render diagram only on init.
+         * If true, render diagram only on init, without the jQuery Mobile UI.
+         * The legend and nav tools will be rendered with any event listeners.
          */
         plain: false,
 
