@@ -63,3 +63,4 @@ prod
 /index.html
 styles/*.*
 jsdoc
+.grunt
