@@ -58,8 +58,8 @@ sitemap.xml.gz*~
 node_modules
 bower_components
 prod
-dev.html
-basic.html
-index.html
+/dev.html
+/basic.html
+/index.html
 styles/*.*
 jsdoc
