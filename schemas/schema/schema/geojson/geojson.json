@@ -1,0 +1,194 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "geojson.json#",
+  "title": "GeoJSON object",
+  "description": "GeoJSON is a format for encoding a variety of geographic data structures. A GeoJSON object may represent a geometry, a feature, or a collection of features. \n\nGeoJSON supports the following geometry types: Point, LineString, Polygon, MultiPoint, MultiLineString, MultiPolygon, and GeometryCollection. Features in GeoJSON contain a geometry object and additional properties, and a feature collection represents a list of features. \n\nSee http://geojson.org for the full specification.",
+  "example": "../../../examples/full_example.json#/metadata/resourceInfo/extent/0/geographicElement",
+  "type": "object",
+  "required": ["type"],
+  "properties": {
+    "crs": {
+      "description": "The coordinate reference system (CRS) of a GeoJSON object.",
+      "$ref": "crs.json#"
+    },
+    "bbox": {
+      "$ref": "bbox.json#"
+    }
+  },
+  "oneOf": [
+    {
+      "$ref": "geometry.json#"
+    }, {
+      "$ref": "#/definitions/geometryCollection"
+    }, {
+      "$ref": "#/definitions/feature"
+    }, {
+      "$ref": "#/definitions/featureCollection"
+    }
+  ],
+  "definitions": {
+    "geometryCollection": {
+      "title": "GeometryCollection",
+      "description": "A collection of geometry objects",
+      "example": "../../../examples/full_example.json#/metadata/resourceInfo/extent/1/geographicElement",
+      "translation": {
+        "ISO 19115-2": ["EX_Extent > geographicElement > EX_BoundingPolygon > polygon > MultiGeometry"]
+      },
+      "required": ["geometries"],
+      "properties": {
+        "type": {
+          "enum": ["GeometryCollection"],
+          "description": "Type of geometry object."
+        },
+        "geometries": {
+          "type": "array",
+          "description": "The set of geometry objects constituting the GeometryCollection.",
+          "translation": {
+            "ISO 19115-2": ["EX_Extent > geographicElement > EX_BoundingPolygon > polygon > MultiGeometry > geometryMembers"]
+          },
+          "items": {
+            "$ref": "geometry.json#"
+          }
+        }
+      }
+    },
+    "feature": {
+      "title": "Feature",
+      "type": "object",
+      "description": "A GeoJSON object with the type \"Feature\" is a feature object. A feature object has a geometry, properties, and an optional identifier.",
+      "example": "../../../examples/full_example.json#/metadata/resourceInfo/extent/2/geographicElement/1",
+      "required": ["geometry", "properties"],
+      "properties": {
+        "type": {
+          "enum": ["Feature"],
+          "description": "Type of GeoJSON object."
+        },
+        "geometry": {
+          "description": "The geometry object associated with the Feature.",
+          "oneOf": [
+            {
+              "type": "null",
+              "title": "null geometry",
+              "description": "A feature object with no associated geometry. For example, a null value may be used when defining a bounding box only."
+            }, {
+              "$ref": "geometry.json#"
+            }
+          ]
+        },
+        "properties": {
+          "$ref": "#/definitions/featureProperties"
+        },
+        "id": {
+          "type": ["string", "number"],
+          "description": "Unique identifier for the GeoJSON feature object.",
+          "translation": {
+            "ISO 19115-2": ["geographicElement > EX_BoundingPolygon > polygon > [Point, LineString, Polygon] @id"]
+          }
+        }
+      }
+    },
+    "featureCollection": {
+      "title": "FeatureCollection",
+      "type": "object",
+      "description": "A GeoJSON object comprised of multiple Feature objects.",
+      "example": "../../../examples/full_example.json#/metadata/resourceInfo/extent/3/geographicElement/0",
+      "required": ["features"],
+      "properties": {
+        "type": {
+          "enum": ["FeatureCollection"],
+          "description": "Type of GeoJSON object."
+        },
+        "properties": {
+          "$ref": "#/definitions/featureProperties"
+        },
+        "id": {
+          "type": ["string", "number"],
+          "description": "Unique identifier for the GeoJSON object.",
+          "translation": {
+            "ISO 19115-2": ["geographicElement > EX_BoundingPolygon > polygon > [Point, LineString, Polygon] @id"]
+          }
+        },
+        "features": {
+          "type": "array",
+          "description": "Set of Features constituting the FeatureCollection.",
+          "example": "../../../examples/full_example.json#/metadata/resourceInfo/extent/2/geographicElement",
+          "translation": {
+            "ISO 19115-2": ["geographicElement > EX_BoundingPolygon > polygon > MultiGeometry"]
+          },
+          "items": {
+            "$ref": "#/definitions/feature"
+          }
+        }
+      }
+    },
+    "featureProperties": {
+      "title": "FeatureProperties",
+      "description": "JSON object containing information about a feature or collection.",
+      "example": "../../../examples/full_example.json#/metadata/resourceInfo/extent/2/geographicElement/1",
+      "oneOf": [
+        {
+          "title": "null",
+          "type": "null",
+          "description": "A feature object with no identified properties."
+        }, {
+          "type": "object",
+          "title": "featureProperties",
+          "example": "../../../examples/full_example.json#/metadata/resourceInfo/extent/2/geographicElement/1",
+          "properties": {
+            "includesData": {
+              "type": "boolean",
+              "description": "A boolean indicating whether geographic object is defining an extent, or used to describe an area of exception, such as \"holes\" in polygons.",
+              "translation": {
+                "ISO 19115-2": ["EX_Extent > geographicElement > EX_GeographicBoundingBox > extentTypeCode", "EX_Extent > geographicElement > EX_BoundingPolygon > extentTypeCode"]
+              }
+            },
+            "temporalElement": {
+              "description": "The temporal reference associated with a feature.",
+              "$ref": "../extent.json#/definitions/temporalElement"
+            },
+            "verticalElement": {
+              "type": "array",
+              "description": "The vertical extent of the feature geometry.",
+              "items": {
+                "$ref": "../extent.json#/definitions/verticalExtent"
+              }
+            },
+            "description": {
+              "type": "string",
+              "description": "A description of the feature.",
+              "translation": {
+                "ISO 19115-2": ["geographicElement > EX_BoundingPolygon > polygon > [Point, LineString, Polygon] > description"]
+              }
+            },
+            "featureName": {
+              "type": "string",
+              "description": "A title associated with a feature.",
+              "translation": {
+                "ISO 19115-2": ["geographicElement > EX_BoundingPolygon > polygon > [Point, LineString, Polygon] > name"]
+              }
+            },
+            "featureScope": {
+              "type": "string",
+              "description": "A word or phrase identifying the type of object described by the feature."
+            },
+            "featureAcquisitionMethod": {
+              "type": "string",
+              "description": "Method used to establish the position of the geographic feature. "
+            },
+            "identifier": {
+              "type": "array",
+              "description": "Identifier for the geographic element with optional cited authority.",
+              "translation": {
+                "ISO 19115-2": ["geographicElement > EX_GeographicDescription > geographicIdentifier > MD_Identifier"]
+              },
+              "items": {
+                "$ref": "../citation.json#/definitions/identifier"
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+

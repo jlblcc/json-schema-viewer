@@ -1,0 +1,328 @@
+{
+  "id": "dataDictionary.json#",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "description": "A catalogue containing definitions and descriptions of the resource types, resource attributes, and resource associations.",
+  "example": "../../examples/full_example.json#/dataDictionary/0",
+  "required": ["dictionaryInfo"],
+  "additionalProperties": true,
+  "properties": {
+    "dictionaryInfo": {
+      "type": "object",
+      "description": "Identification, description, and contact information for the data dictionary.",
+      "example": "../../examples/full_example.json#/dataDictionary/0/dictionaryInfo",
+      "required": ["resourceType", "citation", "description"],
+      "additionalProperties": true,
+      "properties": {
+        "citation": {
+          "description": "Citation for the dictionary.",
+          "example": "../../examples/full_example.json#/dataDictionary/0/dictionaryInfo",
+          "$ref": "citation.json#/definitions/dictionary"
+        },
+        "resourceType": {
+          "type": "string",
+          "description": "Identifies the scope of the data dictionary. E.g. 'database', 'dataset', 'table'.",
+          "translation": {
+            "ISO 19115-2": ["FC_FeatureCatalogue > scope"]
+          }
+        },
+        "description": {
+          "type": "string",
+          "description": "A brief description of the data dictionary and its source.",
+          "translation": {
+            "ISO 19115-2": ["FC_FeatureCatalogue > fieldOfApplication > CharacterString"]
+          }
+        },
+        "language": {
+          "type": "string",
+          "description": "Defines the language and country of origin in which the data dictionary is written.  E.g. 'eng; USA', 'eng; UK', 'esp; MEX'.",
+          "translation": {
+            "ISO 19115-2": ["FC_FeatureCatalogue > language"]
+          }
+        }
+      }
+    },
+    "domain": {
+      "type": "array",
+      "description": "A list of permissable values used to constrain an attribute's value.  A single domain may be assigned to multiple attributes in a table or database.",
+      "example": "../../examples/full_example.json#/dataDictionary/0/domain/0",
+      "items": {
+        "type": "object",
+        "required": ["domainId", "codeName", "description", "member"],
+        "additionalProperties": true,
+        "properties": {
+          "domainId": {
+            "type": "string",
+            "description": "A user provided unique ID for this domain.  The ID will be used to locate the domain in the domain array."
+          },
+          "commonName": {
+            "type": "string",
+            "description": "A short common name for the domain."
+          },
+          "codeName": {
+            "type": "string",
+            "description": "The code or 'lookup table' name for the domin used in the database schema definitions."
+          },
+          "description": {
+            "type": "string",
+            "description": "A brief description of the domain including identification of any established sources used in creating the list of domain items."
+          },
+          "member": {
+            "type": "array",
+            "description": "An array of member objects that enumerate and define the valid values for a domain.",
+            "items": {
+              "type": "object",
+              "example": "../../examples/full_example.json#/dataDictionary/0/domain/0/member",
+              "required": ["name", "value", "definition"],
+              "additionalProperties": true,
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "A descriptive name associated with a domain value",
+                  "translation": {
+                    "ISO 19115-2": ["FC_FeatureCatalogue > featureType > FC_FeatureType > carrierOfCharacteristics > FC_FeatureAttribute > listedValue > FC_ListedValue > label"]
+                  }
+                },
+                "value": {
+                  "type": "string",
+                  "description": "A descriptive name associated with a domain value",
+                  "translation": {
+                    "ISO 19115-2": ["FC_FeatureCatalogue > featureType > FC_FeatureType > carrierOfCharacteristics > FC_FeatureAttribute > listedValue > FC_ListedValue > label"]
+                  }
+                },
+                "definition": {
+                  "type": "string",
+                  "description": "A brief definition for the domain item",
+                  "translation": {
+                    "ISO 19115-2": ["FC_FeatureCatalogue > featureType > FC_FeatureType > carrierOfCharacteristics > FC_FeatureAttribute > listedValue > FC_ListedValue > definition"]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "entity": {
+      "type": "array",
+      "description": "Defines the structure of a discrete data object within the data resource.  The data object may be a table, dataset, or single sheet of a spreadsheet.",
+      "translation": {
+        "ISO 19115-2": ["FC_FeatureCatalogue > featureType > FC_FeatureType"]
+      },
+      "items": {
+        "type": "object",
+
+        "example": "../../examples/full_example.json#/dataDictionary/0/entity/1",
+        "required": ["entityId", "codeName", "definition"],
+        "additionalProperties": true,
+        "properties": {
+          "entityId": {
+            "type": "string",
+            "description": "A user provided unique ID for this entity.  ",
+            "translation": {
+              "ISO 19115-2": ["FC_FeatureCatalogue > featureType > FC_FeatureType#id=''"]
+            }
+          },
+          "commonName": {
+            "type": "string",
+            "description": "The name commonly used to identify this entity",
+            "translation": {
+              "ISO 19115-2": ["FC_FeatureCatalogue > featureType > FC_FeatureType > typeName > localName"]
+            }
+          },
+          "codeName": {
+            "type": "string",
+            "description": "The code name used to identify this entity in a database schema or application software. For spreasheets this would likely be the sheet name. ",
+            "translation": {
+              "ISO 19115-2": ["FC_FeatureCatalogue > featureType > FC_FeatureType > code > CharacterString"]
+            }
+          },
+          "alias": {
+            "type": "array",
+            "description": "An array of quoted strings providing alternate names used to identify this entity",
+            "translation": {
+              "ISO 19115-2": ["FC_FeatureCatalogue > featureType > FC_FeatureType > aliases > localName"]
+            },
+            "items": {
+              "type": "string"
+            }
+          },
+          "definition": {
+            "type": "string",
+            "description": "A brief definition for the entity",
+            "translation": {
+              "ISO 19115-2": ["FC_FeatureCatalogue > featureType > FC_FeatureType > definition"]
+            }
+          },
+          "primaryKeyAttributeCodeName": {
+            "type": "array",
+            "description": "An array of quoted attribute code names that together compose the primary key set for the entity",
+            "translation": {
+              "ISO 19115-2": ["Note: the primary key is written as a text description into FC_FeatureCatalogue > featureType > FC_FeatureType > constrainedBy > FC_Constraint > description"]
+            },
+            "items": {
+              "type": "string"
+            }
+          },
+          "index": {
+            "type": "array",
+            "description": "An array of objects describing alternate indexes for the entity",
+            "translation": {
+              "ISO 19115-2": ["FC_FeatureCatalogue > Note: the index is written as a text description into featureType > FC_FeatureType > constrainedBy > FC_Constraint > description"]
+            },
+            "items": {
+              "type": "object",
+              "example": "../../examples/full_example.json#/dataDictionary/0/entity/1/index",
+              "required": ["codeName", "allowDuplicates", "attributeCodeName"],
+              "additionalProperties": true,
+              "properties": {
+                "codeName": {
+                  "type": "string",
+                  "description": "The code name used to define the alternate index on the entity",
+                  "translation": {
+                    "ISO 19115-2": ["FC_FeatureCatalogue > featureType > FC_FeatureType > constrainedBy > FC_Constraint > description > CharacterString"]
+                  }
+                },
+                "allowDuplicates": {
+                  "type": "boolean",
+                  "description": "Indicates whether the index allows duplicates or values are required to be unique.  true = allow duplicates; false = values must be unique.",
+                  "translation": {
+                    "ISO 19115-2": ["FC_FeatureCatalogue > featureType > FC_FeatureType > constrainedBy > FC_Constraint > description > CharacterString"]
+                  }
+                },
+                "attributeCodeName": {
+                  "type": "array",
+                  "description": "An array of quoted attribute code names that together compose an alternate key set for the entity",
+                  "translation": {
+                    "ISO 19115-2": ["FC_FeatureCatalogue > featureType > FC_FeatureType > constrainedBy > FC_Constraint > description > CharacterString"]
+                  },
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "attribute": {
+            "type": "array",
+            "description": "An array of objects defining the attributes for the entity",
+            "translation": {
+              "ISO 19115-2": ["FC_FeatureCatalogue > featureType > FC_FeatureType > carrierOfCharacteristics > FC_FeatureAttribute"]
+            },
+            "items": {
+              "type": "object",
+              "example": "../../examples/full_example.json#/dataDictionary/0/entity/1/attribute",
+              "required": ["codeName", "dataType", "definition", "allowNull"],
+              "additionalProperties": true,
+              "properties": {
+                "commonName": {
+                  "type": "string",
+                  "description": "The common name used to identify this attribute",
+                  "translation": {
+                    "ISO 19115-2": ["FC_FeatureCatalogue > featureType > FC_FeatureType > carrierOfCharacteristics > FC_FeatureAttribute > memberName > localName"]
+                  }
+                },
+                "codeName": {
+                  "type": "string",
+                  "description": "The code used to identify this attribute.  Most often this will be the table or spreadsheet column name",
+                  "translation": {
+                    "ISO 19115-2": ["FC_FeatureCatalogue > featureType > FC_FeatureType > carrierOfCharacteristics > FC_FeatureAttribute > code > CharacterString"]
+                  }
+                },
+                "alias": {
+                  "type": "array",
+                  "description": "An array of quoted strings providing alternate names by which the attribute is known",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "definition": {
+                  "type": "string",
+                  "description": "A succinct but comprehensive definition for the attribute",
+                  "translation": {
+                    "ISO 19115-2": ["FC_FeatureCatalogue > featureType > FC_FeatureType > carrierOfCharacteristics > FC_FeatureAttribute > definition > CharacterString"]
+                  }
+                },
+                "dataType": {
+                  "type": "string",
+                  "description": "The datatype for the attribute.  Names for datatypes vary widely by database management system.  Use the datatype name associated with the database system that implemented the entity.  E.g. 'integer', 'boolean', 'decimal(8,5)', 'varchar(200)'",
+                  "translation": {
+                    "ISO 19115-2": ["FC_FeatureCatalogue > featureType > FC_FeatureType > carrierOfCharacteristics > FC_FeatureAttribute > valueType > TypeName > aName > CharacterString"]
+                  }
+                },
+                "allowNull": {
+                  "type": "boolean",
+                  "description": "Indicates whether null values are allowed for the attribute",
+                  "translation": {
+                    "ISO 19115-2": ["FC_FeatureCatalogue > featureType > FC_FeatureType > carrierOfCharacteristics > FC_FeatureAttribute > cardinality > Multiplicity > range > MultiplicityRange > lower > integer[0=optional | 1=required]"]
+                  }
+                },
+                "units": {
+                  "type": "string",
+                  "description": "A unit-of-measure for the attribute.  E.g. 'meters', 'atmospheres', 'liters'",
+                  "translation": {
+                    "ISO 19115-2": ["FC_FeatureCatalogue > featureType > FC_FeatureType > carrierOfCharacteristics > FC_FeatureAttribute > valueMeasurementUnit > [UnitDefinition > identifier | ConversionalUnit > identifier,name,catalogSystem,conversionToPreferredUnit,formula | BaseUnit > identifier,name,catalogSymbol,unitSystem | DerivedUnit > identifier,name,remarks,catalogSymbol,derivationUnitTerm]"]
+                  }
+                },
+                "domainId": {
+                  "type": "string",
+                  "description": "Provides the domain ID for the  dictionary Domain containing the list of permissable values for this attribute"
+                },
+                "minValue": {
+                  "type": "string",
+                  "description": "The minimum range value permissible for this attribute"
+                },
+                "maxValue": {
+                  "type": "string",
+                  "description": "The maximum range value permissible for this attribute"
+                }
+              }
+            }
+          },
+          "foreignKey": {
+            "type": "array",
+            "description": "An array of objects describing attributes whose values are restricted to values found in the domain of an attribute belonging to another table or dataset",
+            "translation": {
+              "ISO 19115-2": ["Note: the foreign key is written as a text description into FC_FeatureCatalogue > featureType > FC_FeatureType > constrainedBy > FC_Constraint"]
+            },
+            "items": {
+              "type": "object",
+              "example": "../../examples/full_example.json#/dataDictionary/0/entity/1/foreignKey",
+              "required": ["localAttributeCodeName", "referencedEntityCodeName", "referencedAttributeCodeName"],
+              "additionalProperties": true,
+              "properties": {
+                "localAttributeCodeName": {
+                  "type": "array",
+                  "description": "An array of local (referencing or child) attribute code names for this foreign key",
+                  "translation": {
+                    "ISO 19115-2": ["FC_FeatureCatalogue > featureType > FC_FeatureType > constrainedBy > FC_Constraint > description > CharacterString"]
+                  },
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "referencedEntityCodeName": {
+                  "type": "string",
+                  "description": "The entityID for the referenced (or parent) entity for this foreign key",
+                  "translation": {
+                    "ISO 19115-2": ["FC_FeatureCatalogue > featureType > FC_FeatureType > constrainedBy > FC_Constraint > description > CharacterString"]
+                  }
+                },
+                "referencedAttributeCodeName": {
+                  "type": "array",
+                  "description": "An array of referenced (or parent) attribute code names for this foreign key.  If the foreign key is compound key (more than one attribute compose the key) the order of the referenced attributes must allign precicely with the order and number of local attributes.",
+                  "translation": {
+                    "ISO 19115-2": ["FC_FeatureCatalogue > featureType > FC_FeatureType > constrainedBy > FC_Constraint > description > CharacterString"]
+                  },
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

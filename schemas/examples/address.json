@@ -1,0 +1,10 @@
+[
+  {
+    "deliveryPoint": ["deliveryPoint1", "deliveryPoint2"],
+    "city": "city",
+    "administrativeArea": "administrativeArea",
+    "postalCode": "postalCode",
+    "country": "country",
+    "electronicMailAddress": ["example1@example.com", "example2@example.com"]
+  }
+]

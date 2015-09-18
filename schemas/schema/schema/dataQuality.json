@@ -1,0 +1,159 @@
+{
+  "id": "dataQuality.json#",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "description": "Information that describes the data quality, lineage, and/or processing steps that were applied to the whole or part of the data resource.",
+  "example": "../../examples/full_example.json#/metadata/resourceInfo/dataQualityInfo",
+  "translation": {
+    "ISO 19115-2": ["DQ_DataQuality"],
+    "FGDC CSDGM": ["dataqual"]
+  },
+  "required": ["scope"],
+  "additionalProperties": true,
+  "properties": {
+    "scope": {
+      "type": "string",
+      "description": "The scope to which the data quality information is applied, for instance; dataset, attribute, feature, series, etc.",
+      "translation": {
+        "ISO 19115-2": ["DQ_DataQuality > scope > DQ_Scope > level > MD_ScopeCode"]
+      }
+    },
+    "lineage": {
+      "translation": {
+        "ISO 19115-2": ["DQ_DataQuality > lineage > LI_Lineage"],
+        "FGDC CSDGM": ["dataqual > lineage"]
+      },
+      "$ref": "#/definitions/lineage"
+    }
+  },
+  "definitions": {
+    "lineage": {
+      "type": "object",
+      "description": "Procedural (non-quantitative) data quality information about the portion of the data resource identified by the data quality scope.",
+      "example": "../../examples/full_example.json#/metadata/resourceInfo/dataQualityInfo/0/lineage",
+      "translation": {
+        "ISO 19115-2": ["LI_Lineage"]
+      },
+      "additionalProperties": true,
+      "properties": {
+        "statement": {
+          "type": "string",
+          "description": "A general statement of the actions taken to verify, transform, repair, and integrate the data within the data quality scope.",
+          "translation": {
+            "ISO 19115-2": ["LI_Lineage > statement"]
+          }
+        },
+        "processStep": {
+          "type": "array",
+          "description": "A brief statement describing an individual, non-trivial process or methodology step taken in development of the resource data within the data quality scope.",
+          "translation": {
+            "ISO 19115-2": ["LI_Lineage > processStep > LI_ProcessStep"]
+          },
+          "items": {
+            "$ref": "#/definitions/processStep"
+          }
+        },
+        "source": {
+          "type": "array",
+          "description": "Information about the source data used in creating the data identified by the data quality scope.",
+          "translation": {
+            "ISO 19115-2": ["LI_Lineage > source > LI_Source"],
+            "FGDC CSDGM": ["dataqual > lineage > srcinfo"]
+          },
+          "items": {
+            "$ref": "#/definitions/source"
+          }
+        }
+      }
+    },
+    "processStep": {
+      "type": "object",
+      "description": "Process or methodology steps applied to development of the resource.",
+      "example": "../../examples/full_example.json#/metadata/resourceInfo/dataQualityInfo/0/lineage/processStep",
+      "translation": {
+        "ISO 19115-2": ["LI_ProcessStep"]
+      },
+      "required": ["description"],
+      "additionalProperties": true,
+      "properties": {
+        "stepId": {
+          "type": "string",
+          "description": "Serial identifier used to order the sequence of steps used.",
+          "translation": {
+            "ISO 19115-2": ["LI_ProcessStep @ id"]
+          }
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the process or methodology step.",
+          "translation": {
+            "ISO 19115-2": ["LI_ProcessStep > description"],
+            "FGDC CSDGM": ["dataqual > lineage > procstep > procdesc"]
+          }
+        },
+        "rationale": {
+          "type": "string",
+          "description": "Requirement or purpose for the process or methodology step.",
+          "translation": {
+            "ISO 19115-2": ["LI_ProcessStep > rationale"]
+          }
+        },
+        "dateTime": {
+          "description": "Date and time or date at which the process or methodology step occurred.",
+          "translation": {
+            "ISO 19115-2": ["LI_ProcessStep > dateTime"],
+            "FGDC CSDGM": ["dataqual > lineage > procstep > procdate"]
+          },
+          "$ref": "../schema.json#/definitions/date"
+        },
+        "processor": {
+          "type": "array",
+          "description": "Identification of, and means of communication with, person(s) and organization(s) associated with the process or methodology step.",
+          "translation": {
+            "ISO 19115-2": ["LI_ProcessStep > processor > CI_ResponsibleParty"],
+            "FGDC CSDGM": ["dataqual > lineage > procstep > proccont > cntinfo"]
+          },
+          "items": {
+            "$ref": "contact.json#/definitions/contactRef"
+          }
+        }
+      }
+    },
+    "source": {
+      "type": "object",
+      "description": "Information about the source data used in creating the data identified by the data quality scope.",
+      "example": "../../examples/full_example.json#/metadata/resourceInfo/dataQualityInfo/0/lineage/source",
+      "translation": {
+        "ISO 19115-2": ["LI_Source"]
+      },
+      "additionalProperties": true,
+      "properties": {
+        "description": {
+          "type": "string",
+          "description": "A brief description about the source dataset used in creating the data identified by the data quality scope.",
+          "translation": {
+            "ISO 19115-2": ["LI_Source > description"]
+          }
+        },
+        "citation": {
+          "description": "A citation providing information about the source dataset, including an online resource or other access instructions.",
+          "translation": {
+            "ISO 19115-2": ["LI_Source > sourceCitation > CI_Citation"],
+            "FGDC CSDGM": ["dataqual > lineage > srcinfo > srccite > citeinfo"]
+          },
+          "$ref": "citation.json#"
+        },
+        "processStep": {
+          "type": "array",
+          "description": "A description of a non-trivial event or transformation taken to prepare the source data for use in creating the data identified by the data quality scope.",
+          "translation": {
+            "ISO 19115-2": ["LI_Source > sourceStep > LI_ProcessStep"]
+          },
+          "items": {
+            "$ref": "#/definitions/processStep"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,29 @@
+[
+  {
+    "date": ["1111-11-11", "1112-11-11"],
+    "timeInstant": [
+      {
+        "id": "id1",
+        "description": "description1",
+        "timePosition": "1111-11-11T11:11:11.1+11:11"
+      }, {
+        "id": "id2",
+        "description": "description2",
+        "timePosition": "1112-11-11T11:11:11.1+11:11"
+      }
+    ],
+    "timePeriod": [
+      {
+        "id": "id1",
+        "description": "description1",
+        "beginPosition": "1111-11-11T11:11:11.1+11:11",
+        "endPosition": "1111-12-11T11:11:11.1+11:11"
+      }, {
+        "id": "id2",
+        "description": "description2",
+        "beginPosition": "1112-11-11T11:11:11.1+11:11",
+        "endPosition": "1112-12-11T11:11:11.1+11:11"
+      }
+    ]
+  }
+]

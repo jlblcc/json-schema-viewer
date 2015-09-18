@@ -1,0 +1,205 @@
+[
+  {
+    "contactId": "contactId",
+    "individualName": "individualName",
+    "organizationName": "organizationName",
+    "positionName": "positionName",
+    "onlineResource": [
+      {
+        "uri": "http://thisisanexample1.com",
+        "protocol": "protocol1",
+        "name": "name1",
+        "description": "description1",
+        "function": "function1"
+      }, {
+        "uri": "http://thisisanexample2.com",
+        "protocol": "protocol2",
+        "name": "name2",
+        "description": "description2",
+        "function": "function2"
+      }
+    ],
+    "contactInstructions": "contactInstructions",
+    "phoneBook": [
+      {
+        "phoneName": "phoneName1",
+        "phoneNumber": "111-111-1111",
+        "service": ["service11", "service12"]
+      }, {
+        "phoneName": "phoneName2",
+        "phoneNumber": "222-222-2222",
+        "service": ["service21", "service22"]
+      }
+    ],
+    "address": {
+      "deliveryPoint": ["deliveryPoint1", "deliveryPoint2"],
+      "city": "city",
+      "administrativeArea": "administrativeArea",
+      "postalCode": "postalCode",
+      "country": "country",
+      "electronicMailAddress": ["example@example1.com", "example@example2.com"]
+    }
+  }, {
+    "contactId": "1",
+    "individualName": "Josh Bradley",
+    "organizationName": "Arctic Landscape Conservation Cooperative",
+    "positionName": "Data Manager",
+    "onlineResource": [
+      {
+        "uri": "http://arcticlcc.org",
+        "name": "Arctic LCC website",
+        "description": "Website for the Arctic Landscape Conservation Cooperative",
+        "function": "information"
+      }, {
+        "uri": "http://alaska.usgs.gov/akcsc",
+        "name": "Alaska Climate Science Center",
+        "description": "Website for the USGS Alaska Climate Science Center"
+      }, {
+        "uri": "https://google.com"
+      }
+    ],
+    "phoneBook": [
+      {
+        "phoneName": "office",
+        "phoneNumber": "+1 907.455.1847",
+        "service": ["voice", "sms", "fax"]
+      }, {
+        "phoneName": "mobile",
+        "phoneNumber": "907-455-1847",
+        "service": ["voice", "sms", "notISO"]
+      }, {
+        "phoneName": "alt",
+        "phoneNumber": "907-999-9999"
+      }
+    ],
+    "address": {
+      "deliveryPoint": ["101 12th Avenue", "Room 110"],
+      "city": "Fairbanks",
+      "administrativeArea": "AK",
+      "postalCode": "99701",
+      "country": "USA",
+      "electronicMailAddress": ["joshua_bradley@fws.gov", "jbradley@arcticlcc.org"]
+    },
+    "contactInstructions": "Don't call me, I'll call you."
+  }, {
+    "contactId": "2",
+    "organizationName": "Arctic Landscape Conservation Cooperative",
+    "onlineResource": [
+      {
+        "uri": "http://arcticlcc.org",
+        "name": "Arctic LCC website",
+        "description": "Website for the Arctic Landscape Conservation Cooperative",
+        "function": "information"
+      }
+    ],
+    "phoneBook": [
+      {
+        "phoneName": "office",
+        "phoneNumber": "907-786-3605"
+      }, {
+        "phoneName": "mobile",
+        "phoneNumber": "907-306-1895",
+        "service": ["voice", "sms"]
+      }, {
+        "phoneName": "fax",
+        "phoneNumber": "907-786-3592",
+        "service": ["fax"]
+      }
+    ],
+    "address": {
+      "deliveryPoint": ["1011 E. Tudor Rd"],
+      "city": "Anchorage",
+      "administrativeArea": "AK",
+      "postalCode": "99503",
+      "country": "USA",
+      "electronicMailAddress": ["staff@arcticlcc.org"]
+    }
+  }, {
+    "contactId": "3",
+    "organizationName": "Arctic Landscape Conservation Cooperative",
+    "positionName": "Data Manager",
+    "address": {
+      "deliveryPoint": ["101 12th Avenue", "Room 110"],
+      "city": "Fairbanks",
+      "administrativeArea": "AK",
+      "postalCode": "99701",
+      "country": "USA",
+      "electronicMailAddress": ["joshua_bradley@fws.gov", "jbradley@arcticlcc.org"]
+    }
+  }, {
+    "contactId": "4",
+    "individualName": "Chris Turner",
+    "organizationName": "Axiom Consulting & Design",
+    "positionName": "Data Librarian",
+    "onlineResource": [
+      {
+        "uri": "http://axiomalaska.com",
+        "name": "Axiom Consulting & Design",
+        "description": "Website for Axiom Consulting and Design"
+      }, {
+        "uri": "http://www.aoos.org",
+        "name": "The Alaska Ocean Observing System",
+        "description": "The homepage for AOOS, the eye on Alaska's coasts and oceans"
+      }
+    ],
+    "phoneBook": [
+      {
+        "phoneName": "office",
+        "phoneNumber": "+1 907.455.1847",
+        "service": ["voice", "sms", "fax"]
+      }, {
+        "phoneName": "mobile",
+        "phoneNumber": "907-455-1847",
+        "service": ["voice", "sms"]
+      }, {
+        "phoneName": "alt",
+        "phoneNumber": "907-999-9999"
+      }
+    ]
+    ,
+    "address": {
+      "deliveryPoint": ["523 W 8th Ave", "Suite 104"],
+      "city": "Anchorage",
+      "administrativeArea": "Alaska",
+      "postalCode": "99501",
+      "country": "USA",
+      "electronicMailAddress": ["chris@axiomalaska.com", "theotherchris@axiomalaska.com"]
+    }
+  }, {
+    "contactId": "5",
+    "individualName": "Sirhc Renrut",
+    "organizationName": "Moixa Designs and Consulting",
+    "positionName": "Data Wrangler",
+    "onlineResource": [
+      {
+        "uri": "http://moixaalaska.com",
+        "name": "Moixa Design and Consulting",
+        "description": "Website for Moixa Design and Consulting"
+      }, {
+        "uri": "http://www.aoos.org"
+      }
+    ],
+    "phoneBook": [
+      {
+        "phoneName": "office",
+        "phoneNumber": "+1 907.455.1847",
+        "service": ["voice", "sms", "fax"]
+      }, {
+        "phoneName": "mobile",
+        "phoneNumber": "907-455-1847",
+        "service": ["voice", "sms"]
+      }, {
+        "phoneName": "alt",
+        "phoneNumber": "907-999-9999"
+      }
+    ],
+    "address": {
+      "deliveryPoint": ["532 W 8th Ave", "Suite 401"],
+      "city": "Anchorage",
+      "administrativeArea": "Alaska",
+      "postalCode": "99501",
+      "country": "USA",
+      "electronicMailAddress": ["sirhc@moixaalaska.com"]
+    }
+  }
+]

@@ -1,0 +1,547 @@
+[
+  {
+    "dictionaryInfo": {
+      "citation": {
+        "title": "title",
+        "date": [
+          {
+            "date": "1111-11-11",
+            "dateType": "dateType1"
+          }, {
+            "date": "1112-11-11",
+            "dateType": "dateType2"
+          }
+        ],
+        "edition": "edition",
+        "responsibleParty": [
+          {
+            "contactId": "contactId1",
+            "role": "role1"
+          }, {
+            "contactId": "contactId2",
+            "role": "role2"
+          }
+        ],
+        "onlineResource": [
+          {
+            "uri": "http://thisisanexample1.com",
+            "protocol": "protocol1",
+            "name": "name1",
+            "description": "description1",
+            "function": "function1"
+          }, {
+            "uri": "http://thisisanexample2.com",
+            "protocol": "protocol2",
+            "name": "name2",
+            "description": "description2",
+            "function": "function2"
+          }
+        ]
+      },
+      "description": "description",
+      "resourceType": "resourceType",
+      "language": "language"
+    },
+    "domain": [
+      {
+        "domainId": "domainId1",
+        "commonName": "commonName1",
+        "codeName": "codeName1",
+        "description": "description1",
+        "member": [
+          {
+            "name": "name11",
+            "value": "value11",
+            "definition": "definition11"
+          }, {
+            "name": "name12",
+            "value": "value12",
+            "definition": "definition12"
+          }
+        ]
+      }, {
+        "domainId": "domainId2",
+        "commonName": "commonName2",
+        "codeName": "codeName2",
+        "description": "description2",
+        "member": [
+          {
+            "name": "name21",
+            "value": "value21",
+            "definition": "definition21"
+          }, {
+            "name": "name22",
+            "value": "value22",
+            "definition": "definition22"
+          }
+        ]
+      }
+    ],
+    "entity": [
+      {
+        "entityId": "entityId1",
+        "commonName": "commonName1",
+        "codeName": "codeName1",
+        "alias": ["alias11", "alias12"],
+        "definition": "definition1",
+        "primaryKeyAttributeCodeName": ["primaryKeyAttributeCodeName11", "primaryKeyAttributeCodeName12"],
+        "index": [
+          {
+            "codeName": "codeName11",
+            "allowDuplicates": false,
+            "attributeCodeName": ["attributeCodeName111", "attributeCodeName112"]
+          }, {
+            "codeName": "codeName12",
+            "allowDuplicates": false,
+            "attributeCodeName": ["attributeCodeName121", "attributeCodeName122"]
+          }
+        ],
+        "attribute": [
+          {
+            "commonName": "commonName11",
+            "codeName": "codeName11",
+            "alias": ["alias111", "alias112"],
+            "definition": "definition11",
+            "dataType": "dataType11",
+            "allowNull": true,
+            "units": "units11",
+            "domainId": "domainId11",
+            "minValue": "minValue11",
+            "maxValue": "maxValue11"
+          }, {
+            "commonName": "commonName12",
+            "codeName": "codeName12",
+            "definition": "definition12",
+            "dataType": "dataType12",
+            "allowNull": true,
+            "units": "units12",
+            "domainId": "domainId12",
+            "minValue": "minValue12",
+            "maxValue": "maxValue12"
+          }
+        ],
+        "foreignKey": [
+          {
+            "localAttributeCodeName": ["localAttributeCodeName111", "localAttributeCodeName112"],
+            "referencedEntityCodeName": "referencedEntityCodeName11",
+            "referencedAttributeCodeName": ["referencedAttributeCodeName111", "referencedAttributeCodeName112"]
+          }, {
+            "localAttributeCodeName": ["localAttributeCodeName121", "localAttributeCodeName122"],
+            "referencedEntityCodeName": "referencedEntityCodeName12",
+            "referencedAttributeCodeName": ["referencedAttributeCodeName121", "referencedAttributeCodeName122"]
+          }
+        ]
+      }
+    ]
+  }, {
+    "dictionaryInfo": {
+      "citation": {
+        "title": "Project Metadata Database",
+        "date": [
+          {
+            "date": "2014-11-24",
+            "dateType": "creation"
+          }
+        ],
+        "edition": "14.0.2",
+        "responsibleParty": [
+          {
+            "contactId": "8",
+            "role": "author"
+          }
+        ]
+      },
+      "description": "Data dictionary for the ADIwg project metadata standard for 2011 based on the FGDC standard.",
+      "resourceType": "database",
+      "language": "eng; US"
+    },
+    "domain": [
+      {
+        "domainId": "domain001",
+        "commonName": "agency type",
+        "codeName": "AGENCY_TYPE",
+        "description": "Legal classification for the organization.",
+        "member": [
+          {
+            "name": "federal government",
+            "value": "federal",
+            "definition": "An organization withing the federal government."
+          }, {
+            "name": "state government",
+            "value": "state",
+            "definition": "An organization withing a state or provincial government."
+          }, {
+            "name": "local government",
+            "value": "local",
+            "definition": "An organization withing a local county, city, or municipal government."
+          }, {
+            "name": "private business",
+            "value": "private",
+            "definition": "A private for-profit business."
+          }, {
+            "name": "non-profit business",
+            "value": "nonProfit",
+            "definition": "A private non-profit business."
+          }, {
+            "name": "academic institute",
+            "value": "academic",
+            "definition": "An organization of higher learning such as a college or university."
+          }, {
+            "name": "military",
+            "value": "military",
+            "definition": "An organization within a recognized military structure such as the Army. Navy, or Air Force."
+          }
+        ]
+      }, {
+        "domainId": "domain002",
+        "commonName": "agency address type",
+        "codeName": "ADDRESS_TYPE",
+        "description": "Type of agency address.",
+        "member": [
+          {
+            "name": "mailing address",
+            "value": "mailing",
+            "definition": "The preferred address for receiving mail.  May be a physical address or P.O. Box."
+          }, {
+            "name": "physical address",
+            "value": "physical",
+            "definition": "The street address of the agency."
+          }
+        ]
+      }, {
+        "domainId": "domain003",
+        "commonName": "sky cover code",
+        "codeName": "sky_cover_code",
+        "description": "NH (Amount of the sky covered by all clouds) is part of the Cloud/WX mandatory 9 digit group. All nine digits must be entered, regardless of the presence or absence of clouds or significant weather conditions. Cloud/WX group format: NH CL h CM CH W W W W",
+        "member": [
+          {
+            "name": "0",
+            "value": "0",
+            "definition": "clear skys"
+          }, {
+            "name": "1",
+            "value": "1",
+            "definition": "1 okta or less, 1/10 or less, but not zero"
+          }, {
+            "name": "2",
+            "value": "2",
+            "definition": "2 oktas 2/10 - 3/10"
+          }, {
+            "name": "7",
+            "value": "7",
+            "definition": "7 oktas or more, 9/10 or more, but not 8 oktas but not 10/10"
+          }, {
+            "name": "8",
+            "value": "8",
+            "definition": "8 oktas, 10/10"
+          }, {
+            "name": "9",
+            "value": "9",
+            "definition": "Sky obscured by for and/or other meteorolocial phenonena / Cloud cover is indiscernible for reasons other than for or other meteorological phenomena such as smoke, or observation is not made."
+          }
+        ]
+      }, {
+        "domainId": "domain004",
+        "commonName": "low cloud type",
+        "codeName": "low_cloud_cover_type",
+        "description": "CL (low cloud type) is part of the Cloud/WX mandatory 9 digit group. All nine digits must be entered, regardless of the presence or absence of clouds or significant weather conditions. CL = type of low cloud, based on the priority given. A solidus (/) is reported if CL clouds are not visible owing to fog or similar obscuring phenomena. Cloud/WX group format: NH CL h CM CH W W W W",
+        "member": [
+          {
+            "name": "0",
+            "value": "0",
+            "definition": "No CL clouds -- no cumulus, cumulonimbus, stratocumulus, or stratus."
+          }, {
+            "name": "3",
+            "value": "3",
+            "definition": "If cumulonimbus are present, with or without other clouds, CL=3 if the upper part of none of the cumulonimbus clouds present is clearly fibrous or striated."
+          }, {
+            "name": "4",
+            "value": "4",
+            "definition": "If no cumulonimbus present, CL=4 if stratocumulus formed by the spreading out of cumulus is present."
+          }, {
+            "name": "8",
+            "value": "8",
+            "definition": "If no cumulonimbus present, CL=8 if the CL code figure 4 is not applicable and if cumulus and stratocumulus clouds with bases at different levels are present."
+          }, {
+            "name": "9",
+            "value": "9",
+            "definition": "If cumulonimbus are present, with or without other clouds, CL=9 if the upper part of at least one of the cumulonimbus clouds present is clearly fibrous or striated."
+          }, {
+            "name": "\/",
+            "value": "\/",
+            "definition": "CL clouds are not visible owing to fog or similar obscuring phenomena."
+          }
+        ]
+      }
+    ],
+    "entity": [
+      {
+        "entityId": "entity001",
+        "commonName": "agency",
+        "codeName": "AGENCY",
+        "definition": "Organizations providing some contribution to Alaska Science Center research.",
+        "primaryKeyAttributeCodeName": ["agency_id"],
+        "index": [
+          {
+            "codeName": "ui_agencyCode",
+            "allowDuplicates": false,
+            "attributeCodeName": ["agency_code"]
+          }
+        ],
+        "attribute": [
+          {
+            "commonName": "agency ID",
+            "codeName": "agency_id",
+            "definition": "Unique sequential ID for the agency assigned by the database.",
+            "dataType": "integer",
+            "allowNull": false
+          }, {
+            "commonName": "agency code",
+            "codeName": "agency_code",
+            "definition": "Unique alphanumeric ID for the agency assigned by the data steward.",
+            "dataType": "varchar(25)",
+            "allowNull": false,
+            "domainId": "domain001"
+          }, {
+            "commonName": "agency type code",
+            "codeName": "agency_type_code",
+            "definition": "Agency legal organization classification.",
+            "dataType": "varchar(25)",
+            "allowNull": false
+          }, {
+            "commonName": "agency name",
+            "codeName": "agency_name",
+            "definition": "Name of agency.",
+            "dataType": "varchar(100)",
+            "allowNull": false
+          }, {
+            "commonName": "agency comment",
+            "codeName": "comment",
+            "definition": "Supplemental information about the agency.",
+            "dataType": "varchar(500)",
+            "allowNull": true
+          }, {
+            "commonName": "time stamp",
+            "codeName": "ts",
+            "definition": "datetime of creation or latest update - maintained by system",
+            "dataType": "datetime",
+            "allowNull": false
+          }
+        ]
+      }, {
+        "entityId": "entity002",
+        "commonName": "agency address",
+        "codeName": "ADDRESS",
+        "definition": "Addresses for an AGENCY",
+        "primaryKeyAttributeCodeName": ["agency_id", "address_type_code"],
+        "attribute": [
+          {
+            "commonName": "agency ID",
+            "codeName": "agency_id",
+            "definition": "Unique sequential ID for the agency assigned by the database.",
+            "dataType": "integer",
+            "allowNull": false
+          }, {
+            "commonName": "address type",
+            "codeName": "address_type_code",
+            "definition": "Type of address.",
+            "dataType": "varchar(25)",
+            "allowNull": false,
+            "domainId": "domain002"
+          }, {
+            "commonName": "street address",
+            "codeName": "street",
+            "definition": "Street and street number or P.O. Box number.",
+            "dataType": "varchar(100)",
+            "allowNull": false
+          }, {
+            "commonName": "city",
+            "codeName": "city",
+            "definition": "City name.",
+            "dataType": "varchar(50)",
+            "allowNull": false
+          }, {
+            "commonName": "state",
+            "codeName": "state_code",
+            "definition": "State or province code",
+            "dataType": "char(3)",
+            "allowNull": false
+          }, {
+            "commonName": "zip code",
+            "codeName": "postal_code",
+            "definition": "Postal code.",
+            "dataType": "char(9)",
+            "allowNull": true
+          }
+        ],
+        "foreignKey": [
+          {
+            "localAttributeCodeName": ["agency_id"],
+            "referencedEntityCodeName": "AGENCY",
+            "referencedAttributeCodeName": ["agency_id"]
+          }
+        ]
+      }, {
+        "entityId": "entity003",
+        "commonName": "weather station",
+        "codeName": "WEATHER_STATION",
+        "definition": "Table describing weather permanent and semi-permanent weather all-season recording stations in Alaska.",
+        "primaryKeyAttributeCodeName": ["station_id"],
+        "attribute": [
+          {
+            "commonName": "weather station id",
+            "codeName": "station_id",
+            "definition": "Unique identifier for weather station.",
+            "dataType": "integer",
+            "allowNull": false
+          }, {
+            "commonName": "weather station name",
+            "codeName": "station_name",
+            "definition": "Common name for the weather station.",
+            "dataType": "varchar(100)",
+            "allowNull": false
+          }, {
+            "commonName": "station latitude",
+            "codeName": "latitude",
+            "definition": "Latitude of weather station.",
+            "dataType": "decimal",
+            "allowNull": false,
+            "units": "degree",
+            "minValue": "-90.0",
+            "maxValue": "90.0"
+          }, {
+            "commonName": "station longitude",
+            "codeName": "longitude",
+            "definition": "Longitude of weather station.",
+            "dataType": "decimal",
+            "allowNull": false,
+            "units": "degree",
+            "minValue": "-180.0",
+            "maxValue": "180.0"
+          }, {
+            "commonName": "station elevation",
+            "codeName": "elevation_M",
+            "definition": "Elevation of weather station above sea level in meters.",
+            "dataType": "decimal",
+            "allowNull": true,
+            "units": "meter",
+            "minValue": "0",
+            "maxValue": "3000"
+          }
+        ]
+      }, {
+        "entityId": "entity004",
+        "commonName": "weather station observation",
+        "codeName": "WEATHER_STATION_OBSERVATION",
+        "definition": "Table of discontinuous weather station observation records including temperature, humidity, wind, precipitation, and cloud cover.",
+        "primaryKeyAttributeCodeName": ["obs_id"],
+        "attribute": [
+          {
+            "commonName": "weather observation ID",
+            "codeName": "obs_id",
+            "definition": "Unique identifier of a single weather station observation record.",
+            "dataType": "integer",
+            "allowNull": false
+          }, {
+            "commonName": "weather station ID",
+            "codeName": "station_id",
+            "definition": "Unique identifier for weather station.",
+            "dataType": "integer",
+            "allowNull": false
+          }, {
+            "commonName": "observation date and time",
+            "codeName": "obs_datetime",
+            "definition": "Date and UTC with offset 24h time the weather observation was made.",
+            "dataType": "datetime",
+            "allowNull": false
+          }, {
+            "commonName": "ambient air temperature Celsius",
+            "codeName": "air_temp_C",
+            "definition": "Ambient air temperature recorded at weather station in degrees Celsius.",
+            "dataType": "decimal",
+            "allowNull": false,
+            "units": "degC",
+            "minValue": "-60",
+            "maxValue": "50"
+          }, {
+            "commonName": "ambient air temperature Fahrenheit",
+            "codeName": "air_temp_F",
+            "definition": "Ambient air temperature recorded at weather station in degrees Fahrenheit.",
+            "dataType": "decimal",
+            "allowNull": false,
+            "units": "degF",
+            "minValue": "-100",
+            "maxValue": "130"
+          }, {
+            "commonName": "daily precipitation",
+            "codeName": "precipitation_IN",
+            "definition": "The amount of rain fall or snow melt falling in a 24 hour period in inches.",
+            "dataType": "decimal",
+            "allowNull": false,
+            "units": "inch",
+            "minValue": "0",
+            "maxValue": "25"
+          }, {
+            "commonName": "daily precipitation",
+            "codeName": "precipitation_mm",
+            "definition": "The amount of rain fall or snow melt falling in a 24 hour period in millimeters.",
+            "dataType": "decimal",
+            "allowNull": false,
+            "units": "mm",
+            "minValue": "0",
+            "maxValue": "500"
+          }, {
+            "commonName": "wind direction",
+            "codeName": "wind_direction_DEG",
+            "definition": "Average direction wind is coming from in degrees. True north is 0 degrees.",
+            "dataType": "integer",
+            "allowNull": true,
+            "units": "degree",
+            "minValue": "0",
+            "maxValue": "359"
+          }, {
+            "commonName": "wind speed",
+            "codeName": "wind_speed_MPH",
+            "definition": "Average wind speed in miles per hour (MPH).",
+            "dataType": "integer",
+            "allowNull": true,
+            "units": "mph",
+            "minValue": "0",
+            "maxValue": "200"
+          }, {
+            "commonName": "wind speed",
+            "codeName": "wind_speed_KPH",
+            "definition": "Average wind speed in kilometers per hour (KPH).",
+            "dataType": "integer",
+            "allowNull": true,
+            "units": "kph",
+            "minValue": "0",
+            "maxValue": "300"
+          }, {
+            "commonName": "sky cover code",
+            "codeName": "sky_cover_code",
+            "definition": "NH (Amount of the sky covered by all clouds) is part of the Cloud/WX mandatory 9 digit group. All nine digits must be entered, regardless of the presence or absence of clouds or significant weather conditions. Cloud/WX group format: NH CL h CM CH W W W W",
+            "dataType": "char(1)",
+            "allowNull": true,
+            "units": "sunnyDays",
+            "domainId": "domain003"
+          }, {
+            "commonName": "low cloud type",
+            "codeName": "low_cloud_cover_code",
+            "definition": "CL (low cloud type) is part of the Cloud/WX mandatory 9 digit group. All nine digits must be entered, regardless of the presence or absence of clouds or significant weather conditions. CL = type of low cloud, based on the priority given. A solidus (/) is reported if CL clouds are not visible owing to fog or similar obscuring phenomena. Cloud/WX group format: NH CL h CM CH W W W W",
+            "dataType": "char(1)",
+            "allowNull": true,
+            "domainId": "domain004"
+          }
+        ],
+        "foreignKey": [
+          {
+            "localAttributeCodeName": ["station_id"],
+            "referencedEntityCodeName": "WEATHER_STATION",
+            "referencedAttributeCodeName": ["station_id"]
+          }
+        ]
+      }
+    ]
+  }
+]

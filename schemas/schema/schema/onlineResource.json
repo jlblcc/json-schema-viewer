@@ -1,0 +1,42 @@
+{
+  "id": "onlineResource.json#",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "description": "Information about accessing online resources and services.",
+  "example": "../../examples/full_example.json#/contact/1/onlineResource",
+  "required": ["uri"],
+  "additionalProperties": true,
+  "properties": {
+    "uri": {
+      "$ref": "../schema.json#/definitions/uri"
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of the online resource.",
+      "translation": {
+        "ISO 19115-2": ["CI_OnlineResource > name"]
+      }
+    },
+    "protocol": {
+      "type": "string",
+      "description": "The connection protocol to be used such as: ftp, http, etc.",
+      "translation": {
+        "ISO 19115-2": ["CI_OnlineResource > protocol"]
+      }
+    },
+    "description": {
+      "type": "string",
+      "description": "Detailed text description of what the online resource is/does.",
+      "translation": {
+        "ISO 19115-2": ["CI_OnlineResource > description"]
+      }
+    },
+    "function": {
+      "type": "string",
+      "description": "Function performed by the online resource.",
+      "translation": {
+        "ISO 19115-2": ["CI_OnlineResource > function > CI_OnlineFunctionCode [codelist]"]
+      }
+    }
+  }
+}

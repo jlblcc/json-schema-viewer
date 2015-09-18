@@ -1,0 +1,13 @@
+[
+  {
+    "classification": "unclassified",
+    "userNote": "security clearance not required",
+    "classificationSystem": "none",
+    "handlingDescription": "this is how to handle things..."
+  }, {
+    "classification": "intellectualPropertyRights"
+  }, {
+    "classification": "secret",
+    "userNote": "shhhhh"
+  }
+]

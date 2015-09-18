@@ -1,0 +1,17 @@
+[
+  {
+    "accessConstraint": ["accessConstraint1", "accessConstraint2"],
+    "useConstraint": ["useConstraint1", "useConstraint2"],
+    "otherConstraint": ["otherConstraint1", "otherConstraint2"]
+  }, {
+    "accessConstraint": ["patentPending", "restricted"],
+    "useConstraint": ["restricted"],
+    "otherConstraint": ["Legally barred from use for navigation."]
+  }, {
+    "useConstraint": ["otherRestrictions"]
+  }, {
+    "otherConstraint": ["Access Constraint: No one else. Use Constraint: None"]
+  }, {
+    "accessConstraint": ["copyright", "patent", "patentPending", "trademark", "license", "intellectualPropertyRights", "restricted", "otherRestrictions"]
+  }
+]

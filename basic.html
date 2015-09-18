@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>JSON Schema Viewer 0.1.0</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="styles/json-schema-viewer.min.css" />
+        <style>
+            #main-body {
+                margin: 15px;
+                border: 2px #F1C15B solid;
+                border-radius: 14px
+            }
+            a {
+                color: #058ADC;
+                display: block;
+                text-decoration: none;
+                padding: 2px;
+                font-weight: 900;
+                font-size: 16px;
+            }
+            a:hover {
+                color: #DC9705;
+            }
+            a, #legend {
+                font-family: monospace;
+            }
+            #legend-container {
+                background-color: #FFEECB;
+                padding: 3px 15px;
+                border-radius: 14px;
+                opacity: 0.9;
+            }
+
+        </style>
+    </head>
+    <body>
+        <div id="loading">
+            <div id="preload"><img src="images/loader.gif" alt="Loading..."/>
+                <br />
+                Loading...
+            </div>
+        </div>
+        <div id="main-body">
+            <div id="zoom-controls">
+                <a id="zoom_in" href="#"  title="Zoom In">Zoom-in</a>
+                <a id="zoom_out" href="#" title="Zoom Out">Zoom-out</a>
+                <div id="tree-controls">
+                    <a id="reset-tree" href="#" title="Reset">Reset</a>
+                </div>
+            </div>
+            <div id="legend-container">
+                <div id="legend">
+                    <h3 class="ui-mini">Legend</h3>
+                    <div id="legend-items"></div>
+                </div>
+            </div>
+        </div>
+
+        <script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script type='text/javascript' src="json-schema-viewer.min.js"></script>
+        <script type='text/javascript'>
+          (function($) {
+
+            var loc = window.location,
+            //if not already set, set the root schema location
+            //this allows dev ENV to override the schema location
+                schema = JSV.schema ? JSV.schema : loc.origin + loc.pathname.substring(0, loc.pathname.lastIndexOf('/') + 1) + 'schemas/schema/schema.json';
+
+            JSV.init({
+              schema : schema,
+              plain : true, //don't use JQM
+              viewerHeight : 800, //set dimensions of SVG
+              viewerWidth : 801
+            }, function() {
+              $('#jsv-tree').css('width', '100%');
+              //set diagram width to 100%
+              JSV.resetViewer();
+              $('#loading').fadeOut('slow');
+            });
+          })(jQuery);
+        </script>
+    </body>
+</html>

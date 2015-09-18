@@ -1,0 +1,14 @@
+[
+  {
+    "formatName": "formatName",
+    "version": "version"
+  }, {
+    "formatName": "netCDF",
+    "version": "4.0"
+  }, {
+    "formatName": "Excel Spreadsheet",
+    "version": "xlsx"
+  }, {
+    "formatName": "OpenOffice Spreadsheet"
+  }
+]

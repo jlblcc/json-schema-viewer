@@ -1,0 +1,103 @@
+[
+  {
+    "metadataIdentifier": {
+      "identifier": "identifier1",
+      "type": "type1"
+    },
+    "parentMetadata": {
+      "title": "title",
+      "date": [
+        {
+          "date": "1111-11-11",
+          "dateType": "dateType1"
+        }, {
+          "date": "1112-11-11",
+          "dateType": "dateType2"
+        }
+      ],
+      "edition": "edition",
+      "responsibleParty": [
+        {
+          "contactId": "contactId1",
+          "role": "role1"
+        }, {
+          "contactId": "contactId2",
+          "role": "role2"
+        }
+      ],
+      "presentationForm": ["presentationForm1", "presentationForm2"],
+      "identifier": [
+        {
+          "identifier": "identifier1",
+          "type": "type1",
+          "authority": {
+            "title": "title",
+            "date": [
+              {
+                "date": "1111-11-11",
+                "dateType": "dateType1"
+              }
+            ],
+            "responsibleParty": [
+              {
+                "contactId": "contactId1",
+                "role": "role1"
+              }
+            ],
+            "onlineResource": [
+              {
+                "uri": "http://thisisanexample1.com",
+                "protocol": "protocol1",
+                "name": "name1",
+                "description": "description1",
+                "function": "function1"
+              }
+            ]
+          }
+        }
+      ],
+      "onlineResource": [
+        {
+          "uri": "http://thisisanexample1.com",
+          "protocol": "protocol1",
+          "name": "name1",
+          "description": "description1",
+          "function": "function1"
+        }, {
+          "uri": "http://thisisanexample2.com",
+          "protocol": "protocol2",
+          "name": "name2",
+          "description": "description2",
+          "function": "function2"
+        }
+      ]
+    },
+    "metadataContact": [
+      {
+        "contactId": "contactId1",
+        "role": "role1"
+      }, {
+        "contactId": "contactId2",
+        "role": "role2"
+      }
+    ],
+    "metadataCreationDate": "1111-11-11",
+    "metadataLastUpdate": "1111-11-11",
+    "metadataCharacterSet": "metadataCharacterSet",
+    "metadataUri": "http://thisisanexample.com",
+    "metadataStatus": "metadataStatus",
+    "metadataMaintenance": {
+      "maintenanceFrequency": "maintenanceFrequency",
+      "maintenanceNote": ["maintenanceNote1", "maintenanceNote2"],
+      "maintenanceContact": [
+        {
+          "contactId": "contactId1",
+          "role": "role1"
+        }, {
+          "contactId": "contactId2",
+          "role": "role2"
+        }
+      ]
+    }
+  }
+]

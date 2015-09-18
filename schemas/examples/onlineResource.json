@@ -1,0 +1,17 @@
+[
+  {
+    "uri": "http://thisisanexample.com",
+    "protocol": "protocol",
+    "name": "name",
+    "description": "description",
+    "function": "function"
+  }, {
+    "uri": "http://arcticlcc.org",
+    "name": "Arctic LCC website",
+    "protocol": "http",
+    "description": "Website for the Arctic Landscape Conservation Cooperative",
+    "function": "information"
+  }, {
+    "uri": "http://arcticlcc.org"
+  }
+]

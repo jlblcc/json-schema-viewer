@@ -1,0 +1,35 @@
+{
+  "version": {
+    "name": "mdJson",
+    "version": "1.0.0"
+  },
+  "contact": [
+    {
+      "contactId": "1",
+      "organizationName": "US Geological Survey - Alaska Science Center"
+    }
+  ],
+  "metadata": {
+    "resourceInfo": {
+      "resourceType": "project",
+      "citation": {
+        "title": "Real-Time Permafrost and Climate Monitoring Network - Arctic Alaska",
+        "date": [
+          {
+            "date": "2012-12-21",
+            "dateType": "revision"
+          }
+        ]
+      },
+      "pointOfContact": [
+        {
+          "contactId": "1",
+          "role": "pointOfContact"
+        }
+      ],
+      "abstract": "DOI is developing a long-term permafrost monitoring network.",
+      "status": "onGoing",
+      "language": ["eng; USA", "esp; MEX"]
+    }
+  }
+}

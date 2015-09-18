@@ -1,0 +1,18 @@
+[
+  {
+    "minimumValue": 1,
+    "maximumValue": 1,
+    "verticalCRSTitle": "verticalCRSTitle",
+    "verticalCRSUri": "http://thisisanexample.com"
+  }, {
+    "minimumValue": 125,
+    "maximumValue": 222,
+    "verticalCRSTitle": "NAVD88 height (ftUS)",
+    "verticalCRSUri": "http://www.epsg-registry.org/export.htm?gml=urn:ogc:def:axis-name:EPSG::9904"
+  }, {
+    "minimumValue": 1500,
+    "maximumValue": 0,
+    "verticalCRSTitle": "NAVD88 depth",
+    "verticalCRSUri": "http://www.epsg-registry.org/export.htm?gml=urn:ogc:def:crs:EPSG::6357"
+  }
+]

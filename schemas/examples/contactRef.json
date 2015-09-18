@@ -1,0 +1,12 @@
+[
+  {
+    "contactId": "contactId",
+    "role": "role"
+  }, {
+    "contactId": "1",
+    "role": "custodian"
+  }, {
+    "contactId": "1",
+    "role": "funder"
+  }
+]

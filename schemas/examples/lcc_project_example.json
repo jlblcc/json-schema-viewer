@@ -1,0 +1,326 @@
+{
+  "version":{
+    "name":"mdJson",
+    "version":"1.0.0"
+  },
+  "contact":[
+    {
+      "contactId":"1",
+      "organizationName":"Arctic Landscape Conservation Cooperative",
+      "onlineResource":[
+        {
+          "uri":"http://arcticlcc.org",
+          "name":"Arctic LCC website",
+          "description":"Website for the Arctic Landscape Conservation Cooperative",
+          "function":"information"
+        }
+      ],
+      "phoneBook":[
+        {
+          "phoneName":"office",
+          "phoneNumber":"907-786-3605",
+          "service":[
+            "voice",
+            "fax"
+          ]
+        },
+        {
+          "phoneName":"mobile",
+          "phoneNumber":"907-306-1895",
+          "service":[
+            "voice",
+            "sms"
+          ]
+        },
+        {
+          "phoneName":"fax",
+          "phoneNumber":"907-786-3592",
+          "service":[
+            "fax"
+          ]
+        }
+      ],
+      "address":{
+        "deliveryPoint":[
+          "1011 E. Tudor Rd"
+        ],
+        "city":"Anchorage",
+        "administrativeArea":"AK",
+        "postalCode":"99503",
+        "country":"USA",
+        "electronicMailAddress":[
+          "staff@arcticlcc.org"
+        ]
+      }
+    },
+    {
+      "contactId":"2",
+      "individualName":"Scott Rupp",
+      "organizationName":"University of Alaska - Fairbanks -> Scenarios Network for Alaska & Arctic Planning",
+      "address":{
+        "electronicMailAddress":[
+          "tsrupp@alaska.edu"
+        ]
+      }
+    },
+    {
+      "contactId":"3",
+      "individualName":"David McGuire",
+      "organizationName":"Alaska Cooperative Fish and Wildlife Research Unit",
+      "address":{
+        "electronicMailAddress":[
+          "admcguire@alaska.edu"
+        ]
+      }
+    },
+    {
+      "contactId":"4",
+      "organizationName":"Western Alaska Landscape Conservation Cooperative"
+    },
+    {
+      "contactId":"5",
+      "organizationName":"Alaska Climate Science Center"
+    },
+    {
+      "contactId":"6",
+      "organizationName":"Northwest Boreal Landscape Conservation Cooperative"
+    },
+    {
+      "contactId":"7",
+      "organizationName":"U.S. Fish and Wildlife Service"
+    }
+  ],
+  "metadata":{
+    "metadataInfo":{
+      "metadataIdentifier":{
+        "identifier":"D5D16D06-CEEB-E011-8260-000C2952247E",
+        "type":"uuid"
+      },
+      "metadataContact":[
+        {
+          "contactId":"1",
+          "role":"custodian"
+        }
+      ],
+      "metadataCreationDate":"2014-04-28",
+      "metadataLastUpdate":"2014-04-28",
+      "metadataUri":"http://arcticlcc.org/metadata/project/ALCC2010-05",
+      "metadataStatus":"onGoing",
+      "metadataMaintenance":{
+        "maintenanceFrequency":"asNeeded",
+        "maintenanceNote":[
+          "Metadata records are generated on request from current database"
+        ],
+        "maintenanceContact":[
+          {
+            "contactId":"1",
+            "role":"publisher"
+          }
+        ]
+      }
+    },
+    "resourceInfo":{
+      "resourceType":"project",
+      "citation":{
+        "title":"Integrated Ecosystem Model (AIEM) for Alaska",
+        "date":[
+          {
+            "date":"2010-02-15",
+            "dateType":"projectStart"
+          },
+          {
+            "date":"2016-08-31",
+            "dateType":"projectEnd"
+          }
+        ],
+        "responsibleParty":[
+          {
+            "contactId":"1",
+            "role":"primaryLCC",
+            "funding":[
+              {
+                "fiscalYear":2010,
+                "originalSource":{
+                  "contactId":"7"
+                },
+                "amount":410000
+              },
+              {
+                "fiscalYear":2011,
+                "originalSource":{
+                  "contactId":"7"
+                },
+                "amount":410000
+              }
+            ]
+          },
+          {
+            "contactId":"2",
+            "role":"principalInvestigator"
+          },
+          {
+            "contactId":"3",
+            "role":"principalInvestigator"
+          },
+          {
+            "contactId":"5",
+            "role":"collaborator"
+          },
+          {
+            "contactId":"4",
+            "role":"partnerLCC",
+            "funding":[
+              {
+                "fiscalYear":2011,
+                "amount":50000
+              }
+            ]
+          },
+          {
+            "contactId":"6",
+            "role":"partnerLCC",
+            "funding":[
+              {
+                "fiscalYear":2011,
+                "amount":15000,
+                "comment":"This is an example."
+              }
+            ]
+          }
+        ],
+        "identifier":[
+          {
+            "authority":{
+              "title":"Arctic LCC Project",
+              "responsibleParty":[
+                {
+                  "contactId":"1",
+                  "role":"originator"
+                }
+              ]
+            },
+            "identifier":"ALCC2010-05"
+          },
+          {
+            "authority":{
+              "title":"WA LCC Project",
+              "responsibleParty":[
+                {
+                  "contactId":"4",
+                  "role":"collaborator"
+                }
+              ],
+              "onlineResource":[
+                {
+                  "uri":"http://thisisanexample.com"
+                }
+              ]
+            },
+            "identifier":"WA2011_09"
+          },
+          {
+            "authority":{
+              "title":"NWB LCC Project",
+              "responsibleParty":[
+                {
+                  "contactId":"4",
+                  "role":"collaborator"
+                }
+              ]
+            },
+            "identifier":"NWB-002"
+          }
+        ],
+        "onlineResource":[
+          {
+            "uri":"http://arcticlcc.org/projects/ALCC2010-05",
+            "protocol":"http",
+            "name":"Project website",
+            "description":"Main project website",
+            "function":"information"
+          },
+          {
+            "uri":"https://www.sciencebase.gov/catalog/folder/52b4afa2e4b0260bc327ef6d",
+            "protocol":"http",
+            "name":"Project ScienceBase Page",
+            "description":"Fake ScienceBase link",
+            "function":"scienceBase"
+          }
+        ]
+      },
+      "pointOfContact":[
+        {
+          "contactId":"1",
+          "role":"pointOfContact"
+        }
+      ],
+      "abstract":"Project with SNAP to develop a framework that will couple models of disturbance and vegetation succession (ALFRESCO), biogeochemistry (TEM), and permafrost (GIPL).",
+      "shortAbstract":"",
+      "status":"onGoing",
+      "resourceSpecificUsage":[
+        {
+          "specificUsage":"Broad variety of datasets for use by land and resource managers as well as researchers.",
+          "userContactInfo":[
+            {
+              "contactId":"1",
+              "role":"pointOfContact"
+            }
+          ]
+        }
+      ],
+      "language":[
+        "eng; USA"
+      ],
+      "keyword":[
+        {
+          "keyword":[
+            "EARTH SCIENCE -> TERRESTRIAL HYDROSPHERE -> SURFACE WATER -> WETLANDS",
+            "EARTH SCIENCE -> CRYOSPHERE -> FROZEN GROUND -> SOIL TEMPERATURE",
+            "EARTH SCIENCE -> CRYOSPHERE -> FROZEN GROUND -> PERMAFROST",
+            "EARTH SCIENCE SERVICES -> MODELS -> DYNAMIC VEGETATION/ECOSYSTEM MODELS",
+            "EARTH SCIENCE -> LAND SURFACE -> LAND USE/LAND COVER -> LAND COVER",
+            "EARTH SCIENCE -> LAND SURFACE -> LANDSCAPE -> LANDSCAPE ECOLOGY",
+            "EARTH SCIENCE -> LAND SURFACE -> LANDSCAPE -> LANDSCAPE PROCESSES"
+          ],
+          "keywordType":"theme",
+          "thesaurus":{
+            "title":"NASA/Global Change Master Directory (GCMD) Earth Science Keywords.",
+            "date":[
+              {
+                "date":"2013-09-19",
+                "dateType":"revision"
+              }
+            ],
+            "onlineResource":[
+              {
+                "uri":"http://gcmdservices.gsfc.nasa.gov/static/kms/sciencekeywords/sciencekeywords.csv"
+              }
+            ],
+            "edition":"Version 8.0.0.0.0",
+            "presentationForm":[
+              "documentDigital"
+            ]
+          }
+        },
+        {
+          "keyword":[
+            "Population & Habitat Evaluation/Projection",
+            "Vulnerability Assessment"
+          ],
+          "keywordType":"project",
+          "thesaurus":{
+            "title":"LCC Project Category Vocabulary",
+            "onlineResource":[
+              {
+                "uri":"https://www.sciencebase.gov/vocab/vocabulary/52dee7c5e4b0dee2a6cd6b18"
+              }
+            ],
+            "presentationForm":[
+              "documentDigital"
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

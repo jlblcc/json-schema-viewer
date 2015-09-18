@@ -1,0 +1,39 @@
+{
+  "id": "usage.json#",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "description": "Description of ways in which the resource is currently or has been used.",
+  "example": "../../examples/full_example.json#/metadata/resourceInfo/resourceSpecificUsage/0",
+  "translation": {
+    "ISO 19115-2": ["MD_Usage"]
+  },
+  "required": ["specificUsage", "userContactInfo"],
+  "additionalProperties": true,
+  "properties": {
+    "specificUsage": {
+      "type": "string",
+      "description": "A brief description about how the resource is being used.",
+      "translation": {
+        "ISO 19115-2": ["MD_Usage > specific usage"]
+      }
+    },
+    "userDeterminedLimitation": {
+      "type": "string",
+      "description": "A brief description of applications, determined by the user, for which the resource is not suitable.",
+      "translation": {
+        "ISO 19115-2": ["MD_Usage > userDeterminedLimitations"]
+      }
+    },
+    "userContactInfo": {
+      "type": "array",
+      "description": "Identification of the persons and/or organizations that are using the resource.",
+      "translation": {
+        "ISO 19115-2": ["MD_Usage > userContactInfo"]
+      },
+      "uniqueItems": true,
+      "items": {
+        "$ref": "contact.json#/definitions/contactRef"
+      }
+    }
+  }
+}

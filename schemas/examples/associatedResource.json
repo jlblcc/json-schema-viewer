@@ -1,0 +1,119 @@
+[
+  {
+    "associationType": "associationType",
+    "initiativeType": "initiativeType",
+    "resourceType": "resourceType",
+    "resourceCitation": {
+      "title": "title",
+      "date": [
+        {
+          "date": "1111-11-11",
+          "dateType": "dateType"
+        }
+      ],
+      "edition": "edition",
+      "responsibleParty": [
+        {
+          "contactId": "contactId",
+          "role": "role"
+        }
+      ],
+      "presentationForm": ["presentationForm"],
+      "identifier": [
+        {
+          "identifier": "identifier",
+          "type": "type",
+          "authority": {
+            "title": "title",
+            "date": [
+              {
+                "date": "1111-11-11",
+                "dateType": "dateType"
+              }
+            ],
+            "responsibleParty": [
+              {
+                "contactId": "contactId",
+                "role": "role"
+              }
+            ],
+            "onlineResource": [
+              {
+                "uri": "http://thisisanexample.com",
+                "protocol": "protocol",
+                "name": "name",
+                "description": "description",
+                "function": "function"
+              }
+            ]
+          }
+        }
+      ],
+      "onlineResource": [
+        {
+          "uri": "http://thisisanexample.com",
+          "protocol": "protocol",
+          "name": "name",
+          "description": "description",
+          "function": "function"
+        }
+      ]
+    },
+    "metadataCitation": {
+      "title": "title",
+      "date": [
+        {
+          "date": "1111-11-11",
+          "dateType": "dateType"
+        }
+      ],
+      "edition": "edition",
+      "responsibleParty": [
+        {
+          "contactId": "contactId",
+          "role": "role"
+        }
+      ],
+      "presentationForm": ["presentationForm"],
+      "identifier": [
+        {
+          "identifier": "identifier",
+          "type": "type",
+          "authority": {
+            "title": "title",
+            "date": [
+              {
+                "date": "1111-11-11",
+                "dateType": "dateType"
+              }
+            ],
+            "responsibleParty": [
+              {
+                "contactId": "contactId",
+                "role": "role"
+              }
+            ],
+            "onlineResource": [
+              {
+                "uri": "http://thisisanexample.com",
+                "protocol": "protocol",
+                "name": "name",
+                "description": "description",
+                "function": "function"
+              }
+            ]
+          }
+        }
+      ],
+      "onlineResource": [
+        {
+          "uri": "http://thisisanexample.com",
+          "protocol": "protocol",
+          "name": "name",
+          "description": "description",
+          "function": "function"
+        }
+      ]
+    }
+  }
+]
