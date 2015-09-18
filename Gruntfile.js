@@ -39,6 +39,7 @@ module.exports = function(grunt) {
                       '<%= pkg.title || pkg.name %>' +
                       '<%= pkg.version ? " v" + pkg.version : "" %>' +
                       '<%= pkg.licenses ? " | " + _.pluck(pkg.licenses, "type").join(", ") : "" %>' +
+                      ' - For included libraries, see source for additional licensing info.' +
                       '<%= pkg.homepage ? " | " + pkg.homepage : "" %>' +
                       ' */',
 
@@ -87,8 +88,9 @@ module.exports = function(grunt) {
 
                 options : {
 
-                    targetDir : './files/plugins', // A directory where you want to keep your Bower packages.
-                    cleanup : true,                // Will clean target and bower directories.
+                    //targetDir : './bower_components', // A directory where you want to keep your Bower packages.
+                    //cleanTargetDir: false,
+                    cleanBowerDir: true,
                     layout : 'byComponent',        // Folder structure type.
                     verbose : true,                // Debug output.
 
@@ -114,8 +116,9 @@ module.exports = function(grunt) {
                 '<%= jshint.init %>',
                 './json-schema-viewer.js',
                 './lib/**/*',
+                './lib/*',
                 './templates/**/*',
-                './styles/**/*',
+                './styles/sass/**/*',
                 './images/**/*',
 
             ],
@@ -145,7 +148,8 @@ module.exports = function(grunt) {
 
                 './Gruntfile.js',
                 './json-schema-viewer.js',
-                './lib/*.js'
+                './lib/translator.js',
+                './lib/tv4.async-load-jquery.js',
 
             ],
 
@@ -197,6 +201,12 @@ module.exports = function(grunt) {
 
             ],
 
+            doc : [
+
+                './jsdoc/**/*',
+
+            ],
+
         },
 
         /*----------------------------------( UGLIFY )----------------------------------*/
@@ -223,13 +233,22 @@ module.exports = function(grunt) {
                     './prod/<%= pkg.version %>/<%= now %>/<%= ver %>/<%= pkg.name %>.min.js' : [
                         //'./files/scripts/jquery.js',
                         //'./files/scripts/jquery.*.js',
-                        './lib/tv4/tv4.js',
+                        './bower_components/uri.js/src/URI.js',
+                        //'./bower_components/uri.js/jquery.URI.js',
+                        './bower_components/tv4/tv4.js',
                         './lib/tv4.async-load-jquery.js',
-                        './lib/d3/d3.js',
-                        './lib/filereader/filereader.js',
-                        './lib/jsonpointer/src/jsonpointer.js',
-                        './lib/highlightjs/highlight.min.js',
+                        './bower_components/jquery.scrollTo/jquery.scrollTo.js',
+                        './bower_components/d3/d3.js',
+                        './bower_components/filereader.js/filereader.js',
+                        './bower_components/jsonpointer.js/src/jsonpointer.js',
+                        './bower_components/highlightjs/highlight.pack.js',
                         './<%= pkg.name %>.js',
+                        './lib/example.js',
+
+                    ],
+                    './prod/<%= pkg.version %>/<%= now %>/<%= ver %>/lib/preinit.js' : [
+                        './lib/preinit.js',
+
                     ],
 
                 },
@@ -253,7 +272,7 @@ module.exports = function(grunt) {
 
                 noCache : true,  // Don't cache to sassc files.
                 precision : 14, // How many digits of precision to use when outputting decimal numbers.
-                sourcemap : 'none', // Generate CSS source maps?
+                //sourcemap : 'none', // Generate CSS source maps?
 
             },
 
@@ -261,7 +280,7 @@ module.exports = function(grunt) {
 
                 options : {
 
-                    banner : '<%= banner.long %>',
+                    //banner : '<%= banner.long %>', TODO:this is no longer valid use https://github.com/mattstyles/grunt-banner
                     style : 'expanded', // Output style. Can be nested, compact, compressed, expanded.
 
                 },
@@ -279,7 +298,7 @@ module.exports = function(grunt) {
 
                 options : {
 
-                    banner : '<%= banner.short %>',
+                    //banner : '<%= banner.short %>', see above
                     style : 'compressed',
 
                 },
@@ -336,6 +355,13 @@ module.exports = function(grunt) {
 
                     {
 
+                        src : './templates/basic.html',
+                        dest : './basic.html',
+
+                    },
+
+                    {
+
                         src : './templates/latest.html',
                         dest : './index.html',
 
@@ -354,10 +380,19 @@ module.exports = function(grunt) {
                         src : './templates/index.html',
                         dest : './prod/<%= pkg.version %>/<%= now %>/<%= ver %>/index.html',
 
-                    }, {
+                    },
+
+                    {
 
                         src : './templates/latest.html',
                         dest : './prod/index.html',
+
+                    },
+
+                    {
+
+                        src : './templates/basic.html',
+                        dest : './prod/<%= pkg.version %>/<%= now %>/<%= ver %>/basic.html',
 
                     },
 
@@ -376,6 +411,7 @@ module.exports = function(grunt) {
          * @see http://gruntjs.com/configuring-tasks#globbing-patterns
          */
 
+
         copy : {
 
             prod : {
@@ -388,10 +424,30 @@ module.exports = function(grunt) {
                         cwd : './',
                         src : [
                             'images/**/*',
-                            'schemas/**/*',
                             '!images/junk/**',
                         ],
                         dest : './prod/<%= pkg.version %>/<%= now %>/<%= ver %>/',
+
+                    },
+                    {
+
+                        expand : true,
+                        cwd : './bower_components/mdjson-schemas/',
+                        src : [
+                            '**/*.json',
+                            '!*bower.json',
+                        ],
+                        dest : './prod/<%= pkg.version %>/<%= now %>/<%= ver %>/schemas',
+
+                    },
+                    {
+
+                        expand : true,
+                        cwd : './jsdoc/',
+                        src : [
+                            '**/*',
+                        ],
+                        dest : './prod/<%= pkg.version %>/<%= now %>/<%= ver %>/docs',
 
                     }
 
@@ -400,6 +456,37 @@ module.exports = function(grunt) {
             },
 
         },
+
+       /**
+         * Deploy to GitHub Pages.
+         *
+         * @see https://github.com/tschaub/grunt-gh-pages
+         */
+
+      'gh-pages' : {
+        options: {
+          base: './prod/<%= pkg.version %>/<%= now %>/<%= ver %>/'
+        },
+        src: ['**/*']
+      },
+
+       /**
+         * Build docs,.
+         *
+         * @see https://github.com/krampstudio/grunt-jsdoc
+         */
+
+      jsdoc : {
+          dist : {
+              src: ['<%= pkg.name %>.js', 'README.md'],
+              options: {
+                  destination: 'jsdoc',
+                  //verbose: true,
+                  //template : "./node_modules/grunt-jsdoc/node_modules/ink-docstrap/template",
+                  //configure : "node_modules/grunt-jsdoc/node_modules/ink-docstrap/template/jsdoc.conf.json",
+              }
+          }
+      },
 
     });
 
@@ -423,6 +510,9 @@ module.exports = function(grunt) {
 
     grunt.loadNpmTasks('grunt-contrib-copy');
 
+    grunt.loadNpmTasks('grunt-gh-pages');
+
+    grunt.loadNpmTasks('grunt-jsdoc');
     //----------------------------------
 
     /**
@@ -438,7 +528,9 @@ module.exports = function(grunt) {
 
     grunt.registerTask('dev', ['init', 'env:dev', 'sass:dev', 'preprocess:dev',]);
 
-    grunt.registerTask('prod', ['init', 'dev', 'env:prod', 'clean:prod', 'sass:prod', 'uglify:prod', 'preprocess:prod', 'copy:prod',]);
+    grunt.registerTask('prod', ['init', 'dev', 'env:prod', 'doc', 'clean:prod', 'sass:prod', 'uglify:prod', 'preprocess:prod', 'copy:prod',]);
+
+    grunt.registerTask('doc', ['clean:doc', 'jsdoc',]);
 
     grunt.registerTask('default', ['dev',]);
 
