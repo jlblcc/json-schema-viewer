@@ -16,6 +16,11 @@ if (typeof JSV === 'undefined') {
         schema: '',
 
         /**
+         * If true, render diagram only on init.
+         */
+        plain: false,
+
+        /**
          * The version of the schema.
          */
         version: '',
@@ -26,9 +31,19 @@ if (typeof JSV === 'undefined') {
         focusNode: false,
 
         /**
+         * Currently loaded example
+         */
+        example: false,
+
+        /**
          * @property {object} treeData The diagram nodes
          */
         treeData: null,
+
+        /**
+         * The initialization status of the viewer page
+         */
+        viewerInit: false,
 
         /**
          * The current viewer height
@@ -89,23 +104,66 @@ if (typeof JSV === 'undefined') {
                 }
             }
 
+            if(JSV.plain) {
+              JSV.createDiagram(callback);
+                          //setup controls
+                        d3.selectAll('#zoom-controls>a').on('click', JSV.zoomClick);
+                        d3.select('#tree-controls>a#reset-tree').on('click', JSV.resetViewer);
+              JSV.viewerInit = true;
+              return;
+            }
+
+            JSV.contentHeight();
+            JSV.resizeViewer();
+
             $(document).on('pagecontainertransition', this.contentHeight);
             $(window).on('throttledresize orientationchange', this.contentHeight);
             $(window).on('resize', this.contentHeight);
 
+            //responsive buttons
+            var resizeBtn = function() {
+                var activePage = $.mobile.pageContainer.pagecontainer('getActivePage');
+                if ($(window).width() <= 800) {
+                    $('.md-navbar .md-flex-btn.ui-btn-icon-left', activePage).toggleClass('ui-btn-icon-notext ui-btn-icon-left');
+                } else {
+                    $('.md-navbar .md-flex-btn.ui-btn-icon-notext', activePage).toggleClass('ui-btn-icon-left ui-btn-icon-notext');
+                }
+            };
+
+            resizeBtn();
+            $(document).on('pagecontainerbeforeshow', resizeBtn);
+            $(window).on('throttledresize', resizeBtn);
+
             var cb = function() {
                 callback();
+
+                //setup search
+                var items = [];
+
+                JSV.visit(JSV.treeData, function(me) {
+                    if (me.isReal) {
+                        items.push(me.plainName + '|' + JSV.getNodePath(me).join('-'));
+                    }
+                }, function(me) {
+                    return me.children || me._children;
+                });
+
+                items.sort();
+                JSV.buildSearchList(items, true);
+
                 $('#loading').fadeOut('slow');
             };
             JSV.createDiagram(cb);
+
             JSV.initValidator();
 
             //initialize error popup
             $( '#popup-error' ).enhanceWithin().popup();
 
             ///highlight plugin
-            $.fn.highlight = function (str, className) {
-                var regex = new RegExp('\\b'+str+'\\b', 'g');
+            $.fn.highlight = function (str, className, quote) {
+                var string = quote ? '\\"\\b'+str+'\\b\\"' : '\\b'+str+'\\b',
+                    regex = new RegExp(string, 'g');
 
                 return this.each(function () {
                     this.innerHTML = this.innerHTML.replace(regex, function(matched) {return '<span class="' + className + '">' + matched + '</span>';});
@@ -116,11 +174,12 @@ if (typeof JSV === 'undefined') {
             $('body').on('pagecontainershow', function(event, ui) {
                 var page = ui.toPage;
 
-                if(page.attr('id') === 'viewer-page') {
+                if(page.attr('id') === 'viewer-page' && JSV.viewerInit) {
                     if(page.jqmData('infoOpen')) {
                         $('#info-panel'). panel('open');
                     }
-                    //TODO: add this to 'pagecontainercreate' handler on refactor
+                    //TODO: add this to 'pagecontainercreate' handler on refactor???
+                    JSV.contentHeight();
                     if($('svg#jsv-tree').height() === 0) {
                         $('svg#jsv-tree').attr('width', $('#main-body').width())
                                          .attr('height', $('#main-body').height());
@@ -147,7 +206,7 @@ if (typeof JSV === 'undefined') {
                 JSV.resizeViewer();
                 if(focus) {
                     d3.select('#n-' + focus.id).classed('focus',true);
-                    $('#schema-path').html(JSV.compilePath(focus));
+                    JSV.setPermalink(focus);
                 }
             });
 
@@ -157,13 +216,43 @@ if (typeof JSV === 'undefined') {
                 JSV.resizeViewer();
                 if (focus) {
                     d3.select('#n-' + focus.id).classed('focus', false);
-                    $('#schema-path').html('Select a Node...');
+                    $('#permalink').html('Select a Node...');
+                    $('#sharelink').val('');
                 }
+            });
+
+            //scroll example/schema when tab is activated
+            $('#info-panel').on( 'tabsactivate', function( event, ui ) {
+                var id = ui.newPanel.attr('id');
+
+                if(id === 'info-tab-example' || id === 'info-tab-schema') {
+                    var pre = ui.newPanel.find('pre'),
+                        highEl = pre.find('span.highlight')[0];
+
+                    if(highEl) {
+                        pre.scrollTo(highEl, 900);
+                    }
+                }
+            });
+
+            //setup example links
+            $('.load-example').each(function(idx, link) {
+                var ljq = $(link);
+                ljq.on('click', function(evt) {
+                    evt.preventDefault();
+                    JSV.loadInputExample(link.href, ljq.data('target'));
+                });
             });
 
             //setup controls
             d3.selectAll('#zoom-controls>a').on('click', JSV.zoomClick);
             d3.select('#tree-controls>a#reset-tree').on('click', JSV.resetViewer);
+
+            $('#sharelink').on('click', function () {
+               $(this).select();
+            });
+
+            JSV.viewerInit = true;
 
         },
 
@@ -178,8 +267,6 @@ if (typeof JSV === 'undefined') {
                 content = screen - header - footer - contentCurrent;
 
             $('#main-body.ui-content').css('min-height', content + 'px');
-
-            JSV.resizeViewer();
         },
 
         /**
@@ -285,6 +372,10 @@ if (typeof JSV === 'undefined') {
         showValResult: function(result) {
             var cont = $('#validation-results'), ui;
 
+            if(cont.children().length) {
+                cont.css('opacity', 0);
+            }
+
             if(result.valid) {
                 cont.html('<p class=ui-content>JSON is valid!</p>');
             } else {
@@ -303,13 +394,18 @@ if (typeof JSV === 'undefined') {
             }
 
             cont.toggleClass('error', !result.valid);
+            $('#validator-page').animate({
+                scrollTop: $('#validation-results').offset().top + 20
+            }, 1000);
+
+            cont.fadeTo(350, 1);
         },
 
         /**
          * Build a collapsible validation block.
          *
          * @param {object} err The error object
-         * @param {title} title The title for the error block
+         * @param {string} title The title for the error block
          */
         buildValError: function(err, title) {
             var main = '<div data-role="collapsible" data-collapsed="true" data-mini="true">' +
@@ -363,20 +459,42 @@ if (typeof JSV === 'undefined') {
 
             JSV.createPre(schema, tv4.getSchema(node.schema), false, node.plainName);
 
-            if(node.example) {
-                $.getJSON(node.schema.match( /^(.*?)(?=[^\/]*\.json)/g ) + node.example, function(data) {
-                    var pointer = node.example.split('#')[1];
+            var example = (!node.example && node.parent && node.parent.example && node.parent.type === 'object' ? node.parent.example : node.example);
 
-                    if(pointer) {
-                        data = jsonpointer.get(data, pointer);
+            if(example) {
+                if(example !== JSV.example) {
+                    $.getJSON(node.schema.match( /^(.*?)(?=[^\/]*\.json)/g ) + example, function(data) {
+                        var pointer = example.split('#')[1];
+
+                        if(pointer) {
+                            data = jsonpointer.get(data, pointer);
+                        }
+
+                        JSV.createPre(ex, data, false, node.plainName);
+                        JSV.example = example;
+                    }).fail(function() {
+                        ex.html('<h3>No example found.</h3>');
+                        JSV.example = false;
+                    });
+                } else {
+                    var pre = ex.find('pre'),
+                        highEl;
+
+                    pre.find('span.highlight').removeClass('highlight');
+
+                    if(node.plainName) {
+                        pre.highlight(node.plainName, 'highlight', true);
                     }
+                    //scroll to highlighted property
+                    highEl = pre.find('span.highlight')[0];
 
-                    JSV.createPre(ex, data);
-                }).fail(function() {
-                    ex.html('<h3>No example found.</h3>');
-                });
+                    if (highEl) {
+                        pre.scrollTo(highEl, 900);
+                    }
+                }
             } else {
                 ex.html('<h3>No example available.</h3>');
+                JSV.example = false;
             }
         },
 
@@ -397,15 +515,23 @@ if (typeof JSV === 'undefined') {
                 hljs.highlightBlock($(w.document.body).children('pre')[0]);
                 $(w.document.body).append('<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/styles/default.min.css">');
                 w.document.title = title || 'JSON Schema Viewer';
+                w.document.close();
             });
 
             el.html(btn);
 
             if(exp) {
-                pre.highlight(exp, 'highlight');
+                pre.highlight(exp, 'highlight', true);
             }
             el.append(pre);
             pre.height(el.height() - btn.outerHeight(true) - (pre.outerHeight(true) - pre.height()));
+
+            //scroll to highlighted property
+            var highEl = pre.find('span.highlight')[0];
+
+            if(highEl) {
+                pre.scrollTo(highEl, 900);
+            }
         },
 
         /**
@@ -422,6 +548,106 @@ if (typeof JSV === 'undefined') {
             }
 
             return p;
+        },
+
+        /**
+         * Load an example in the specified input field.
+         */
+        loadInputExample: function(uri, target) {
+            $.getJSON(uri).done(function(fetched) {
+                $('#' + target).val(JSON.stringify(fetched, null, '  '));
+            }).fail(function(jqXHR, textStatus, errorThrown) {
+                JSV.showError('Failed to load example: ' + errorThrown);
+            });
+        },
+
+        /**
+         * Create a "permalink" for the node.
+         */
+        setPermalink: function(node) {
+            var uri = new URI(),
+                path = JSV.getNodePath(node).join('-');
+
+            //uri.search({ v: path});
+            uri.hash($.mobile.activePage.attr('id') + '?v=' + path);
+            $('#permalink').html(JSV.compilePath(node));
+            $('#sharelink').val(uri.toString());
+        },
+
+        /**
+         * Create an index-based path for the node from the root.
+         */
+        getNodePath: function(node, path) {
+            var p = path || [],
+                parent = node.parent;
+
+            if(parent) {
+                var children = parent.children || parent._children;
+
+                p.unshift(children.indexOf(node));
+                return JSV.getNodePath(parent, p);
+            } else {
+                return p;
+            }
+        },
+
+        /**
+         * Expand an index-based path for the node from the root.
+         */
+        expandNodePath: function(path) {
+            var i,
+                node = JSV.treeData; //start with root
+
+            for (i = 0; i < path.length; i++) {
+                if(node._children) {
+                    JSV.expand(node);
+                }
+                node = node.children[path[i]];
+            }
+
+            JSV.update(JSV.treeData);
+            JSV.centerNode(node);
+
+            return node;
+        },
+
+        /**
+         * Build Search.
+         */
+        buildSearchList: function(items, init) {
+            var ul = $('ul#search-result');
+
+            $.each(items, function(i,v) {
+                var data = v.split('|');
+                var li = $('<li/>').attr('data-icon', 'false').appendTo(ul);
+
+                $('<a/>').attr('data-path', data[1]).text(data[0]).appendTo(li);
+            });
+
+            if(init) {
+              ul.filterable();
+            }
+            ul.filterable('refresh');
+
+            ul.on('click', function(e) {
+                var path = $(e.target).attr('data-path');
+                var node = JSV.expandNodePath(path.split('-'));
+
+                JSV.flashNode(node);
+            });
+
+        },
+
+        /**
+         * Flash node text
+         */
+        flashNode: function(node, times) {
+            var t = times || 4,
+            text = $('#n-' + node.id + ' text');
+            //flash node text
+            while (t--) {
+                text.fadeTo(350, 0).fadeTo(350, 1);
+            }
         },
 
         /**
@@ -481,6 +707,7 @@ if (typeof JSV === 'undefined') {
             node = {
                 description: schema.description || s.description,
                 name: (schema.$ref && real ? name : false) || s.title || name || 'schema',
+                isReal: real,
                 plainName: name,
                 type: s.type,
                 displayType: s.type || (s['enum'] ? 'enum: ' + s['enum'].join(', ') : s.items ? 'array' : s.properties ? 'object' : 'ambiguous'),
@@ -699,7 +926,7 @@ if (typeof JSV === 'undefined') {
          */
         click: function (d) {
             if(!JSV.labels[d.name]) {
-                if (d3.event.defaultPrevented) {return;} // click suppressed
+                if (d3.event && d3.event.defaultPrevented) {return;} // click suppressed
                 d = JSV.toggleChildren(d);
                 JSV.update(d);
                 JSV.centerNode(d);
@@ -711,7 +938,7 @@ if (typeof JSV === 'undefined') {
          */
        clickTitle: function (d) {
             if(!JSV.labels[d.name]) {
-                if (d3.event.defaultPrevented) {return;} // click suppressed
+                if (d3.event && d3.event.defaultPrevented) {return;} // click suppressed
                 var panel = $( '#info-panel' );
 
                 if(JSV.focusNode) {
@@ -720,11 +947,14 @@ if (typeof JSV === 'undefined') {
                 JSV.focusNode = d;
                 JSV.centerNode(d);
                 d3.select('#n-' + d.id).classed('focus',true);
-                $('#schema-path').html(JSV.compilePath(d));
 
-                $('#info-title').text('Info: ' + d.name);
-                JSV.setInfo(d);
-                panel.panel( 'open' );
+                if(!JSV.plain) {
+                  JSV.setPermalink(d);
+
+                  $('#info-title').text('Info: ' + d.name);
+                  JSV.setInfo(d);
+                  panel.panel( 'open' );
+                }
             }
         },
 
@@ -900,7 +1130,12 @@ if (typeof JSV === 'undefined') {
                     return d.name + (d.require ? '*' : '');
                 })
                 .style('fill-opacity', 0)
-                .on('click', JSV.clickTitle);
+                .on('click', JSV.clickTitle)
+                .on('dblclick', function(d) {
+                    JSV.click(d);
+                    JSV.clickTitle(d);
+                    d3.event.stopPropagation();
+                });
 
 
             // Change the circle fill depending on whether it has children and is collapsed
@@ -1107,7 +1342,7 @@ if (typeof JSV === 'undefined') {
                         return d.text;
                     });
 
-                callback();
+                if(typeof callback === 'function') {callback();}
             });
         }
     };
