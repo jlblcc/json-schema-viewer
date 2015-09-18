@@ -13,7 +13,7 @@ deprecated, etc.
 
 The [demo](http://jlblcc.github.io/json-schema-viewer/) is rendering the
 [mdJson-schemas](https://github.com/adiwg/mdJson-schemas).
-There's also a [basic example](http://jlblcc.github.io/json-schema-viewer/basic.html")
+There's also a [basic example](http://jlblcc.github.io/json-schema-viewer/basic.html)
 without the jQuery Mobile interface elements.
 
 JSDocs are [here](http://jlblcc.github.io/json-schema-viewer/docs)
