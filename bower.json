@@ -15,8 +15,7 @@
   "license": "Unlicense",
   "dependencies": {
     "d3": "~3",
-    "tv4": "~1.2.7",
-    "mdjson-schemas": "~1"
+    "tv4": "~1.2.7"
   },
   "devDependencies": {
     "uri.js": "~1.14.1",
