@@ -11,8 +11,8 @@
     "dojo"          : false,    // If Dojo Toolkit globals should be predefined.
     "eqeqeq"        : false,    // If === should be required.
     "eqnull"        : false,    // If == null comparisons should be tolerated.
-    "es3"           : true,     // If ES3 syntax should be allowed.
-    "esnext"        : false,    // If es.next specific syntax should be allowed.
+    "es3"           : false,     // If ES3 syntax should be allowed.
+    "esnext"        : true,    // If es.next specific syntax should be allowed.
     "evil"          : false,    // If eval should be allowed.
     "expr"          : false,    // If ExpressionStatement should be allowed as Programs.
     "forin"         : true,     // If for in statements must filter.
@@ -75,6 +75,7 @@
     "yui"           : false,    // YUI variables should be predefined.
     "globals"       : {         // A map of global variables, with keys as names and a boolean value to determine if they are assignable.
         "JSV": true,
+        "URI": true,
         "d3": false,
         "tv4": false,
         "hljs": false,

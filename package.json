@@ -13,12 +13,7 @@
   },
   "//": "The following FQDN is the endpoint for your assets (no trailing slash):",
   "production": "http://jlblcc.github.io/json-schema-viewer",
-  "licenses": [
-    {
-      "type": "Unlicense",
-      "url": "http://unlicense.org/"
-    }
-  ],
+  "license": "Unlicense",
   "dependencies": {
     "grunt": "~0",
     "grunt-cli": "~0",
@@ -38,5 +33,9 @@
     "prod": "grunt prod",
     "watch": "grunt watch",
     "bower": "grunt bower"
+  },
+  "devDependencies": {
+    "grunt-gh-pages": "^0.9.1",
+    "grunt-jsdoc": "^0.6.8"
   }
 }
