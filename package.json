@@ -2,7 +2,7 @@
   "title": "JSON Schema Viewer",
   "name": "json-schema-viewer",
   "description": "Visualize JSON schemas using D3.js",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "homepage": "https://github.com/jlblcc/json-schema-viewer",
   "repository": {
     "type": "git",
