@@ -28,3 +28,5 @@ Built using:
  - [jsonpointer.js](https://github.com/alexeykuzmin/jsonpointer.js)
  - [Grunt HTML Boiler](https://github.com/mhulse/grunt-html-boiler)
  - [URI.js](https://github.com/medialize/URI.js)
+
+This project was inspired by [robschmuecker’s block #7880033](http://bl.ocks.org/robschmuecker/7880033).
