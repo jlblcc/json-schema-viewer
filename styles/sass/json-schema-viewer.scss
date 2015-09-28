@@ -125,6 +125,14 @@ p.ui-content.error-message {
   stroke-width: 3px;
 }
 
+.deprecated {
+  color: orange;
+
+  text {
+    fill: orange;
+  }
+}
+
 .link {
   fill: none;
   stroke: #ccc;

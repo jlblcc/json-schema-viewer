@@ -717,7 +717,8 @@ if (typeof JSV === 'undefined') {
                 opacity: real ? 1 : 0.5,
                 required: s.required,
                 schema: s.id || schema.$ref || parentSchema(parent),
-                parentSchema: parent
+                parentSchema: parent,
+                deprecated: schema.deprecated || s.deprecated
             };
 
             node.require = parent && parent.required ? parent.required.indexOf(node.name) > -1 : false;
@@ -952,7 +953,9 @@ if (typeof JSV === 'undefined') {
                 if(!JSV.plain) {
                   JSV.setPermalink(d);
 
-                  $('#info-title').text('Info: ' + d.name);
+                  $('#info-title')
+                    .text('Info: ' + d.name)
+                    .toggleClass('deprecated', d.deprecated);
                   JSV.setInfo(d);
                   panel.panel( 'open' );
                 }
@@ -1095,6 +1098,9 @@ if (typeof JSV === 'undefined') {
             var nodeEnter = node.enter().append('g')
                 .attr('class', function(d) {
                     return JSV.labels[d.name] ? 'node label' : 'node';
+                })
+                .classed('deprecated', function(d) {
+                    return d.deprecated;
                 })
                 .attr('id', function(d, i) {
                     return 'n-' + d.id;
@@ -1303,12 +1309,16 @@ if (typeof JSV === 'undefined') {
                     itemCls: 'abstract',
                     y: 140,
                     opacity: 0.5
+                },{
+                    text: 'Deprecated',
+                    itemCls: 'deprecated',
+                    y: 160
                 }];
 
 
                 var legendSvg = d3.select('#legend-items').append('svg')
-                    //.attr('width', viewerWidth)
-                    .attr('height', 160);
+                    .attr('width', 170)
+                    .attr('height', 180);
 
                 // Update the nodes…
                 var legendItem = legendSvg.selectAll('g.item-group')
