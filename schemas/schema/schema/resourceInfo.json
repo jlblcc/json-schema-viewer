@@ -75,7 +75,8 @@
     },
     "language": {
       "type": "array",
-      "description": "Language(s) used within the resource. Should be a valid ISO 639-3 code.",
+      "deprecated": true,
+      "description": "Language(s) used within the resource. Should be a valid ISO 639-3 code. NOTE:This property has been deprecated in favor of 'locale'.",
       "translation": {
         "ISO 19115-2": ["MD_DataIdentification > language"]
       },
@@ -85,12 +86,20 @@
     },
     "characterSet": {
       "type": "array",
-      "description": "Full name of the character encoding standard used by the resource.",
+      "deprecated": true,
+      "description": "Full name of the character encoding standard used by the resource. NOTE:This property has been deprecated in favor of 'locale'.",
       "translation": {
         "ISO 19115-2": ["MD_DataIdentification > characterSet [MD_CharacterSetCode]"]
       },
       "items": {
         "type": "string"
+      }
+    },
+    "locale": {
+      "type": "array",
+      "description": "Localised language(s) and characterset(s) used within the resource.",
+      "items": {
+        "$ref": "locale.json"
       }
     },
     "purpose": {
@@ -235,7 +244,7 @@
       "$ref": "taxonomy.json"
     },
     "spatialReferenceSystem": {
-      "description": "Geospatial referencing system associated with describing the geospatial extent of the data resource. The referencing can be provided indirectly by an EPSG number, a named reference, or providing the parameters in a well known text (WKT) format.",
+      "description": "Geospatial referencing system used in the the data resource. The reference can be provided by an EPSG number, a named reference, or providing the parameters in a well known text (WKT) format.",
       "example": "../../examples/spatialRef.json",
       "translation": {
         "ISO 19115-2": ["MD_Metadata > referenceSystemInfo > MD_ReferenceSystem > referenceSystemIdentifier > RS_Identifier > code"]
@@ -294,6 +303,26 @@
       },
       "items": {
         "$ref": "extent.json"
+      }
+    },
+    "gridInfo": {
+      "type": "array",
+      "description": "Information about grid objects in the resource.",
+      "translation": {
+        "ISO 19115-2": ["MD_GridSpatialRepresentation"]
+      },
+      "items": {
+        "$ref": "gridInfo.json"
+      }
+    },
+    "coverageInfo": {
+      "type": "array",
+      "description": "Details about the content of a raster(grid) resource.",
+      "translation": {
+        "ISO 19115-2": ["MI_Metadata > contentInfo"]
+      },
+      "items": {
+        "$ref": "coverageInfo.json"
       }
     },
     "dataQualityInfo": {

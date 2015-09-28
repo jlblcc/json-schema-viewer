@@ -1,0 +1,148 @@
+[
+  {
+    "coverageType": "coverageType",
+    "coverageName": "coverageName",
+    "coverageDescription": "coverageDescription",
+    "processingLevel": {
+      "identifier": "identifier",
+      "type": "type",
+      "namespace": "namespace",
+      "version": "version",
+      "description": "description",
+      "authority": {
+        "title": "title",
+        "alternateTitle": "alternateTitle",
+        "date": [
+          {
+            "date": "1111-11-11",
+            "dateType": "dateType1"
+          }
+        ],
+        "responsibleParty": [
+          {
+            "contactId": "contactId1",
+            "role": "role1"
+          }
+        ],
+        "onlineResource": [
+          {
+            "uri": "http://thisisanexample1.com",
+            "protocol": "protocol1",
+            "name": "name1",
+            "description": "description1",
+            "function": "function1"
+          }
+        ]
+      }
+    },
+    "coverageItem": [
+      {
+        "itemName": "itemName1",
+        "itemType": "itemType1",
+        "itemDescription": "itemDescription1",
+        "minValue": 111.11,
+        "maxValue": 111.11,
+        "units": "",
+        "scaleFactor": 111.11,
+        "offset": 111.11,
+        "meanValue": 111.11,
+        "standardDeviation": 111.119,
+        "bitsPerValue": 1,
+        "classifiedData": {
+          "numberOfClasses": 1,
+          "classifiedDataItem": [
+            {
+              "className": "className11",
+              "classDescription": "classDescription11",
+              "classValue": 111.11
+            }, {
+              "className": "className12",
+              "classDescription": "classDescription12",
+              "classValue": 222.22
+            }
+          ]
+        },
+        "sensorInfo": {
+          "toneGradations": 1,
+          "sensorMin": 111.11,
+          "sensorMax": 111.11,
+          "sensorUnits": "sensorUnits1",
+          "sensorPeakResponse": 111.11
+        }
+      }, {
+        "itemName": "itemName2",
+        "itemType": "itemType2",
+        "itemDescription": "itemDescription2",
+        "minValue": 222.22,
+        "maxValue": 222.22,
+        "units": "",
+        "scaleFactor": 222.22,
+        "offset": 222.22,
+        "meanValue": 222.22,
+        "standardDeviation": 222.22,
+        "bitsPerValue": 2,
+        "classifiedData": {
+          "numberOfClasses": 2,
+          "classifiedDataItem": [
+            {
+              "className": "className21",
+              "classDescription": "classDescription21",
+              "classValue": 222.22
+            }
+          ]
+        },
+        "sensorInfo": {
+          "toneGradations": 2,
+          "sensorMin": 222.22,
+          "sensorMax": 222.22,
+          "sensorUnits": "sensorUnits2",
+          "sensorPeakResponse": 222.22
+        }
+      }
+    ],
+    "imageInfo": {
+      "illuminationElevationAngle": 111.11,
+      "illuminationAzimuthAngle": 111.11,
+      "imagingCondition": "imagingCondition",
+      "imageQuality": {
+        "identifier": "identifier",
+        "type": "type",
+        "namespace": "namespace",
+        "version": "version",
+        "description": "description",
+        "authority": {
+          "title": "title",
+          "alternateTitle": "alternateTitle",
+          "date": [
+            {
+              "date": "1111-11-11",
+              "dateType": "dateType1"
+            }
+          ],
+          "responsibleParty": [
+            {
+              "contactId": "contactId1",
+              "role": "role1"
+            }
+          ],
+          "onlineResource": [
+            {
+              "uri": "http://thisisanexample1.com",
+              "protocol": "protocol1",
+              "name": "name1",
+              "description": "description1",
+              "function": "function1"
+            }
+          ]
+        }
+      },
+      "cloudCoverPercent": 11.11,
+      "compressionQuantity": 1,
+      "triangulationIndicator": true,
+      "radiometricCalibrationAvailable": true,
+      "cameraCalibrationAvailable": true,
+      "filmDistortionAvailable": true,
+      "lensDistortionAvailable": true
+    }
+  }
+]

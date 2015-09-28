@@ -31,6 +31,13 @@
             "FGDC CSDGM": ["idinfo > citation > citeinfo > title"]
           }
         },
+        "alternateTitle": {
+          "type": "string",
+          "description": "Alias by which the cited resource is known.",
+          "translation": {
+            "ISO 19115-2": ["CI_Citation > alternateTitle"]
+          }
+        },
         "date": {
           "type": "array",
           "description": "Date referenced to the cited resource.",
@@ -142,6 +149,24 @@
           "translation": {
             "ISO 19115-2": ["MD_Identifier > code"]
           }
+        },
+        "namespace": {
+          "type": "string",
+          "description": "A string which unambiguously defines the namespace for the identifier.",
+          "translation": {
+            "ISO 19115-2": ["RS_Identifier > codeSpace"]
+          }
+        },
+        "version": {
+          "type": "string",
+          "description": "The version of the identifier.",
+          "translation": {
+            "ISO 19115-2": ["RS_Identifier > version"]
+          }
+        },
+        "description": {
+          "type": "string",
+          "description": "A natural language description of the meaning of the identifier value."
         },
         "type": {
           "type": "string",

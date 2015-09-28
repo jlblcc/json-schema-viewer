@@ -46,9 +46,17 @@
         },
         "metadataCharacterSet": {
           "type": "string",
-          "description": "Full name of the character coding standard used for the metadata set.",
+          "deprecated": true,
+          "description": "Full name of the character coding standard used for the metadata set. NOTE:This property has been deprecated in favor of 'metadataLocale'.",
           "translation": {
             "ISO 19115-2": ["MI_Metadata > characterSet [MD_CharacterSetCode]"]
+          }
+        },
+        "metadataLocale": {
+          "type": "array",
+          "description": "Localised language(s) and characterset(s) used within the metadata record.",
+          "items": {
+            "$ref": "locale.json"
           }
         },
         "metadataCreationDate": {

@@ -20,14 +20,29 @@
     "distributorFormat": [
       {
         "formatName": "formatName1",
-        "version": "version1"
+        "version": "version1",
+        "compressionMethod": 1
       }, {
         "formatName": "formatName2",
-        "version": "version2"
+        "version": "version2",
+        "compressionMethod": "compressionMethod2"
       }
     ],
     "distributorTransferOptions": [
       {
+        "distributorFormat": [
+          {
+            "formatName": "formatName11",
+            "version": "version11",
+            "compressionMethod": "compressionMethod11"
+          }, {
+            "formatName": "formatName12",
+            "version": "version12",
+            "compressionMethod": "compressionMethod12"
+          }
+        ],
+        "transferSize": 1.1,
+        "transferSizeUnits": "kB",
         "online": [
           {
             "uri": "http://thisisanexample11.com",
@@ -40,9 +55,24 @@
         "offline": {
           "name": "name1",
           "mediumFormat": "mediumFormat1",
-          "mediumNote": "mediumNote1"
+          "mediumNote": "mediumNote1" ,
+          "mediumCapacity": 1.1,
+          "mediumCapacityUnits": "kB"
         }
       }, {
+        "distributorFormat": [
+          {
+            "formatName": "formatName21",
+            "version": "version21",
+            "compressionMethod": "compressionMethod21"
+          }, {
+            "formatName": "formatName22",
+            "version": "version22",
+            "compressionMethod": "compressionMethod22"
+          }
+        ],
+        "transferSize": 2.2,
+        "transferSizeUnits": "KB",
         "online": [
           {
             "uri": "http://thisisanexample21.com",
@@ -55,7 +85,9 @@
         "offline": {
           "name": "name2",
           "mediumFormat": "mediumFormat2",
-          "mediumNote": "mediumNote2"
+          "mediumNote": "mediumNote2",
+          "mediumCapacity": 2.2,
+          "mediumCapacityUnits": "MB"
         }
       }
     ]

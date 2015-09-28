@@ -2,6 +2,7 @@
   "id": "distributor.json#",
   "$schema": "http://json-schema.org/draft-04/schema#",
   "type": "object",
+  "example": "../../examples/full_example.json#/metadata/distributionInfo",
   "description": "Information about the distributor of and options for obtaining the resource.",
   "translation": {
     "ISO 19115-2": ["MD_Distribution"],
@@ -64,7 +65,8 @@
     },
     "distributorFormat": {
       "type": "array",
-      "description": "Provides information about the format used by the distributor.",
+      "deprecated": true,
+      "description": "Provides information about the format used by the distributor. Deprecated: moved to distributorTransferOptions.",
       "translation": {
         "ISO 19115-2": ["MD_Distribution > distributor > MD_Distributor > distributorFormat > MD_Format"],
         "FGDC CSDGM": ["distinfo > stdorder > digform"]
@@ -75,6 +77,7 @@
     },
     "distributorTransferOptions": {
       "type": "array",
+      "example": "../../examples/full_example.json#/metadata/distributionInfo",
       "description": "Describes method and media by which a resource is obtained from the distributor.",
       "translation": {
         "ISO 19115-2": ["MD_Distributor > distributorTransferOptions > MD_DigitalTransferOptions"],
@@ -82,11 +85,44 @@
       },
       "items": {
         "type": "object",
+        "example": "../../examples/full_example.json#/metadata/distributionInfo",
         "additionalProperties": true,
-
         "properties": {
+          "distributorFormat": {
+            "type": "array",
+            "description": "Provides information about the format used by the distributor.",
+            "translation": {
+              "ISO 19115-2": ["MD_Distribution > distributor > MD_Distributor > distributorFormat > MD_Format"],
+              "FGDC CSDGM": ["distinfo > stdorder > digform"]
+            },
+            "items": {
+              "type": "object",
+              "example": "../../examples/full_example.json#/metadata/distributionInfo",
+              "additionalProperties": true,
+              "properties": {
+                "compressionMethod": {
+                  "type": "string",
+                  "description": "Method used to compress the format."
+                }
+              },
+              "allOf": [
+                {
+                  "$ref": "#/definitions/format"
+                }
+              ]
+            }
+          },
+          "transferSize": {
+            "type": "number",
+            "description": "Total size of the transfer."
+          },
+          "transferSizeUnits": {
+            "enum": ["kB", "KB", "MB", "GB", "TB"],
+            "description": "Units of transfer size."
+          },
           "online": {
             "type": "array",
+            "example": "../../examples/full_example.json#/metadata/distributionInfo",
             "description": "Information about obtaining the resource on-line.",
             "translation": {
               "ISO 19115-2": ["MD_DigitalTransferOptions > online > CI_OnlineResource"],
@@ -99,13 +135,13 @@
           },
           "offline": {
             "type": "object",
+            "example": "../../examples/full_example.json#/metadata/distributionInfo",
             "description": "Information about obtaining the resource through off-line procedure.",
             "translation": {
               "ISO 19115-2": ["MD_DigitalTransferOptions > offline > MD_Medium"],
               "FGDC CSDGM": ["distinfo > stdorder > digform > digtopt > offoptn"]
             },
             "additionalProperties": true,
-
             "properties": {
               "name": {
                 "type": "string",
@@ -114,6 +150,14 @@
                   "ISO 19115-2": ["MD_Medium > name [MD_MediumNameCode]"],
                   "FGDC CSDGM": ["distinfo > stdorder > digform > digtopt > offoptn > offmedia"]
                 }
+              },
+              "mediumCapacity": {
+                "type": "number",
+                "description": "Total capacity of the storage format."
+              },
+              "mediumCapacityUnits": {
+                "enum": ["kB", "KB", "MB", "GB", "TB"],
+                "description": "Units of medium capacity."
               },
               "mediumFormat": {
                 "type": "string",
@@ -140,6 +184,7 @@
   "definitions": {
     "format": {
       "type": "object",
+      "title": "format",
       "description": "Provides information about the format used by the distributor.",
       "example": "../../examples/full_example.json#/metadata/resourceInfo/resourceNativeFormat",
       "translation": {

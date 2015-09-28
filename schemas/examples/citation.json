@@ -1,6 +1,7 @@
 [
   {
     "title": "title",
+    "alternateTitle": "alternateTitle",
     "date": [
       {
         "date": "1111-11-11",

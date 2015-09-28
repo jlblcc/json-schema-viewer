@@ -1,7 +1,7 @@
 {
   "version": {
     "name": "mdJson",
-    "version": "1.0.2"
+    "version": "1.1.0"
   },
   "contact": [
     {
@@ -44,6 +44,7 @@
       },
       "parentMetadata": {
         "title": "",
+        "alternateTitle": "",
         "date": [
           {
             "date": "0000-00-00",
@@ -83,6 +84,13 @@
       "metadataCreationDate": "0000-00-00",
       "metadataLastUpdate": "0000-00-00",
       "metadataCharacterSet": "utf8",
+      "metadataLocale": [
+        {
+          "language": "",
+          "country": "",
+          "characterSet": ""
+        }
+      ],
       "metadataUri": "http://thisisanexample.com",
       "metadataStatus": "",
       "metadataMaintenance": {
@@ -100,6 +108,7 @@
       "resourceType": "",
       "citation": {
         "title": "",
+        "alternateTitle": "",
         "date": [
           {
             "date": "0000-00-00",
@@ -120,6 +129,7 @@
             "type": "",
             "authority": {
               "title": "",
+              "alternateTitle": "",
               "date": [
                 {
                   "date": "0000-00-00",
@@ -172,6 +182,13 @@
       "hasDataAvailable": true,
       "language": [""],
       "characterSet": [""],
+      "locale": [
+        {
+          "language": "",
+          "country": "",
+          "characterSet": ""
+        }
+      ],
       "purpose": "",
       "credit": [""],
       "topicCategory": [""],
@@ -188,6 +205,7 @@
           "keywordType": "",
           "thesaurus": {
             "title": "",
+            "alternateTitle": "",
             "date": [
               {
                 "date": "0000-00-00",
@@ -208,6 +226,7 @@
                 "type": "",
                 "authority": {
                   "title": "",
+                  "alternateTitle": "",
                   "date": [
                     {
                       "date": "0000-00-00",
@@ -298,6 +317,7 @@
         "classificationSystem": [
           {
             "title": "",
+            "alternateTitle": "",
             "date": [
               {
                 "date": "0000-00-00",
@@ -318,6 +338,7 @@
                 "type": "",
                 "authority": {
                   "title": "",
+                  "alternateTitle": "",
                   "date": [
                     {
                       "date": "0000-00-00",
@@ -592,6 +613,7 @@
                     "type": "",
                     "authority": {
                       "title": "",
+                      "alternateTitle": "",
                       "date": [
                         {
                           "date": "0000-00-00",
@@ -665,6 +687,294 @@
           ]
         }
       ],
+      "gridInfo": [
+        {
+          "numberOfDimensions": 9,
+          "dimension": [
+            {
+              "dimensionType": "",
+              "dimensionSize": 9,
+              "resolution": 9.99,
+              "resolutionUnit": "",
+              "dimensionTitle": "",
+              "dimensionDescription": ""
+            }
+          ],
+          "cellGeometry": "",
+          "transformationParameterAvailability": false
+        }
+      ],
+      "rasterInfo": [
+        {
+          "rasterDescription": "",
+          "processingLevel": {
+            "identifier": "",
+            "type": "",
+            "namespace": "",
+            "version": "",
+            "description": "",
+            "authority": {
+              "title": "",
+              "alternateTitle": "",
+              "date": [
+                {
+                  "date": "",
+                  "dateType": ""
+                }
+              ],
+              "responsibleParty": [
+                {
+                  "contactId": "",
+                  "role": ""
+                }
+              ],
+              "onlineResource": [
+                {
+                  "uri": "",
+                  "protocol": "",
+                  "name": "",
+                  "description": "",
+                  "function": ""
+                }
+              ]
+            }
+          },
+          "illuminationElevationAngle": 999.99,
+          "illuminationAzimuthAngle": 999.99,
+          "imagingCondition": "",
+          "imageQuality": {
+            "identifier": "",
+            "type": "",
+            "namespace": "",
+            "version": "",
+            "description": "",
+            "authority": {
+              "title": "",
+              "alternateTitle": "",
+              "date": [
+                {
+                  "date": "",
+                  "dateType": ""
+                }
+              ],
+              "responsibleParty": [
+                {
+                  "contactId": "",
+                  "role": ""
+                }
+              ],
+              "onlineResource": [
+                {
+                  "uri": "",
+                  "protocol": "",
+                  "name": "",
+                  "description": "",
+                  "function": ""
+                }
+              ]
+            }
+          },
+          "cloudCoverPercent": 999.99,
+          "compressionQuantity": 9,
+          "triangulationIndicator": true,
+          "radiometricCalibrationAvailable": true,
+          "cameraCalibrationAvailable": true,
+          "filmDistortionAvailable": true,
+          "lensDistortionAvailable": true,
+          "attributeGroup": [
+            {
+              "contentType": [""],
+              "attribute": [
+                {
+                  "attributeName": "",
+                  "attributeType": "",
+                  "description": "",
+                  "attributeDomain": [
+                    {
+                      "identifier": "",
+                      "type": "",
+                      "namespace": "",
+                      "version": "",
+                      "description": "",
+                      "authority": {
+                        "title": "",
+                        "alternateTitle": "",
+                        "date": [
+                          {
+                            "date": "",
+                            "dateType": ""
+                          }
+                        ],
+                        "responsibleParty": [
+                          {
+                            "contactId": "",
+                            "role": ""
+                          }
+                        ],
+                        "onlineResource": [
+                          {
+                            "uri": "",
+                            "protocol": "",
+                            "name": "",
+                            "description": "",
+                            "function": ""
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "maxValue": 999.99,
+                  "minValue": 999.99,
+                  "units": "",
+                  "scaleFactor": 999.99,
+                  "offset": 999.99,
+                  "meanValue": 999.99,
+                  "numberOfValues": 9,
+                  "standardDeviation": 999.999,
+                  "bitsPerValue": 8,
+                  "sensorMax": 999.99,
+                  "sensorMin": 999.99,
+                  "sensorUnit": "",
+                  "peakResponse": 999.99,
+                  "toneGradation": 9
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "gridInfo": [
+        {
+          "numberOfDimensions": 9,
+          "dimension": [
+            {
+              "dimensionType": "",
+              "dimensionSize": 9,
+              "resolution": 9,
+              "resolutionUnit": "",
+              "dimensionTitle": "",
+              "dimensionDescription": ""
+            }
+          ],
+          "cellGeometry": "",
+          "transformationParameterAvailability": false
+        }
+      ],
+      "coverageInfo": [
+        {
+          "coverageType": "",
+          "coverageName": "",
+          "coverageDescription": "",
+          "processingLevel": {
+            "identifier": "",
+            "type": "",
+            "namespace": "",
+            "version": "",
+            "description": "",
+            "authority": {
+              "title": "",
+              "alternateTitle": "",
+              "date": [
+                {
+                  "date": "1111-11-11",
+                  "dateType": ""
+                }
+              ],
+              "responsibleParty": [
+                {
+                  "contactId": "",
+                  "role": ""
+                }
+              ],
+              "onlineResource": [
+                {
+                  "uri": "http://thisisanexample.com",
+                  "protocol": "",
+                  "name": "",
+                  "description": "",
+                  "function": ""
+                }
+              ]
+            }
+          },
+          "coverageItem": [
+            {
+              "itemName": "",
+              "itemType": "",
+              "itemDescription": "",
+              "minValue": 999.99,
+              "maxValue": 999.99,
+              "units": "",
+              "scaleFactor": 999.99,
+              "offset": 999.99,
+              "meanValue": 999.99,
+              "standardDeviation": 999.99,
+              "bitsPerValue": 9,
+              "classifiedData": {
+                "numberOfClasses": 9,
+                "classifiedDataItem": [
+                  {
+                    "className": "",
+                    "classDescription": "",
+                    "classValue": 999.99
+                  }
+                ]
+              },
+              "sensorInfo": {
+                "toneGradations": 9,
+                "sensorMin": 999.99,
+                "sensorMax": 999.99,
+                "sensorUnits": "",
+                "sensorPeakResponse": 999.99
+              }
+            }
+          ],
+          "imageInfo": {
+            "illuminationElevationAngle": 999.99,
+            "illuminationAzimuthAngle": 999.99,
+            "imagingCondition": "",
+            "imageQuality": {
+              "identifier": "",
+              "type": "",
+              "namespace": "",
+              "version": "",
+              "description": "",
+              "authority": {
+                "title": "",
+                "alternateTitle": "",
+                "date": [
+                  {
+                    "date": "1111-11-11",
+                    "dateType": ""
+                  }
+                ],
+                "responsibleParty": [
+                  {
+                    "contactId": "",
+                    "role": ""
+                  }
+                ],
+                "onlineResource": [
+                  {
+                    "uri": "http://thisisanexample.com",
+                    "protocol": "",
+                    "name": "",
+                    "description": "",
+                    "function": ""
+                  }
+                ]
+              }
+            },
+            "cloudCoverPercent": 99.99,
+            "compressionQuantity": 9,
+            "triangulationIndicator": true,
+            "radiometricCalibrationAvailable": true,
+            "cameraCalibrationAvailable": true,
+            "filmDistortionAvailable": true,
+            "lensDistortionAvailable": true
+          }
+        }
+      ],
       "dataQualityInfo": [
         {
           "scope": "",
@@ -689,6 +999,7 @@
                 "description": "",
                 "citation": {
                   "title": "",
+                  "alternateTitle": "",
                   "date": [
                     {
                       "date": "0000-00-00",
@@ -709,6 +1020,7 @@
                       "type": "",
                       "authority": {
                         "title": "",
+                        "alternateTitle": "",
                         "date": [
                           {
                             "date": "0000-00-00",
@@ -769,14 +1081,17 @@
             "turnaround": ""
           }
         ],
-        "distributorFormat": [
-          {
-            "formatName": "",
-            "version": ""
-          }
-        ],
         "distributorTransferOptions": [
           {
+            "distributorFormat": [
+              {
+                "formatName": "",
+                "version": "",
+                "compressionMethod": ""
+              }
+            ],
+            "transferSize": 9.9,
+            "transferSizeUnits": "kB",
             "online": [
               {
                 "uri": "http://thisisanexample.com",
@@ -788,6 +1103,8 @@
             ],
             "offline": {
               "name": "",
+              "mediumCapacity": 9.9,
+              "mediumCapacityUnits": "GB",
               "mediumFormat": "",
               "mediumNote": ""
             }
@@ -802,6 +1119,7 @@
         "resourceType": "",
         "resourceCitation": {
           "title": "",
+          "alternateTitle": "",
           "date": [
             {
               "date": "0000-00-00",
@@ -822,6 +1140,7 @@
               "type": "",
               "authority": {
                 "title": "",
+                "alternateTitle": "",
                 "date": [
                   {
                     "date": "0000-00-00",
@@ -858,6 +1177,7 @@
         },
         "metadataCitation": {
           "title": "",
+          "alternateTitle": "",
           "date": [
             {
               "date": "0000-00-00",
@@ -878,6 +1198,7 @@
               "type": "",
               "authority": {
                 "title": "",
+                "alternateTitle": "",
                 "date": [
                   {
                     "date": "0000-00-00",
@@ -919,6 +1240,7 @@
         "resourceType": "",
         "citation": {
           "title": "",
+          "alternateTitle": "",
           "date": [
             {
               "date": "0000-00-00",
@@ -939,6 +1261,7 @@
               "type": "",
               "authority": {
                 "title": "",
+                "alternateTitle": "",
                 "date": [
                   {
                     "date": "0000-00-00",
@@ -981,6 +1304,7 @@
       "dictionaryInfo": {
         "citation": {
           "title": "",
+          "alternateTitle": "",
           "date": [
             {
               "date": "0000-00-00",
@@ -1006,7 +1330,8 @@
         },
         "description": "",
         "resourceType": "",
-        "language": ""
+        "language": "",
+        "includedWithDataset": true
       },
       "domain": [
         {

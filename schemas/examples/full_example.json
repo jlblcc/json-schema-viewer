@@ -1,7 +1,7 @@
 {
   "version":{
     "name":"mdJson",
-    "version":"1.0.2"
+    "version":"1.1.0"
   },
   "contact":[
     {
@@ -393,6 +393,13 @@
       "metadataLastUpdate":"2012-12-21",
       "metadataUri":"http://alaska.usgs.gov/rex/adiwg/public/projects/32.xml",
       "metadataCharacterSet":"utf8",
+      "metadataLocale":[
+        {
+          "language":"eng",
+          "country":"USA",
+          "characterSet":"usAscii"
+        }
+      ],
       "metadataStatus":"completed",
       "metadataMaintenance":{
         "maintenanceFrequency":"asNeeded",
@@ -476,6 +483,7 @@
           {
             "authority":{
               "title":"NSF Grant Award Number",
+              "alternateTitle":"Award Number",
               "responsibleParty":[
                 {
                   "contactId":"9",
@@ -537,7 +545,21 @@
         "eng; USA",
         "esp; MEX"
       ],
-      "characterSet": ["utf8"],
+      "characterSet":[
+        "utf8"
+      ],
+      "locale":[
+        {
+          "language":"eng",
+          "country":"USA",
+          "characterSet":"usAscii"
+        },
+        {
+          "language":"esp",
+          "country":"MEX",
+          "characterSet":"utf8"
+        }
+      ],
       "purpose":"Long-term monitoring of permafrost conditions in the Alaska Arctic",
       "credit":[
         "Allison Gaylord - Nunatech",
@@ -1986,6 +2008,193 @@
           ]
         }
       ],
+      "gridInfo":[
+        {
+          "numberOfDimensions":2,
+          "dimension":[
+            {
+              "dimensionType":"column",
+              "dimensionSize":800,
+              "resolution":10,
+              "resolutionUnit":"Meter",
+              "dimensionTitle":"x-axis",
+              "dimensionDescription":"The x-axis."
+            },
+            {
+              "dimensionType":"row",
+              "dimensionSize":600,
+              "resolution":10,
+              "resolutionUnit":"Meter",
+              "dimensionTitle":"y-axis",
+              "dimensionDescription":"The y-axis."
+            }
+          ],
+          "cellGeometry":"area",
+          "transformationParameterAvailability":false
+        }
+      ],
+      "coverageInfo":[
+        {
+          "coverageType":"image",
+          "coverageName":"Wildcast",
+          "coverageDescription":"Aerial photography flown along the Noatak River",
+          "processingLevel":{
+            "identifier":"A215",
+            "type":"local code",
+            "namespace":"Alaska Aerial Services",
+            "version":"1.1",
+            "description":"Description of processing leve goes here",
+            "authority":{
+              "title":"Alaska Aerial Services"
+            }
+          },
+          "imageInfo":{
+            "illuminationElevationAngle":60.0,
+            "illuminationAzimuthAngle":196.0,
+            "imagingCondition":"snow",
+            "imageQuality":{
+              "identifier":"good",
+              "type":"code",
+              "namespace":"ISO 1588",
+              "version":"2003",
+              "description":"ISO code for image quality (fake)"
+            },
+            "cloudCoverPercent":15.0,
+            "compressionQuantity":9,
+            "triangulationIndicator":true,
+            "radiometricCalibrationAvailable":false,
+            "cameraCalibrationAvailable":true,
+            "filmDistortionAvailable":true,
+            "lensDistortionAvailable":true
+          }
+        },
+        {
+          "coverageType":"thematicClassification",
+          "coverageName":"land use land cover",
+          "coverageDescription":"description of land use and land cover types in MatSu borough",
+          "coverageItem":[
+            {
+              "itemName":"land cover",
+              "itemType":"integer",
+              "itemDescription":"land cover classification",
+              "minValue":1,
+              "maxValue":11,
+              "units":"none",
+              "classifiedData":{
+                "numberOfClasses":2,
+                "classifiedDataItem":[
+                  {
+                    "className":"forest",
+                    "classDescription":"undeveloped birch, cotton wood, or spruce forest",
+                    "classValue":1
+                  },
+                  {
+                    "className":"lake",
+                    "classDescription":"lakes, ponds, or other non-moving surface water",
+                    "classValue":2
+                  }
+                ]
+              }
+            },
+            {
+              "itemName":"land use",
+              "itemType":"integer",
+              "itemDescription":"land use classification",
+              "minValue":1,
+              "maxValue":39,
+              "units":"none",
+              "scaleFactor":999.99,
+              "offset":999.99,
+              "meanValue":999.99,
+              "standardDeviation":999.999,
+              "bitsPerValue":8,
+              "classifiedData":{
+                "numberOfClasses":2,
+                "classifiedDataItem":[
+                  {
+                    "className":"recreation",
+                    "classDescription":"public access lands for recreation",
+                    "classValue":1
+                  },
+                  {
+                    "className":"agriculture",
+                    "classDescription":"cultivated land for farm or agriculture",
+                    "classValue":2
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "coverageType":"physicalMeasurement",
+          "coverageName":"PeNDAP",
+          "coverageDescription":"sst-50km-aggregation",
+          "coverageItem":[
+            {
+              "itemName":"analysis temperature",
+              "itemType":"real",
+              "itemDescription":"The latest sea surface temperature calculated based ...",
+              "minValue":-850.0,
+              "maxValue":610,
+              "units":"(degrees Celsius)*10",
+              "scaleFactor":1.0
+            },
+            {
+              "itemName":"sea surface temperature",
+              "itemType":"real",
+              "itemDescription":"Sea surface temperature is usually abbreviated SST ...",
+              "minValue":-850.0,
+              "maxValue":610,
+              "units":"degrees Celsius",
+              "scaleFactor":10.0
+            }
+          ]
+        },
+        {
+          "coverageType":"physicalMeasurement",
+          "coverageName":"MODIS",
+          "coverageDescription":"Moderate Resolution Imaging Spectroradiometer",
+          "coverageItem":[
+            {
+              "itemName":"Band 1",
+              "itemType":"Radiometric response",
+              "itemDescription":"Land/Cloud/Aerosols boundaries definitions",
+              "minValue":626.3,
+              "maxValue":658.2,
+              "units":"nanometers",
+              "scaleFactor":1,
+              "offset":0,
+              "meanValue":648.5,
+              "standardDeviation":1.2,
+              "bitsPerValue":12,
+              "sensorInfo":{
+                "toneGradations":9,
+                "sensorMin":620,
+                "sensorMax":670,
+                "sensorUnits":"nanometers",
+                "sensorPeakResponse":650
+              }
+            },
+            {
+              "itemName":"Band 2",
+              "itemType":"Radiometric response",
+              "itemDescription":"Land/Cloud/Aerosols boundaries definitions",
+              "minValue":846.1,
+              "maxValue":871.9,
+              "units":"nanometers",
+              "scaleFactor":1,
+              "bitsPerValue":12,
+              "sensorInfo":{
+                "sensorMin":841,
+                "sensorMax":876,
+                "sensorUnits":"nanometers",
+                "sensorPeakResponse":860
+              }
+            }
+          ]
+        }
+      ],
       "dataQualityInfo":[
         {
           "scope":"dataset",
@@ -2154,21 +2363,24 @@
             "turnaround":"immediate"
           }
         ],
-        "distributorFormat":[
-          {
-            "formatName":"netCDF",
-            "version":"4.0"
-          },
-          {
-            "formatName":"Excel Spreadsheet",
-            "version":"xlsx"
-          },
-          {
-            "formatName":"CSV"
-          }
-        ],
         "distributorTransferOptions":[
           {
+            "distributorFormat":[
+              {
+                "formatName":"netCDF",
+                "version":"4.0",
+                "compressionMethod": "zip"
+              },
+              {
+                "formatName":"Excel Spreadsheet",
+                "version":"xlsx"
+              },
+              {
+                "formatName":"CSV"
+              }
+            ],
+            "transferSize": 9.9,
+            "transferSizeUnits": "kB",
             "online":[
               {
                 "uri":"http://aoos.org/aoos-data-resources",
@@ -2182,6 +2394,8 @@
             ],
             "offline":{
               "name":"dvd",
+              "mediumCapacity": 4.7,
+              "mediumCapacityUnits": "GB",
               "mediumFormat":"iso9660",
               "mediumNote":"To receive a dvd in the mail, contact the distributor POC."
             }
@@ -2352,7 +2566,8 @@
         },
         "description":"Data dictionary for the ADIwg project metadata standard for 2011 based on the FGDC standard.",
         "resourceType":"database",
-        "language":"eng; US"
+        "language":"eng; US",
+        "includedWithDataset":true
       },
       "domain":[
         {
@@ -2596,7 +2811,9 @@
             {
               "commonName":"street address",
               "codeName":"street",
-              "alias": ["street_add"],
+              "alias":[
+                "street_add"
+              ],
               "definition":"Street and street number or P.O. Box number.",
               "dataType":"varchar(100)",
               "allowNull":false

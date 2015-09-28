@@ -1,0 +1,23 @@
+{
+  "numberOfDimensions": 2,
+  "dimension": [
+    {
+      "dimensionType": "column",
+      "dimensionSize": 800,
+      "resolution": 10,
+      "resolutionUnit": "Meter",
+      "dimensionTitle": "x-axis",
+      "dimensionDescription": "The x-axis."
+    },
+    {
+      "dimensionType": "row",
+      "dimensionSize": 600,
+      "resolution": 10,
+      "resolutionUnit": "Meter",
+      "dimensionTitle": "y-axis",
+      "dimensionDescription": "The y-axis."
+    }
+  ],
+  "cellGeometry": "area",
+  "transformationParameterAvailability": false
+}
