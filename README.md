@@ -29,4 +29,13 @@ Built using:
  - [Grunt HTML Boiler](https://github.com/mhulse/grunt-html-boiler)
  - [URI.js](https://github.com/medialize/URI.js)
 
+## Installation
+
+ 1. Clone repository: `git clone git@github.com:jlblcc/json-schema-viewer.git`
+ 2. Enter project directory: `cd json-schema-viewer`
+ 3. Install dependencies via Bower: `bower install`
+ 4. Install dependencies via NPM: `npm install`
+ 5. Build project via Grunt: `grunt`
+ 6. Serve with your favorite web browser ([example basic nginx config](https://gist.github.com/foxxyz/0b978dcea9b95f94aa3e))
+
 This project was inspired by [robschmuecker’s block #7880033](http://bl.ocks.org/robschmuecker/7880033).
