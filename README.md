@@ -36,6 +36,6 @@ Built using:
  3. Install dependencies via Bower: `bower install`
  4. Install dependencies via NPM: `npm install`
  5. Build project via Grunt: `grunt`
- 6. Serve with your favorite web browser ([example basic nginx config](https://gist.github.com/foxxyz/0b978dcea9b95f94aa3e))
+ 6. Serve with your favorite web server ([example basic nginx config](https://gist.github.com/foxxyz/0b978dcea9b95f94aa3e))
 
 This project was inspired by [robschmuecker’s block #7880033](http://bl.ocks.org/robschmuecker/7880033).
