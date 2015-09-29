@@ -69,6 +69,11 @@ if (typeof JSV === 'undefined') {
         maxLabelLength: 0,
 
         /**
+         * Default maximum depth for recursive schemas
+         */
+        maxDepth: 20,
+
+        /**
          * @property {object} labels Nodes to render as non-clickable in the tree. They will auto-expand if child nodes are present.
          */
         labels: {
@@ -674,7 +679,13 @@ if (typeof JSV === 'undefined') {
         /**
          * Create the tree data object from the schema(s)
          */
-        compileData: function (schema, parent, name, real) {
+        compileData: function (schema, parent, name, real, depth) {
+            // Ensure healthy amount of recursion
+            depth = depth || 0;
+            console.log(name, depth);
+            if (depth > this.maxDepth) {
+                return;
+            }
             var key, node,
                 s = schema.$ref ? tv4.getSchema(schema.$ref) : schema,
                 props = s.properties,
@@ -754,7 +765,7 @@ if (typeof JSV === 'undefined') {
 
             for (key in props) {
                 if (owns.call(props, key)) {
-                    JSV.compileData(props[key],  node, key, true);
+                    JSV.compileData(props[key],  node, key, true, depth + 1);
                 }
             }
 
@@ -762,7 +773,7 @@ if (typeof JSV === 'undefined') {
             var compileAll = function(itm, allNode, title) {
                 var s = itm.$ref ? tv4.getSchema(itm.$ref) : itm;
 
-                JSV.compileData(itm, allNode, title);
+                JSV.compileData(itm, allNode, title, false, depth + 1);
             };
 
             for (key in all) {
@@ -783,7 +794,7 @@ if (typeof JSV === 'undefined') {
                         }
 
                         for (var i = 0; i < all[key].length; i++) {
-                            JSV.compileData(all[key][i], allNode, s.title || key);
+                            JSV.compileData(all[key][i], allNode, s.title || key, false, depth + 1);
                         }
 
 
@@ -792,11 +803,11 @@ if (typeof JSV === 'undefined') {
             }
 
             if (Object.prototype.toString.call(items) === '[object Object]') {
-                JSV.compileData(items, node, 'item');
+                JSV.compileData(items, node, 'item', false, depth + 1);
             } else if (Object.prototype.toString.call(items) === '[object Array]') {
 
                 items.forEach(function(itm, idx, arr) {
-                    JSV.compileData(itm, node, idx.toString());
+                    JSV.compileData(itm, node, idx.toString(), false, depth + 1);
                 });
             }
 
