@@ -768,13 +768,6 @@ if (typeof JSV === 'undefined') {
                 }
             }
 
-
-            var compileAll = function(itm, allNode, title) {
-                var s = itm.$ref ? tv4.getSchema(itm.$ref) : itm;
-
-                JSV.compileData(itm, allNode, title, false, depth + 1);
-            };
-
             for (key in all) {
                 if (owns.call(all, key)) {
                     if(all[key]) {
