@@ -1,6 +1,10 @@
 /* jslint es3: false */
 /* global module:false, console:false, process:false */
 
+/**
+ * Grunt module.
+ * @module grunt
+ */
 module.exports = function(grunt) {
 
     'use strict';
@@ -10,6 +14,7 @@ module.exports = function(grunt) {
         /*----------------------------------( PACKAGE )----------------------------------*/
 
         /**
+         * @member {config} pkg
          * The `package.json` file belongs in the root directory of your project,
          * next to the `Gruntfile`, and should be committed with your project
          * source. Running `npm install` in the same folder as a `package.json`
@@ -28,6 +33,7 @@ module.exports = function(grunt) {
         /*----------------------------------( BANNERS )----------------------------------*/
 
         /**
+         * @member {config} banner
          * Short and long banners.
          *
          * @see http://gruntjs.com/getting-started#an-example-gruntfile
@@ -61,7 +67,8 @@ module.exports = function(grunt) {
         /*----------------------------------( VERSIONING )----------------------------------*/
 
         /**
-         * Build date and version.
+         * @member {config} now
+         * Build date. Formats: <i>yyyymmdd</i> or <i>yyyymmddhhMMss</i>
          *
          * @see http://tanepiper.com/blog/2012/11/25/building-and-testing-javascript-with-gruntjs/
          * @see http://blog.stevenlevithan.com/archives/date-time-format
@@ -69,11 +76,21 @@ module.exports = function(grunt) {
 
         now : grunt.template.today('yyyymmdd'), // Alternative: yyyymmddhhMMss
 
-        ver : 1, // Increment if more than one build is needed in a single day.
+        /**
+         * @member {config} ver
+         * Build version. Increment if more than one build is needed in a single
+         * day.
+         *
+         * @see http://tanepiper.com/blog/2012/11/25/building-and-testing-javascript-with-gruntjs/
+         * @see http://blog.stevenlevithan.com/archives/date-time-format
+         */
+
+        ver : 1,
 
         /*----------------------------------( BOWER )----------------------------------*/
 
         /**
+         *
          * Install Bower packages. Smartly.
          *
          * Use this task to update dependencies defined in `bower.json`.
@@ -82,15 +99,15 @@ module.exports = function(grunt) {
          * @see http://bower.io/
          */
 
-        bower : {
+        /*bower : {
 
             install : {
 
                 options : {
 
-                    //targetDir : './bower_components', // A directory where you want to keep your Bower packages.
-                    //cleanTargetDir: false,
-                    cleanBowerDir: true,
+                    targetDir : './lib', // A directory where you want to keep your Bower packages.
+                    cleanTargetDir: false,
+                    cleanBowerDir: false,
                     layout : 'byComponent',        // Folder structure type.
                     verbose : true,                // Debug output.
 
@@ -98,11 +115,12 @@ module.exports = function(grunt) {
 
             },
 
-        },
+        },*/
 
         /*----------------------------------( WATCH )----------------------------------*/
 
         /**
+         * @member {task} watch
          * Run predefined tasks whenever watched file patterns are added, changed
          * or deleted.
          *
@@ -130,6 +148,7 @@ module.exports = function(grunt) {
         /*----------------------------------( JSHINT )----------------------------------*/
 
         /**
+         * @member {task} jshint
          * Validate files with JSHint.
          *
          * @see https://github.com/gruntjs/grunt-contrib-jshint
@@ -158,6 +177,7 @@ module.exports = function(grunt) {
         /*----------------------------------( ENV )----------------------------------*/
 
         /**
+         * @member {task} env
          * Grunt task to automate environment configuration for future tasks.
          *
          * @see https://github.com/onehealth/grunt-env
@@ -182,6 +202,7 @@ module.exports = function(grunt) {
         /*----------------------------------( CLEAN )----------------------------------*/
 
         /**
+         * @member {task} clean
          * Clean files and folders.
          *
          * @see https://github.com/gruntjs/grunt-contrib-clean
@@ -212,6 +233,7 @@ module.exports = function(grunt) {
         /*----------------------------------( UGLIFY )----------------------------------*/
 
         /**
+         * @member {task} uglify
          * Minify files with UglifyJS.
          *
          * @see https://github.com/gruntjs/grunt-contrib-uglify
@@ -260,6 +282,7 @@ module.exports = function(grunt) {
         /*----------------------------------( SASS )----------------------------------*/
 
         /**
+         * @member {task} sass
          * Compile Sass to CSS.
          *
          * @see https://github.com/gruntjs/grunt-contrib-sass
@@ -316,6 +339,7 @@ module.exports = function(grunt) {
         /*----------------------------------( PREPROCESS )----------------------------------*/
 
         /**
+         * @member {task} preprocess
          * Grunt task around preprocess npm module.
          *
          * @see https://github.com/onehealth/grunt-preprocess
@@ -405,6 +429,7 @@ module.exports = function(grunt) {
         /*----------------------------------( COPY )----------------------------------*/
 
         /**
+         * @member {task} copy
          * Copy files and folders.
          *
          * @see https://github.com/gruntjs/grunt-contrib-copy
@@ -457,11 +482,12 @@ module.exports = function(grunt) {
 
         },
 
-       /**
-         * Deploy to GitHub Pages.
-         *
-         * @see https://github.com/tschaub/grunt-gh-pages
-         */
+      /**
+       * @member {task} gh-pages
+       * Deploy to GitHub Pages.
+       *
+       * @see https://github.com/tschaub/grunt-gh-pages
+       */
 
       'gh-pages' : {
         options: {
@@ -470,24 +496,40 @@ module.exports = function(grunt) {
         src: ['**/*']
       },
 
-       /**
-         * Build docs,.
-         *
-         * @see https://github.com/krampstudio/grunt-jsdoc
-         */
+      /**
+       * @member {task} jsdoc
+       * Build docs.
+       *
+       * @see https://github.com/krampstudio/grunt-jsdoc
+       */
 
       jsdoc : {
           dist : {
-              src: ['<%= pkg.name %>.js', 'README.md'],
+              src: ['<%= pkg.name %>.js', 'README.md', 'Gruntfile.js'],
               options: {
                   destination: 'jsdoc',
-                  //verbose: true,
+                  verbose: true,
                   //template : "./node_modules/grunt-jsdoc/node_modules/ink-docstrap/template",
                   //configure : "node_modules/grunt-jsdoc/node_modules/ink-docstrap/template/jsdoc.conf.json",
               }
           }
       },
 
+      /**
+       * @member {task} connect
+       * Start a static web server. Use <code>grunt connect:server:keepalive</code>
+       * for a persistent server instance. Default port is <b>9001</b>.
+       *
+       * @see https://github.com/gruntjs/grunt-contrib-connect
+       */
+
+      connect: {
+        server: {
+          options: {
+            port: 9001
+          }
+        }
+      },
     });
 
     /*----------------------------------( TASKS )----------------------------------*/
@@ -513,6 +555,8 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-gh-pages');
 
     grunt.loadNpmTasks('grunt-jsdoc');
+
+    grunt.loadNpmTasks('grunt-contrib-connect');
     //----------------------------------
 
     /**
@@ -524,14 +568,26 @@ module.exports = function(grunt) {
 
     //----------------------------------
 
+    /**
+     * @member {task} init
+     * Used to initialize other tasks(e.g. dev, prod).
+     */
     grunt.registerTask('init', ['jshint',]);
-
+    /**
+     * @member {task} dev
+     * Build development.
+     */
     grunt.registerTask('dev', ['init', 'env:dev', 'sass:dev', 'preprocess:dev',]);
-
+    /**
+     * @member {task} prod
+     * Build production.
+     */
     grunt.registerTask('prod', ['init', 'dev', 'env:prod', 'doc', 'clean:prod', 'sass:prod', 'uglify:prod', 'preprocess:prod', 'copy:prod',]);
-
+    /**
+     * @member {task} doc
+     * Build jsdocs.
+     */
     grunt.registerTask('doc', ['clean:doc', 'jsdoc',]);
-
     grunt.registerTask('default', ['dev',]);
 
 };
