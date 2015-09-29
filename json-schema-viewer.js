@@ -682,7 +682,6 @@ if (typeof JSV === 'undefined') {
         compileData: function (schema, parent, name, real, depth) {
             // Ensure healthy amount of recursion
             depth = depth || 0;
-            console.log(name, depth);
             if (depth > this.maxDepth) {
                 return;
             }
