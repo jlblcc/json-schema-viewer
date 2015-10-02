@@ -268,7 +268,7 @@
                   "type": "string",
                   "description": "A unit-of-measure for the attribute.  E.g. 'meters', 'atmospheres', 'liters'",
                   "translation": {
-                    "ISO 19115-2": ["FC_FeatureCatalogue > featureType > FC_FeatureType > carrierOfCharacteristics > FC_FeatureAttribute > valueMeasurementUnit > [UnitDefinition > identifier | ConversionalUnit > identifier,name,catalogSystem,conversionToPreferredUnit,formula | BaseUnit > identifier,name,catalogSymbol,unitSystem | DerivedUnit > identifier,name,remarks,catalogSymbol,derivationUnitTerm]"]
+                    "ISO 19115-2": ["FC_FeatureCatalogue > featureType > FC_FeatureType > carrierOfCharacteristics > FC_FeatureAttribute > valueMeasurementUnit > [UnitDefinition > identifier | ConversionalUnit > identifier, name, catalogSystem, conversionToPreferredUnit, formula | BaseUnit > identifier, name, catalogSymbol, unitSystem | DerivedUnit > identifier, name, remarks, catalogSymbol, derivationUnitTerm]"]
                   }
                 },
                 "domainId": {
