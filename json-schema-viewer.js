@@ -958,7 +958,7 @@ if (typeof JSV === 'undefined') {
 
                   $('#info-title')
                     .text('Info: ' + d.name)
-                    .toggleClass('deprecated', d.deprecated);
+                    .toggleClass('deprecated', !!d.deprecated);
                   JSV.setInfo(d);
                   panel.panel( 'open' );
                 }
