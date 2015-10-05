@@ -44,7 +44,7 @@ Built using:
     includes concatenated and minified js/css. Note: jQuery/JQuery Mobile are
     **not** included in the js builds. The *prod* directory is also .gitignored.
  6. Serve with your favorite web server:
-    - Use `grunt connect:keepalive` to start a basic server at http://localhost:9001
+    - Use `grunt connect:server:keepalive` to start a basic server at http://localhost:9001
     - [example basic nginx config](https://gist.github.com/foxxyz/0b978dcea9b95f94aa3e)
     - Python: `python -m SimpleHTTPServer 9001`
     - php 5.4+: `php -S localhost:9001`
