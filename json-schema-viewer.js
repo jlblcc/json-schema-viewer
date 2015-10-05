@@ -763,34 +763,32 @@ if (typeof JSV === 'undefined') {
             }
 
             for (key in props) {
-                if (owns.call(props, key)) {
-                    JSV.compileData(props[key],  node, key, true, depth + 1);
+                if (!owns.call(props, key)) {
+                    continue;
                 }
+                JSV.compileData(props[key],  node, key, true, depth + 1);
             }
 
             for (key in all) {
-                if (owns.call(all, key)) {
-                    if(all[key]) {
-                        var allNode = {
-                            name: key,
-                            children: [],
-                            opacity: 0.5,
-                            parentSchema: parent,
-                            schema: schema.$ref || parentSchema(parent)
-                        };
+                if (!owns.call(all, key) || !all[key]) {
+                    continue;
+                }
+                var allNode = {
+                    name: key,
+                    children: [],
+                    opacity: 0.5,
+                    parentSchema: parent,
+                    schema: schema.$ref || parentSchema(parent)
+                };
 
-                        if (node.name === 'item') {
-                            node.parent.children.push(allNode);
-                        } else {
-                            node.children.push(allNode);
-                        }
+                if (node.name === 'item') {
+                    node.parent.children.push(allNode);
+                } else {
+                    node.children.push(allNode);
+                }
 
-                        for (var i = 0; i < all[key].length; i++) {
-                            JSV.compileData(all[key][i], allNode, s.title || key, false, depth + 1);
-                        }
-
-
-                    }
+                for (var i = 0; i < all[key].length; i++) {
+                    JSV.compileData(all[key][i], allNode, s.title || all[key][i].type, false, depth + 1);
                 }
             }
 
