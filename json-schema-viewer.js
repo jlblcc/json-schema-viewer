@@ -129,7 +129,7 @@ if (typeof JSV === 'undefined') {
             //responsive buttons
             var resizeBtn = function() {
                 var activePage = $.mobile.pageContainer.pagecontainer('getActivePage');
-                if ($('.md-navbar').width() <= 800) {
+                if ($('.md-navbar', activePage).width() <= 800) {
                     $('.md-navbar .md-flex-btn.ui-btn-icon-left', activePage).toggleClass('ui-btn-icon-notext ui-btn-icon-left');
                 } else {
                     $('.md-navbar .md-flex-btn.ui-btn-icon-notext', activePage).toggleClass('ui-btn-icon-left ui-btn-icon-notext');
@@ -137,7 +137,7 @@ if (typeof JSV === 'undefined') {
             };
 
             resizeBtn();
-            $(document).on('pagecontainerbeforeshow', resizeBtn);
+            $(document).on('pagecontainershow', resizeBtn);
             $(window).on('throttledresize', resizeBtn);
 
             var cb = function() {
