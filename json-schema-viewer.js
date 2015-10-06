@@ -126,19 +126,9 @@ if (typeof JSV === 'undefined') {
             $(window).on('throttledresize orientationchange', this.contentHeight);
             $(window).on('resize', this.contentHeight);
 
-            //responsive buttons
-            var resizeBtn = function() {
-                var activePage = $.mobile.pageContainer.pagecontainer('getActivePage');
-                if ($('.md-navbar', activePage).width() <= 800) {
-                    $('.md-navbar .md-flex-btn.ui-btn-icon-left', activePage).toggleClass('ui-btn-icon-notext ui-btn-icon-left');
-                } else {
-                    $('.md-navbar .md-flex-btn.ui-btn-icon-notext', activePage).toggleClass('ui-btn-icon-left ui-btn-icon-notext');
-                }
-            };
-
-            resizeBtn();
-            $(document).on('pagecontainershow', resizeBtn);
-            $(window).on('throttledresize', resizeBtn);
+            JSV.resizeBtn();
+            $(document).on('pagecontainershow', JSV.resizeBtn);
+            $(window).on('throttledresize', JSV.resizeBtn);
 
             var cb = function() {
                 callback();
@@ -273,6 +263,21 @@ if (typeof JSV === 'undefined') {
                 content = screen - header - footer - contentCurrent;
 
             $('#main-body.ui-content').css('min-height', content + 'px');
+        },
+
+        /**
+         * Hides navbar button text on smaller window sizes.
+         *
+         * @param {integer} minSize The navbar width breakpoint.
+         */
+        resizeBtn: function(minSize) {
+            var bp = minSize || 800;
+            var activePage = $.mobile.pageContainer.pagecontainer('getActivePage');
+            if ($('.md-navbar', activePage).width() <= bp) {
+                $('.md-navbar .md-flex-btn.ui-btn-icon-left').toggleClass('ui-btn-icon-notext ui-btn-icon-left');
+            } else {
+                $('.md-navbar .md-flex-btn.ui-btn-icon-notext').toggleClass('ui-btn-icon-left ui-btn-icon-notext');
+            }
         },
 
         /**
