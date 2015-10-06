@@ -268,10 +268,10 @@ if (typeof JSV === 'undefined') {
         /**
          * Hides navbar button text on smaller window sizes.
          *
-         * @param {integer} minSize The navbar width breakpoint.
+         * @param {number} minSize The navbar width breakpoint.
          */
         resizeBtn: function(minSize) {
-            var bp = minSize || 800;
+            var bp = typeof minSize  === 'number' ? minSize : 800;
             var activePage = $.mobile.pageContainer.pagecontainer('getActivePage');
             if ($('.md-navbar', activePage).width() <= bp) {
                 $('.md-navbar .md-flex-btn.ui-btn-icon-left').toggleClass('ui-btn-icon-notext ui-btn-icon-left');
