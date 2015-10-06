@@ -124,7 +124,7 @@
                     <div class="ui-block-a section">
                         <label for="textarea-json">JSON to Validate:</label>
                         <textarea cols="40" rows="15" name="textarea-json" id="textarea-json" placeholder="Enter your JSON or Drag-n-Drop a file here..."></textarea>
-                        <a class="load-example" href="schemas/examples/minimum_example.json" data-target="textarea-json" data-prefetch="true">Load Example</a>
+                        <a class="load-example" href="<!-- @if NODE_ENV!='PRODUCTION' -->bower_components/mdjson-<!-- @endif -->schemas/examples/minimum_example.json" data-target="textarea-json" data-prefetch="true">Load Example</a>
                     </div>
                     <div class="ui-block-b section">
                         <label for="file-upload">Upload File:</label>
