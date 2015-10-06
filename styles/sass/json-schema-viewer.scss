@@ -20,6 +20,10 @@ html, body {
   padding-top: 5em;
   background-color: #FFF;
   z-index: 1000;
+
+  div {
+    padding-top: 5em;
+  }
 }
 
 p.ui-content.error-message {
@@ -66,6 +70,10 @@ p.ui-content.error-message {
     overflow-x: hidden;
     max-height: 15em;
   }
+}
+
+#jsv-tree {
+  display: block;
 }
 
 .node {
@@ -267,7 +275,7 @@ div#info-tab-def.info-tab, #info-panel .info-tab pre {
   right: 25em;
 }
         /* Responsive: wrap on wide viewports once open */
-@media (min-width:55em) {
+@media (min-width:48em) {
   .ui-responsive-panel .ui-panel-page-content-open.ui-panel-page-content-position-left {
     margin-right: 25em;
   }
