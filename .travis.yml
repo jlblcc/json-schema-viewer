@@ -9,7 +9,6 @@ before_install:
   - npm install -g npm
 before_script:
   - npm install -g grunt-cli
-  - npm uninstall grunt # https://github.com/npm/npm/issues/3958
 matrix:
   fast_finish: true
   allow_failures:
