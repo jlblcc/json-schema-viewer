@@ -534,7 +534,7 @@ module.exports = function(grunt) {
 
     /*----------------------------------( TASKS )----------------------------------*/
 
-    grunt.loadNpmTasks('grunt-bower-task');
+    //grunt.loadNpmTasks('grunt-bower-task');
 
     grunt.loadNpmTasks('grunt-contrib-watch');
 
