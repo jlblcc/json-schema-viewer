@@ -1,4 +1,4 @@
-JSON Schema Viewer
+JSON Schema Viewer [![Build Status](https://travis-ci.org/jlblcc/json-schema-viewer.svg?branch=master)](https://travis-ci.org/jlblcc/json-schema-viewer)
 ==================
 
 JavaScript tool for visualizing [json-schemas](http://json-schema.org/),
