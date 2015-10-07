@@ -1,0 +1,69 @@
+/***Variables***/
+$info-width: 25em;
+/* Adjust the width of the info panel. */
+#viewer-page .ui-panel.ui-panel-position-left {
+  width: $info-width;
+}
+
+/* Panel positioning (for overlay and push) */
+/* Panel left closed */
+#viewer-page .ui-panel-position-left {
+  left: -$info-width;
+}
+
+/* Panel left closed animated */
+#viewer-page .ui-panel-animate.ui-panel-position-left.ui-panel-display-overlay, 
+#viewer-page .ui-panel-animate.ui-panel-position-left.ui-panel-display-push {
+  -webkit-transform: translate3d(-$info-width, 0, 0);
+  -moz-transform: translate3d(-$info-width, 0, 0);
+  transform: translate3d(-$info-width, 0, 0);
+}
+
+/* Panel left open */
+#viewer-page .ui-panel-position-left.ui-panel-display-reveal,
+#viewer-page .ui-panel-open.ui-panel-position-left {
+  left: 0;
+}
+#viewer-page .ui-panel-animate.ui-panel-open.ui-panel-position-left.ui-panel-display-overlay,
+#viewer-page .ui-panel-animate.ui-panel-open.ui-panel-position-left.ui-panel-display-push {
+    -webkit-transform: translate3d(0,0,0);
+    transform: translate3d(0,0,0);
+    -moz-transform: none
+}
+
+/* Wrapper and fixed toolbars positioning (for reveal and push) */
+/* Panel left open */
+#viewer-page .ui-panel-page-content-position-left {
+  left: $info-width;
+  right: -$info-width;
+}
+
+/* Panel left open animated */
+#viewer-page .ui-panel-animate.ui-panel-page-content-position-left {
+  left: 0;
+  right: 0;
+  -webkit-transform: translate3d($info-width, 0, 0);
+  -moz-transform: translate3d($info-width, 0, 0);
+  transform: translate3d($info-width, 0, 0);
+}
+
+/* Dismiss model open */
+#viewer-page .ui-panel-dismiss-open.ui-panel-dismiss-position-left {
+  left: $info-width;
+}
+
+/* Responsive: wrap on wide viewports once open */
+@media (min-width: $info-width + 23em) {
+  #viewer-page.ui-responsive-panel .ui-panel-page-content-open.ui-panel-page-content-position-left {
+    margin-right: $info-width;
+  }
+
+  #viewer-page.ui-responsive-panel .ui-panel-page-content-open {
+    width: auto;
+  }
+
+  #viewer-page.ui-responsive-panel .ui-panel-dismiss-display-push, 
+  #viewer-page .ui-responsive-panel.ui-page-active ~ .ui-panel-dismiss-display-push {
+    display: none;
+  }
+}
