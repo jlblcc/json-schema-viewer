@@ -770,7 +770,10 @@ if (typeof JSV === 'undefined') {
             }
 
             for (key in all) {
-                if (!owns.call(all, key) || !all[key]) {
+                if (!owns.call(all, key)) {
+                    continue;
+                }
+                if (!all[key]) {
                     continue;
                 }
                 var allNode = {
