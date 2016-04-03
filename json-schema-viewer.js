@@ -4,7 +4,7 @@ if (!window.location.origin) {
 }
 
 
-if (typeof JSV === 'undefined') {
+if (typeof window.JSV === 'undefined') {
     /**
      * JSV namespace for JSON Schema Viewer.
      * @namespace
