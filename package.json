@@ -16,14 +16,14 @@
   "license": "Unlicense",
   "dependencies": {
     "grunt": "~0",
-    "grunt-cli": "~0",
-    "grunt-contrib-clean": "~0",
-    "grunt-contrib-concat": "~0",
-    "grunt-contrib-copy": "~0",
-    "grunt-contrib-jshint": "~0",
-    "grunt-contrib-sass": "~0",
-    "grunt-contrib-uglify": "~0",
-    "grunt-contrib-watch": "~0",
+    "grunt-cli": "~1",
+    "grunt-contrib-clean": "~1",
+    "grunt-contrib-concat": "~1",
+    "grunt-contrib-copy": "~1",
+    "grunt-contrib-jshint": "~1",
+    "grunt-contrib-sass": "~1",
+    "grunt-contrib-uglify": "~2",
+    "grunt-contrib-watch": "~1",
     "grunt-env": "~0",
     "grunt-preprocess": "~4"
   },
@@ -34,8 +34,8 @@
     "test": "grunt init"
   },
   "devDependencies": {
-    "grunt-contrib-connect": "^0.11.2",
-    "grunt-gh-pages": "^0.9.1",
-    "grunt-jsdoc": "^0.6.8"
+    "grunt-contrib-connect": "^1",
+    "grunt-gh-pages": "^2",
+    "grunt-jsdoc": "^2"
   }
 }
