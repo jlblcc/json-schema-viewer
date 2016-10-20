@@ -49,6 +49,34 @@ Built using:
     - Python: `python -m SimpleHTTPServer 9001`
     - php 5.4+: `php -S localhost:9001`
 
+## Use in Browser
+```js
+          (function($) {
+
+            var loc = window.location;
+            //if not already set, set the root schema location
+            //this allows dev ENV to override the schema location
+            var schema = JSV.schema ? JSV.schema : loc.origin + loc.pathname.substring(0, loc.pathname.lastIndexOf('/') + 1) + 'schemas/schema/schema.json';
+
+            JSV.init({
+              schema : schema,
+              plain : true, //don't use JQM
+              viewerHeight : $('#main-body').height(), //set initial dimensions of SVG
+              viewerWidth : $('#main-body').width()
+            }, function() {
+              $('#jsv-tree').css('width', '100%');
+              //set diagram width to 100%, this DOES NOT resize the svg container
+              //it will not adjust to window resize, needs a listener to support that
+              JSV.resetViewer();
+              $('#loading').fadeOut('slow');
+            });
+          })(jQuery);
+```
+
+The `JSV.schema` property must be set to the url of your schema.
+
+Example: http://jlblcc.github.io/json-schema-viewer/basic.html
+
 ##Development
 
 Edit the [templates](https://github.com/jlblcc/json-schema-viewer/tree/master/templates)
