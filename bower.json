@@ -18,12 +18,12 @@
     "tv4": "~1.2.7"
   },
   "devDependencies": {
-    "uri.js": "~1.14.1",
-    "jquery.scrollTo": "~1.4.14",
+    "uri.js": "~1.18.7",
+    "jquery.scrollTo": "~2.1.2",
     "jsonpointer.js": "~0.4.0",
     "filereader.js": "https://github.com/bgrins/filereader.js.git#107f68c3b99d7ec0f3cba9c0baabfb03067650b5",
     "highlightjs": "https://github.com/jlblcc/jlb-highlightjs.git",
-    "mdjson-schemas": "~1"
+    "mdjson-schemas": "dev"
   },
   "ignore": [
     "**/.*",
