@@ -132,7 +132,10 @@ if (typeof JSV === 'undefined') {
             var cb = function() {
                 callback();
 
-                //setup search
+                //Setup search
+                //Build array of nodes to search, this will need to be refreshed
+                //if nodes are added/removed. Might be better to search
+                //JSV.treeData directly.
                 var items = [];
 
                 JSV.visit(JSV.treeData, function(me) {
@@ -144,7 +147,28 @@ if (typeof JSV === 'undefined') {
                 });
 
                 items.sort();
-                JSV.buildSearchList(items, true);
+
+                $( '#viewer-page #search-result' ).on( 'filterablebeforefilter', function ( e, data ) {
+                  var $ul = $( this ),
+                    $input = $( data.input ),
+                    value = $input.val(),
+                    html = '';
+
+                  $ul.html( '' );
+                  $ul.on('click', function(e) {
+                      var path = $(e.target).attr('data-path');
+                      var node = JSV.expandNodePath(path.split('-'));
+
+                      JSV.flashNode(node);
+                  });
+
+                  if ( value && value.length > 2 ) {
+                    $ul.html( '<li><a class="ui-btn ui-btn-icon-left ui-icon-search">Searching...</a></li>' );
+                    $ul.listview( 'refresh' );
+
+                    JSV.buildSearchList(items, value);
+                  }
+                });
 
                 $('#loading').fadeOut('slow');
             };
@@ -622,30 +646,28 @@ if (typeof JSV === 'undefined') {
         },
 
         /**
-         * Build Search.
+         * Build search result.
+         *
+         * @param {array} items The items to search
+         * @param {string} val The search string
          */
-        buildSearchList: function(items, init) {
+        buildSearchList: function(items, val) {
             var ul = $('ul#search-result');
+            var exp = new RegExp('^.*' + val + '.*\\|.+', 'i');
 
-            $.each(items, function(i,v) {
-                var data = v.split('|');
-                var li = $('<li/>').attr('data-icon', 'false').appendTo(ul);
+            $.each(items, function (i, v) {
+                if(v.match(exp)) {
+                  var data = v.split('|');
+                  var li = $('<li/>')
+                    .attr('data-icon', 'false')
+                    .appendTo(ul);
 
-                $('<a/>').attr('data-path', data[1]).text(data[0]).appendTo(li);
+                  $('<a/>')
+                    .attr('data-path', data[1])
+                    .text(data[0])
+                    .appendTo(li);
+                }
             });
-
-            if(init) {
-              ul.filterable();
-            }
-            ul.filterable('refresh');
-
-            ul.on('click', function(e) {
-                var path = $(e.target).attr('data-path');
-                var node = JSV.expandNodePath(path.split('-'));
-
-                JSV.flashNode(node);
-            });
-
         },
 
         /**
