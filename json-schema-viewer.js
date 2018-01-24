@@ -8,7 +8,7 @@ if (typeof JSV === 'undefined') {
      * JSV namespace for JSON Schema Viewer.
      * @namespace
      */
-    JSV = {
+    var JSV = {
         /**
          * The root schema to load.
          */
@@ -692,6 +692,7 @@ if (typeof JSV === 'undefined') {
             var key, node,
                 s = schema.$ref ? tv4.getSchema(schema.$ref) : schema,
                 props = s.properties,
+                additionalProps = s.additionalProperties,
                 items = s.items,
                 owns = Object.prototype.hasOwnProperty,
                 all = {},
@@ -762,8 +763,12 @@ if (typeof JSV === 'undefined') {
                 node.name += '{ }';
             }
 
-            if(props || items || all) {
+            if(additionalProps || props || items || all) {
                 node.children = [];
+            }
+
+            if (typeof(props) === 'undefined' && additionalProps) {
+                JSV.compileData(additionalProps, node, 'item', false, depth + 1);
             }
 
             for (key in props) {
