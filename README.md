@@ -33,8 +33,9 @@ Built using:
 
  1. Clone repository: `git clone https://github.com/jlblcc/json-schema-viewer.git`
  2. Enter project directory: `cd json-schema-viewer`
- 3. Install dependencies via Bower: `bower install`
- 4. Install dependencies via NPM: `npm install`
+ 3. Install dependencies
+    a. via Bower: `bower install`
+    b. via NPM: `npm install`
  5. Build project via Grunt: `grunt`
     - `grunt dev`:  Development build. This will create dev.html and basic.html
     in the project root(these files are .gitignored). This build will load all
