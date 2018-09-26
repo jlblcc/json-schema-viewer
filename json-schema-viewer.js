@@ -490,6 +490,25 @@ if (typeof JSV === 'undefined') {
                 $('#info-translation').html('No translations available.');
             }
 
+            var parentDeps = node.parentSchema.dependencies && node.parentSchema.dependencies[node.name];
+
+            if($.isArray(parentDeps)) {
+                var deps = $('<ul></ul>');
+
+                $.each(parentDeps, function(i, v) {
+                    var li = $('<li>' + v + '</li>');
+
+                    deps.append(li);
+                });
+
+                $('#info-dependencies').html(deps);
+            } else if (parentDeps) {
+                //assume schema object
+                $('#info-dependencies').html('For <em>schema dependencies</em> see parent schema.');
+            } else {
+                $('#info-dependencies').html('No dependencies listed.');
+            }
+
 
             JSV.createPre(schema, tv4.getSchema(node.schema), false, node.plainName);
 
@@ -754,7 +773,8 @@ if (typeof JSV === 'undefined') {
                 required: s.required,
                 schema: s.id || schema.$ref || parentSchema(parent),
                 parentSchema: parent,
-                deprecated: schema.deprecated || s.deprecated
+                deprecated: schema.deprecated || s.deprecated,
+                dependencies: s.dependencies
             };
 
             node.require = parent && parent.required ? parent.required.indexOf(node.name) > -1 : false;
