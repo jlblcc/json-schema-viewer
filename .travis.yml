@@ -1,14 +1,28 @@
-sudo: false
+---
 language: node_js
 node_js:
-  - "0.10"
-  - "0.12"
-  - "4"
-  - "5"
-  - "iojs"
+  - "6"
+
+sudo: required
+dist: trusty
+
+addons:
+  chrome: stable
+
+cache:
+  directories:
+    - $HOME/.npm
+
+env:
+  global:
+    # See https://git.io/vdao3 for details.
+    - JOBS=1
+
 before_install:
-  - npm install -g npm
-before_script:
-  - npm install -g grunt-cli
-matrix:
-  fast_finish: true
+  - npm config set spin false
+  - npm install -g bower
+  - bower --version
+
+install:
+  - npm install
+  - bower install
