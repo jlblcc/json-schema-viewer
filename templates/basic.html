@@ -169,8 +169,9 @@
         <script type='text/javascript' src="bower_components/d3/d3.js"></script>
         <script type='text/javascript' src="json-schema-viewer.js"></script>
         <script type='text/javascript'>
+          var url_params = new URLSearchParams(window.location.search);
           //set schema location
-          JSV.schema = '/bower_components/mdjson-schemas/schema/schema.json';
+          JSV.schema = url_params.get('schema') || '/bower_components/mdjson-schemas/schema/schema.json';
         </script>
         <!-- @endif -->
         <!-- @if NODE_ENV='PRODUCTION' -->
