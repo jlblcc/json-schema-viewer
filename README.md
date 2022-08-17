@@ -98,3 +98,16 @@ tasks.
 
 
 This project was inspired by [robschmuecker’s block #7880033](http://bl.ocks.org/robschmuecker/7880033).
+
+##Run in docker
+
+You can run the repository in docker by using the [pre-built docker image](https://hub.docker.com/repository/docker/imochoa/json-schema-viewer)
+```shell
+docker run --rm -it -p 9001:9001 imochoa/json-schema-viewer
+```
+
+Or build & run it yourself using the [Dockerfile] (./Dockerfile) 
+```shell
+docker build --tag json-schema-viewer .
+docker run --rm -it -p 9001:9001 json-schema-viewer
+```
