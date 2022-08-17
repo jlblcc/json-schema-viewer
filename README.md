@@ -99,7 +99,7 @@ tasks.
 
 This project was inspired by [robschmuecker’s block #7880033](http://bl.ocks.org/robschmuecker/7880033).
 
-##Run in docker
+## Run in docker
 
 You can run the repository in docker by using the [pre-built docker image](https://hub.docker.com/repository/docker/imochoa/json-schema-viewer)
 ```shell
